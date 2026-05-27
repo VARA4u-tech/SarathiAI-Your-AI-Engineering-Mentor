@@ -1,29 +1,40 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Nav } from "@/components/site/Nav";
+import { Hero } from "@/components/site/Hero";
+import { Marquee } from "@/components/site/Marquee";
+import { Services } from "@/components/site/Services";
+import { Work } from "@/components/site/Work";
+import { Process } from "@/components/site/Process";
+import { Contact, Footer } from "@/components/site/Contact";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your App" },
-      { name: "description", content: "Replace this with a one-sentence description of your app." },
-      { property: "og:title", content: "Your App" },
-      { property: "og:description", content: "Replace this with a one-sentence description of your app." },
+      { title: "Fluidic — A studio for fluid brand & interactive design" },
+      { name: "description", content: "Fluidic is a design studio crafting brand systems, websites, and product experiences for ambitious teams." },
+      { property: "og:title", content: "Fluidic — Design that flows" },
+      { property: "og:description", content: "Brand, web, and product design for companies who refuse to look ordinary." },
+    ],
+    links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" },
     ],
   }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="bg-background text-foreground overflow-x-hidden">
+      <Nav />
+      <Hero />
+      <Marquee />
+      <Services />
+      <Work />
+      <Process />
+      <Contact />
+      <Footer />
+    </main>
   );
 }
