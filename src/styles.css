@@ -104,5 +104,3 @@
 }
 .animate-marquee { animation: marquee 30s linear infinite; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
