@@ -7,6 +7,9 @@ import { Work } from "@/components/site/Work";
 import { Process } from "@/components/site/Process";
 import { Contact, Footer } from "@/components/site/Contact";
 import { SmoothScroll } from "@/components/site/SmoothScroll";
+import { PageOverlay } from "@/components/site/PageOverlay";
+import { ScrollReveals } from "@/components/site/ScrollReveals";
+import { MagneticCursor } from "@/components/site/MagneticCursor";
 import { Toaster } from "sonner";
 
 export const Route = createFileRoute("/")({
