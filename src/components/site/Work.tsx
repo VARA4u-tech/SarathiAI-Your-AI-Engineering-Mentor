@@ -13,9 +13,9 @@ export function Work() {
   return (
     <section id="work" className="py-32">
       <div className="mx-auto w-[min(92%,1300px)]">
-        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">— Selected work</p>
-        <h2 className="font-display text-5xl md:text-7xl text-gradient mb-16 max-w-3xl leading-[1]">
-          Recent collaborations <span className="italic text-iridescent">with</span> good people.
+        <p data-reveal="fade" className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">— Selected work</p>
+        <h2 data-reveal="lines" className="font-display text-5xl md:text-7xl text-gradient mb-16 max-w-3xl leading-[1]">
+          Recent collaborations with good people.
         </h2>
 
         <div className="space-y-6">
