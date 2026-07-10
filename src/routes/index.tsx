@@ -32,7 +32,10 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <main className="bg-background text-foreground overflow-x-hidden">
+      <PageOverlay />
       <SmoothScroll />
+      <ScrollReveals />
+      <MagneticCursor />
       <Nav />
       <Hero />
       <Marquee />
