@@ -9,9 +9,9 @@ export function Process() {
   return (
     <section id="process" className="py-32 border-t border-border">
       <div className="mx-auto w-[min(92%,1200px)]">
-        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">— Process</p>
-        <h2 className="font-display text-5xl md:text-7xl text-gradient max-w-3xl leading-[1] mb-20">
-          A rhythm built for <span className="italic text-iridescent">momentum</span>.
+        <p data-reveal="fade" className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">— Process</p>
+        <h2 data-reveal="lines" className="font-display text-5xl md:text-7xl text-gradient max-w-3xl leading-[1] mb-20">
+          A rhythm built for momentum.
         </h2>
 
         <div className="grid md:grid-cols-4 gap-px bg-border rounded-3xl overflow-hidden">
