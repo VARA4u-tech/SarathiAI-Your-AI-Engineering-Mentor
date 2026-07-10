@@ -29,7 +29,7 @@ export function Work() {
               transition={{ duration: 0.6, delay: i * 0.05 }}
               className="group block relative overflow-hidden rounded-3xl"
             >
-              <div className="aspect-[16/9] md:aspect-[21/9] overflow-hidden">
+              <div data-reveal="mask" className="aspect-[16/9] md:aspect-[21/9] overflow-hidden">
                 <img src={p.img} alt={p.t} loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-[1200ms]" />
               </div>
