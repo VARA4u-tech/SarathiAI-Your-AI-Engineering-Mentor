@@ -87,7 +87,7 @@ const ScrollStack = ({
       // Pin the sticky deck while we scroll through all card transitions
       ScrollTrigger.create({
         trigger: container,
-        start: "top top+=18vh",
+        start: "top top+=90",
         end: `+=${scrollDistance}`,
         pin: sticky,
         pinSpacing: true,
@@ -112,8 +112,8 @@ const ScrollStack = ({
           ease: "none",
           scrollTrigger: {
             trigger: container,
-            start: `top+=${stepStart} top+=18vh`,
-            end: `top+=${stepEnd} top+=18vh`,
+            start: `top+=${stepStart} top+=90`,
+            end: `top+=${stepEnd} top+=90`,
             scrub: 1,
             invalidateOnRefresh: true,
           },
@@ -130,8 +130,8 @@ const ScrollStack = ({
             ease: "none",
             scrollTrigger: {
               trigger: container,
-              start: `top+=${stepStart} top+=18vh`,
-              end: `top+=${stepEnd} top+=18vh`,
+              start: `top+=${stepStart} top+=90`,
+              end: `top+=${stepEnd} top+=90`,
               scrub: 1,
               invalidateOnRefresh: true,
             },
