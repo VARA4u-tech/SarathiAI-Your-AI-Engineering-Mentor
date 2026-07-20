@@ -1,17 +1,9 @@
 import { motion } from "motion/react";
-import hero from "@/assets/hero-fluid.jpg";
 
 export function Hero() {
   return (
     <section className="relative min-h-screen overflow-hidden flex items-center pt-32 pb-20">
       <div className="absolute inset-0 -z-10">
-        <img
-          src={hero}
-          alt=""
-          width={1920}
-          height={1080}
-          className="absolute inset-0 w-full h-full object-cover opacity-60 animate-float-slow"
-        />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
         <div className="absolute inset-0 noise" />
       </div>
