@@ -17,8 +17,9 @@ export function Hero() {
             pillarHeight={0.3}
             noiseIntensity={0.4}
             pillarRotation={25}
-            interactive={true}
+            interactive={false}
             mixBlendMode="screen"
+            quality="low"
           />
         </div>
         <div className="absolute inset-0 noise" />
