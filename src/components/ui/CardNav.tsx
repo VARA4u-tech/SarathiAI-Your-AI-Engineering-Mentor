@@ -136,7 +136,7 @@ const CardNav = ({
     <div className={`card-nav-container relative w-full z-[99] ${className}`}>
       <nav
         ref={navRef}
-        className={`card-nav ${isExpanded ? 'open' : ''} block h-[60px] p-0 rounded-full shadow-md relative overflow-hidden will-change-[height] border border-border/20 backdrop-blur-md`}
+        className={`card-nav ${isExpanded ? 'open' : ''} block h-[60px] p-0 rounded-2xl shadow-md relative overflow-hidden will-change-[height] border border-border/20 backdrop-blur-md`}
         style={{ backgroundColor: baseColor }}
       >
         <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between px-2 md:px-4 z-[2]">
@@ -169,7 +169,7 @@ const CardNav = ({
           {/* Dashboard Button on the Right */}
           <Link
             to="/dashboard"
-            className="card-nav-cta-button inline-flex border-0 rounded-full px-5 py-1.5 items-center text-sm font-medium cursor-pointer transition-colors duration-300 hover:opacity-90"
+            className="card-nav-cta-button inline-flex border-0 rounded-lg px-5 py-1.5 items-center text-sm font-medium cursor-pointer transition-colors duration-300 hover:opacity-90"
             style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
           >
             Dashboard
