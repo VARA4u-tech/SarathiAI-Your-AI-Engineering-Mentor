@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Brain, Map, Bug, Zap } from "lucide-react";
 import orb1 from "@/assets/orb-1.jpg";
 import orb2 from "@/assets/orb-2.jpg";
 import hero from "@/assets/hero-fluid.jpg";
@@ -9,25 +10,25 @@ const features = [
     n: "01",
     t: "Repository Intelligence",
     d: "Understands your entire codebase, dependencies, and architecture instantly.",
-    icon: "🧠",
+    icon: Brain,
   },
   {
     n: "02",
     t: "Feature Planner",
     d: "Automatically break down features into actionable steps and risk analysis.",
-    icon: "🗺️",
+    icon: Map,
   },
   {
     n: "03",
     t: "Debug & Test Center",
     d: "Paste errors and get instant root cause analysis with suggested fixes.",
-    icon: "🐛",
+    icon: Bug,
   },
   {
     n: "04",
     t: "AI Code Generation",
     d: "Generate boilerplate, API routes, and components that match your existing design system.",
-    icon: "⚡",
+    icon: Zap,
   },
 ];
 
@@ -72,8 +73,8 @@ export function Services() {
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="group flex gap-3 items-start p-3 rounded-xl glass hover:bg-white/5 transition-colors duration-300 cursor-default"
               >
-                <div className="shrink-0 w-9 h-9 rounded-lg glass flex items-center justify-center text-base">
-                  {f.icon}
+                <div className="shrink-0 w-9 h-9 rounded-lg glass flex items-center justify-center text-muted-foreground">
+                  <f.icon size={16} strokeWidth={1.5} />
                 </div>
                 <div>
                   <p className="text-[10px] text-muted-foreground mb-0.5 uppercase tracking-[0.15em]">{f.n}</p>
