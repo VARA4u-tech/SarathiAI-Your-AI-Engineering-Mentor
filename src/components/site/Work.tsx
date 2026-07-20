@@ -23,9 +23,9 @@ export function Work() {
 
         <ScrollStack peekOffset={18} itemScale={0.05} scrollPerCard={80}>
           {projects.map((p) => (
-            <ScrollStackItem key={p.t} itemClassName="overflow-hidden p-0 max-w-4xl mx-auto border border-white/5">
+            <ScrollStackItem key={p.t} itemClassName="overflow-hidden p-0">
               <div className="group relative w-full h-full">
-                <div className="aspect-[16/9] md:aspect-[2/1] overflow-hidden">
+                <div className="aspect-[16/9] md:aspect-[21/9] overflow-hidden">
                   <img
                     src={p.img}
                     alt={p.t}
