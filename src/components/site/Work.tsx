@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import orb1 from "@/assets/orb-1.jpg";
 import orb2 from "@/assets/orb-2.jpg";
 import hero from "@/assets/hero-fluid.jpg";
+import ScrollStack, { ScrollStackItem } from "../ui/ScrollStack";
 
 const projects = [
   { t: "Import & Analyze", c: "Step 01", img: hero, year: "Knowledge Graph" },
@@ -18,35 +19,32 @@ export function Work() {
           Import your repository <span className="italic text-iridescent">and start building</span> instantly.
         </h2>
 
-        <div className="space-y-6">
+        <ScrollStack useWindowScroll={true} stackPosition="25%" blurAmount={5} itemDistance={60}>
           {projects.map((p, i) => (
-            <motion.div
-              key={p.t}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.05 }}
-              className="group block relative overflow-hidden rounded-3xl"
-            >
-              <div className="aspect-[16/9] md:aspect-[21/9] overflow-hidden">
-                <img src={p.img} alt={p.t} loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-[1200ms]" />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-              <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
-                <div className="flex items-end justify-between flex-wrap gap-4">
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-2">{p.c} · {p.year}</p>
-                    <h3 className="font-display text-4xl md:text-6xl">{p.t}</h3>
+            <ScrollStackItem key={p.t}>
+              <div
+                className="group block relative overflow-hidden rounded-3xl"
+              >
+                <div className="aspect-[16/9] md:aspect-[21/9] overflow-hidden">
+                  <img src={p.img} alt={p.t} loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-[1200ms]" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+                <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
+                  <div className="flex items-end justify-between flex-wrap gap-4">
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-2">{p.c} · {p.year}</p>
+                      <h3 className="font-display text-4xl md:text-6xl">{p.t}</h3>
+                    </div>
+                    <span className="glass rounded-full px-5 py-2 text-sm group-hover:bg-foreground group-hover:text-background transition">
+                      Explore feature →
+                    </span>
                   </div>
-                  <span className="glass rounded-full px-5 py-2 text-sm group-hover:bg-foreground group-hover:text-background transition">
-                    Explore feature →
-                  </span>
                 </div>
               </div>
-            </motion.div>
+            </ScrollStackItem>
           ))}
-        </div>
+        </ScrollStack>
       </div>
     </section>
   );
