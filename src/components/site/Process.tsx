@@ -1,8 +1,24 @@
 const steps = [
-  { n: "01", t: "Accelerate", d: "Offload boilerplate, refactoring, and documentation to AI so you can focus on hard problems." },
-  { n: "02", t: "Understand", d: "Get instant answers about your architecture without digging through thousands of files." },
-  { n: "03", t: "Refactor", d: "Automatically identify and fix anti-patterns before they become systemic issues." },
-  { n: "04", t: "Ship", d: "Generate edge-case tests and review your code instantly before merging." },
+  {
+    n: "01",
+    t: "Accelerate",
+    d: "Offload boilerplate, refactoring, and documentation to AI so you can focus on hard problems.",
+  },
+  {
+    n: "02",
+    t: "Understand",
+    d: "Get instant answers about your architecture without digging through thousands of files.",
+  },
+  {
+    n: "03",
+    t: "Refactor",
+    d: "Automatically identify and fix anti-patterns before they become systemic issues.",
+  },
+  {
+    n: "04",
+    t: "Ship",
+    d: "Generate edge-case tests and review your code instantly before merging.",
+  },
 ];
 
 export function Process() {

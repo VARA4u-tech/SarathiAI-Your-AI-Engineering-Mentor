@@ -7,18 +7,30 @@ const plans = [
     price: "$20",
     period: "/mo",
     desc: "For individual engineers building fast.",
-    features: ["Unlimited Repositories", "Advanced Knowledge Graph", "Feature Planner", "Debug Center", "Community Support"],
-    button: "Get Started"
+    features: [
+      "Unlimited Repositories",
+      "Advanced Knowledge Graph",
+      "Feature Planner",
+      "Debug Center",
+      "Community Support",
+    ],
+    button: "Get Started",
   },
   {
     name: "Team",
     price: "$99",
     period: "/mo",
     desc: "For engineering teams shipping together.",
-    features: ["Everything in Pro", "Shared Workspaces", "Team Analytics", "Priority Support", "Custom API Limits"],
+    features: [
+      "Everything in Pro",
+      "Shared Workspaces",
+      "Team Analytics",
+      "Priority Support",
+      "Custom API Limits",
+    ],
     button: "Contact Sales",
-    featured: true
-  }
+    featured: true,
+  },
 ];
 
 export function Pricing() {
@@ -48,7 +60,7 @@ export function Pricing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className={`glass rounded-3xl p-8 md:p-10 relative overflow-hidden ${p.featured ? 'border-foreground/20' : ''}`}
+              className={`glass rounded-3xl p-8 md:p-10 relative overflow-hidden ${p.featured ? "border-foreground/20" : ""}`}
             >
               {p.featured && (
                 <div className="absolute top-0 right-8 bg-gradient-to-b from-foreground/20 to-transparent w-16 h-32 blur-2xl pointer-events-none" />
@@ -58,16 +70,20 @@ export function Pricing() {
                 <span className="text-4xl font-medium tracking-tight">{p.price}</span>
                 <span className="text-muted-foreground">{p.period}</span>
               </div>
-              <p className="text-sm text-muted-foreground mb-8 pb-8 border-b border-border">{p.desc}</p>
+              <p className="text-sm text-muted-foreground mb-8 pb-8 border-b border-border">
+                {p.desc}
+              </p>
               <ul className="space-y-4 mb-10">
-                {p.features.map(f => (
+                {p.features.map((f) => (
                   <li key={f} className="flex items-center gap-3 text-sm">
                     <span className="size-1.5 rounded-full bg-emerald-400" />
                     {f}
                   </li>
                 ))}
               </ul>
-              <button className={`w-full rounded-full px-6 py-4 text-sm font-medium transition ${p.featured ? 'bg-foreground text-background hover:opacity-90' : 'glass hover:bg-white/10'}`}>
+              <button
+                className={`w-full rounded-full px-6 py-4 text-sm font-medium transition ${p.featured ? "bg-foreground text-background hover:opacity-90" : "glass hover:bg-white/10"}`}
+              >
                 {p.button}
               </button>
             </motion.div>
@@ -88,10 +104,18 @@ export function Footer() {
         </div>
         <p>© {new Date().getFullYear()} CodePilot AI. All rights reserved.</p>
         <div className="flex gap-5">
-          <a href="#" className="hover:text-foreground">Terms</a>
-          <a href="#" className="hover:text-foreground">Privacy</a>
-          <a href="#" className="hover:text-foreground">Twitter</a>
-          <a href="#" className="hover:text-foreground">GitHub</a>
+          <a href="#" className="hover:text-foreground">
+            Terms
+          </a>
+          <a href="#" className="hover:text-foreground">
+            Privacy
+          </a>
+          <a href="#" className="hover:text-foreground">
+            Twitter
+          </a>
+          <a href="#" className="hover:text-foreground">
+            GitHub
+          </a>
         </div>
       </div>
     </footer>

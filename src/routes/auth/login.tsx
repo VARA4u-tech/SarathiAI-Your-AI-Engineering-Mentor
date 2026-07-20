@@ -41,7 +41,9 @@ function Login() {
 
           <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
             <div>
-              <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">Email</label>
+              <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                Email
+              </label>
               <input
                 type="email"
                 value={email}
@@ -52,8 +54,13 @@ function Login() {
             </div>
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground">Password</label>
-                <Link to="/auth/forgot" className="text-xs text-muted-foreground hover:text-foreground transition">
+                <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                  Password
+                </label>
+                <Link
+                  to="/auth/forgot"
+                  className="text-xs text-muted-foreground hover:text-foreground transition"
+                >
                   Forgot?
                 </Link>
               </div>

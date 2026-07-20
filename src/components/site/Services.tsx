@@ -33,35 +33,58 @@ const features = [
 ];
 
 const cards = [
-  { step: "Step 01", title: "Knowledge Graph", sub: "Repository Intelligence", img: hero,  grad: "from-fuchsia-900/70 to-violet-900/70" },
-  { step: "Step 02", title: "Feature Planner",  sub: "Planning & Architecture",  img: orb1,  grad: "from-cyan-900/70 to-blue-900/70" },
-  { step: "Step 03", title: "Debug Center",     sub: "Error Analysis & Fixes",   img: orb2,  grad: "from-emerald-900/70 to-teal-900/70" },
-  { step: "Step 04", title: "AI Generation",    sub: "Code & Documentation",     img: hero,  grad: "from-orange-900/70 to-rose-900/70" },
+  {
+    step: "Step 01",
+    title: "Knowledge Graph",
+    sub: "Repository Intelligence",
+    img: hero,
+    grad: "from-fuchsia-900/70 to-violet-900/70",
+  },
+  {
+    step: "Step 02",
+    title: "Feature Planner",
+    sub: "Planning & Architecture",
+    img: orb1,
+    grad: "from-cyan-900/70 to-blue-900/70",
+  },
+  {
+    step: "Step 03",
+    title: "Debug Center",
+    sub: "Error Analysis & Fixes",
+    img: orb2,
+    grad: "from-emerald-900/70 to-teal-900/70",
+  },
+  {
+    step: "Step 04",
+    title: "AI Generation",
+    sub: "Code & Documentation",
+    img: hero,
+    grad: "from-orange-900/70 to-rose-900/70",
+  },
 ];
-
 
 export function Services() {
   return (
     <section id="features" className="relative py-32 overflow-hidden">
       <div className="mx-auto w-[min(96%,1200px)]">
-
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <div className="flex items-end justify-between mb-20 flex-wrap gap-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">— Features</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
+              — Features
+            </p>
             <h2 className="font-display text-5xl md:text-7xl text-gradient max-w-2xl leading-[1]">
-              Everything you need to{" "}
-              <span className="italic text-iridescent">ship faster.</span>
+              Everything you need to <span className="italic text-iridescent">ship faster.</span>
             </h2>
           </div>
           <p className="max-w-sm text-muted-foreground">
-            CodePilot AI is your central hub for repository intelligence, planning, debugging, and code generation.
+            CodePilot AI is your central hub for repository intelligence, planning, debugging, and
+            code generation.
           </p>
         </div>
 
         {/* ── Main Layout: Feature list (left) + CardSwap (right) ─────────── */}
         <div className="grid lg:grid-cols-[2fr_3fr] gap-10 items-center">
-
           {/* Left — feature list (compact) */}
           <div className="space-y-3">
             {features.map((f, i) => (
@@ -77,8 +100,12 @@ export function Services() {
                   <f.icon size={16} strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-[10px] text-muted-foreground mb-0.5 uppercase tracking-[0.15em]">{f.n}</p>
-                  <h3 className="font-display text-base md:text-lg mb-0.5 text-foreground">{f.t}</h3>
+                  <p className="text-[10px] text-muted-foreground mb-0.5 uppercase tracking-[0.15em]">
+                    {f.n}
+                  </p>
+                  <h3 className="font-display text-base md:text-lg mb-0.5 text-foreground">
+                    {f.t}
+                  </h3>
                   <p className="text-muted-foreground text-xs leading-relaxed">{f.d}</p>
                 </div>
               </motion.div>
@@ -107,7 +134,11 @@ export function Services() {
               {cards.map((c, i) => (
                 <Card key={i} customClass="shadow-2xl overflow-hidden">
                   {/* Photo background */}
-                  <img src={c.img} alt={c.title} className="absolute inset-0 w-full h-full object-cover" />
+                  <img
+                    src={c.img}
+                    alt={c.title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
                   {/* Gradient overlay */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${c.grad}`} />
                   {/* Content */}
@@ -122,7 +153,6 @@ export function Services() {
               ))}
             </CardSwap>
           </motion.div>
-
         </div>
       </div>
     </section>

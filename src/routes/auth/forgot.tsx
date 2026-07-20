@@ -41,16 +41,30 @@ function ForgotPassword() {
           {submitted ? (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <div className="p-6 rounded-2xl bg-foreground/5 border border-border mb-6">
-                <p className="text-sm">Check your email. We've sent a recovery link to <span className="text-foreground">{email}</span>.</p>
+                <p className="text-sm">
+                  Check your email. We've sent a recovery link to{" "}
+                  <span className="text-foreground">{email}</span>.
+                </p>
               </div>
-              <Link to="/auth/login" className="w-full block text-center rounded-full glass px-8 py-4 text-sm font-medium hover:bg-white/10 transition">
+              <Link
+                to="/auth/login"
+                className="w-full block text-center rounded-full glass px-8 py-4 text-sm font-medium hover:bg-white/10 transition"
+              >
                 Return to sign in
               </Link>
             </motion.div>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-5">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSubmitted(true);
+              }}
+              className="space-y-5"
+            >
               <div>
-                <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">Email</label>
+                <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                  Email
+                </label>
                 <input
                   type="email"
                   value={email}

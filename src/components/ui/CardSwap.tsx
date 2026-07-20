@@ -6,8 +6,8 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-} from 'react';
-import gsap from 'gsap';
+} from "react";
+import gsap from "gsap";
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
 interface CardProps {
@@ -19,16 +19,14 @@ interface CardProps {
   [key: string]: unknown;
 }
 
-export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ customClass, ...rest }, ref) => (
-    <div
-      ref={ref}
-      {...rest}
-      className={`absolute top-1/2 left-1/2 rounded-2xl border border-white/10 bg-black [transform-style:preserve-3d] [will-change:transform] [backface-visibility:hidden] overflow-hidden ${customClass ?? ''} ${rest.className ?? ''}`.trim()}
-    />
-  ),
-);
-Card.displayName = 'Card';
+export const Card = forwardRef<HTMLDivElement, CardProps>(({ customClass, ...rest }, ref) => (
+  <div
+    ref={ref}
+    {...rest}
+    className={`absolute top-1/2 left-1/2 rounded-2xl border border-white/10 bg-black [transform-style:preserve-3d] [will-change:transform] [backface-visibility:hidden] overflow-hidden ${customClass ?? ""} ${rest.className ?? ""}`.trim()}
+  />
+));
+Card.displayName = "Card";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const makeSlot = (i: number, distX: number, distY: number, total: number) => ({
@@ -46,7 +44,7 @@ const placeNow = (el: HTMLElement, slot: ReturnType<typeof makeSlot>, skew: numb
     xPercent: -50,
     yPercent: -50,
     skewY: skew,
-    transformOrigin: 'center center',
+    transformOrigin: "center center",
     zIndex: slot.zIndex,
     force3D: true,
   });
@@ -62,7 +60,7 @@ interface CardSwapProps {
   pauseOnHover?: boolean;
   onCardClick?: (idx: number) => void;
   skewAmount?: number;
-  easing?: 'linear' | 'elastic';
+  easing?: "linear" | "elastic";
 }
 
 const CardSwap = ({
@@ -74,13 +72,13 @@ const CardSwap = ({
   pauseOnHover = false,
   onCardClick,
   skewAmount = 6,
-  easing = 'elastic',
+  easing = "elastic",
   children,
 }: CardSwapProps) => {
   const config =
-    easing === 'elastic'
+    easing === "elastic"
       ? {
-          ease: 'elastic.out(0.6,0.9)',
+          ease: "elastic.out(0.6,0.9)",
           durDrop: 2,
           durMove: 2,
           durReturn: 2,
@@ -88,7 +86,7 @@ const CardSwap = ({
           returnDelay: 0.05,
         }
       : {
-          ease: 'power1.inOut',
+          ease: "power1.inOut",
           durDrop: 0.8,
           durMove: 0.8,
           durReturn: 0.8,
@@ -122,13 +120,13 @@ const CardSwap = ({
       const tl = gsap.timeline();
       tlRef.current = tl;
 
-      tl.to(elFront, { y: '+=500', duration: config.durDrop, ease: config.ease });
+      tl.to(elFront, { y: "+=500", duration: config.durDrop, ease: config.ease });
 
-      tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
+      tl.addLabel("promote", `-=${config.durDrop * config.promoteOverlap}`);
       rest.forEach((idx, i) => {
         const el = refs[idx].current!;
         const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
-        tl.set(el, { zIndex: slot.zIndex }, 'promote');
+        tl.set(el, { zIndex: slot.zIndex }, "promote");
         tl.to(
           el,
           { x: slot.x, y: slot.y, z: slot.z, duration: config.durMove, ease: config.ease },
@@ -137,14 +135,22 @@ const CardSwap = ({
       });
 
       const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
-      tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
-      tl.call(() => gsap.set(elFront, { zIndex: backSlot.zIndex }), undefined, 'return');
+      tl.addLabel("return", `promote+=${config.durMove * config.returnDelay}`);
+      tl.call(() => gsap.set(elFront, { zIndex: backSlot.zIndex }), undefined, "return");
       tl.to(
         elFront,
-        { x: backSlot.x, y: backSlot.y, z: backSlot.z, duration: config.durReturn, ease: config.ease },
-        'return',
+        {
+          x: backSlot.x,
+          y: backSlot.y,
+          z: backSlot.z,
+          duration: config.durReturn,
+          ease: config.ease,
+        },
+        "return",
       );
-      tl.call(() => { order.current = [...rest, front]; });
+      tl.call(() => {
+        order.current = [...rest, front];
+      });
     };
 
     swap();
@@ -152,13 +158,19 @@ const CardSwap = ({
 
     if (pauseOnHover) {
       const node = container.current!;
-      const pause = () => { tlRef.current?.pause(); clearInterval(intervalRef.current); };
-      const resume = () => { tlRef.current?.play(); intervalRef.current = window.setInterval(swap, delay); };
-      node.addEventListener('mouseenter', pause);
-      node.addEventListener('mouseleave', resume);
+      const pause = () => {
+        tlRef.current?.pause();
+        clearInterval(intervalRef.current);
+      };
+      const resume = () => {
+        tlRef.current?.play();
+        intervalRef.current = window.setInterval(swap, delay);
+      };
+      node.addEventListener("mouseenter", pause);
+      node.addEventListener("mouseleave", resume);
       return () => {
-        node.removeEventListener('mouseenter', pause);
-        node.removeEventListener('mouseleave', resume);
+        node.removeEventListener("mouseenter", pause);
+        node.removeEventListener("mouseleave", resume);
         clearInterval(intervalRef.current);
       };
     }

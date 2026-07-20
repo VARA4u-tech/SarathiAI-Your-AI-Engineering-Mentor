@@ -6,7 +6,7 @@ import ScrollStack, { ScrollStackItem } from "../ui/ScrollStack";
 const projects = [
   { t: "Import & Analyze", c: "Step 01", img: hero, year: "Knowledge Graph" },
   { t: "Plan & Architect", c: "Step 02", img: orb1, year: "Feature Planner" },
-  { t: "Code & Debug",     c: "Step 03", img: orb2, year: "Unified Workspace" },
+  { t: "Code & Debug", c: "Step 03", img: orb2, year: "Unified Workspace" },
 ];
 
 export function Work() {
@@ -17,21 +17,13 @@ export function Work() {
           — How it works
         </p>
         <h2 className="font-display text-5xl md:text-7xl text-gradient mb-16 max-w-3xl leading-[1]">
-          Import your repository{" "}
-          <span className="italic text-iridescent">and start building</span>{" "}
+          Import your repository <span className="italic text-iridescent">and start building</span>{" "}
           instantly.
         </h2>
 
-        <ScrollStack
-          peekOffset={18}
-          itemScale={0.05}
-          scrollPerCard={80}
-        >
+        <ScrollStack peekOffset={18} itemScale={0.05} scrollPerCard={80}>
           {projects.map((p) => (
-            <ScrollStackItem
-              key={p.t}
-              itemClassName="overflow-hidden p-0"
-            >
+            <ScrollStackItem key={p.t} itemClassName="overflow-hidden p-0">
               <div className="group relative w-full h-full">
                 <div className="aspect-[16/9] md:aspect-[21/9] overflow-hidden">
                   <img

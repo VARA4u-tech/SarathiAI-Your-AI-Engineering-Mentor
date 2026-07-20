@@ -1,18 +1,18 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ArrowUpRight } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { useLayoutEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ArrowUpRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 const CardNav = ({
   logo,
-  logoAlt = 'Logo',
+  logoAlt = "Logo",
   items,
-  className = '',
-  ease = 'power3.out',
-  baseColor = '#fff',
+  className = "",
+  ease = "power3.out",
+  baseColor = "#fff",
   menuColor,
   buttonBgColor,
-  buttonTextColor
+  buttonTextColor,
 }: any) => {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -24,19 +24,19 @@ const CardNav = ({
     const navEl = navRef.current;
     if (!navEl) return 260;
 
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
     if (isMobile) {
-      const contentEl = navEl.querySelector('.card-nav-content') as HTMLElement;
+      const contentEl = navEl.querySelector(".card-nav-content") as HTMLElement;
       if (contentEl) {
         const wasVisible = contentEl.style.visibility;
         const wasPointerEvents = contentEl.style.pointerEvents;
         const wasPosition = contentEl.style.position;
         const wasHeight = contentEl.style.height;
 
-        contentEl.style.visibility = 'visible';
-        contentEl.style.pointerEvents = 'auto';
-        contentEl.style.position = 'static';
-        contentEl.style.height = 'auto';
+        contentEl.style.visibility = "visible";
+        contentEl.style.pointerEvents = "auto";
+        contentEl.style.position = "static";
+        contentEl.style.height = "auto";
 
         contentEl.offsetHeight;
 
@@ -59,7 +59,7 @@ const CardNav = ({
     const navEl = navRef.current;
     if (!navEl) return null;
 
-    gsap.set(navEl, { height: 60, overflow: 'hidden' });
+    gsap.set(navEl, { height: 60, overflow: "hidden" });
     gsap.set(cardsRef.current, { y: 50, opacity: 0 });
 
     const tl = gsap.timeline({ paused: true });
@@ -67,10 +67,10 @@ const CardNav = ({
     tl.to(navEl, {
       height: calculateHeight,
       duration: 0.4,
-      ease
+      ease,
     });
 
-    tl.to(cardsRef.current, { y: 0, opacity: 1, duration: 0.4, ease, stagger: 0.08 }, '-=0.1');
+    tl.to(cardsRef.current, { y: 0, opacity: 1, duration: 0.4, ease, stagger: 0.08 }, "-=0.1");
 
     return tl;
   };
@@ -109,8 +109,8 @@ const CardNav = ({
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isExpanded]);
 
@@ -123,7 +123,7 @@ const CardNav = ({
       tl.play(0);
     } else {
       setIsHamburgerOpen(false);
-      tl.eventCallback('onReverseComplete', () => setIsExpanded(false));
+      tl.eventCallback("onReverseComplete", () => setIsExpanded(false));
       tl.reverse();
     }
   };
@@ -136,30 +136,33 @@ const CardNav = ({
     <div className={`card-nav-container relative w-full z-[99] ${className}`}>
       <nav
         ref={navRef}
-        className={`card-nav ${isExpanded ? 'open' : ''} block h-[60px] p-0 rounded-2xl shadow-md relative overflow-hidden will-change-[height] border border-border/20 backdrop-blur-md`}
+        className={`card-nav ${isExpanded ? "open" : ""} block h-[60px] p-0 rounded-2xl shadow-md relative overflow-hidden will-change-[height] border border-border/20 backdrop-blur-md`}
         style={{ backgroundColor: baseColor }}
       >
         <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between px-2 md:px-4 z-[2]">
-          
           {/* Menu Trigger on the Left */}
           <button
             type="button"
             className="flex items-center gap-2 px-2 md:px-4 py-2 text-sm font-medium transition-opacity hover:opacity-80"
-            style={{ color: menuColor || '#fff' }}
+            style={{ color: menuColor || "#fff" }}
             onClick={toggleMenu}
-            aria-label={isExpanded ? 'Close menu' : 'Open menu'}
+            aria-label={isExpanded ? "Close menu" : "Open menu"}
             aria-expanded={isExpanded}
           >
             Menu
             <div className="flex flex-col gap-[4px] w-[18px]">
-              <div className={`h-[1.5px] bg-current transition-transform duration-300 ${isExpanded ? 'translate-y-[2.75px] rotate-45' : ''}`} />
-              <div className={`h-[1.5px] bg-current transition-transform duration-300 ${isExpanded ? '-translate-y-[2.75px] -rotate-45' : ''}`} />
+              <div
+                className={`h-[1.5px] bg-current transition-transform duration-300 ${isExpanded ? "translate-y-[2.75px] rotate-45" : ""}`}
+              />
+              <div
+                className={`h-[1.5px] bg-current transition-transform duration-300 ${isExpanded ? "-translate-y-[2.75px] -rotate-45" : ""}`}
+              />
             </div>
           </button>
 
           {/* Logo perfectly Centered */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center h-full pointer-events-auto">
-            {typeof logo === 'string' ? (
+            {typeof logo === "string" ? (
               <img src={logo} alt={logoAlt} className="logo h-[28px]" />
             ) : (
               logo
@@ -178,7 +181,7 @@ const CardNav = ({
 
         <div
           className={`card-nav-content absolute left-0 right-0 top-[60px] bottom-0 p-2 flex flex-col items-stretch gap-2 justify-start z-[1] ${
-            isExpanded ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
+            isExpanded ? "visible pointer-events-auto" : "invisible pointer-events-none"
           } md:flex-row md:items-end md:gap-[12px]`}
           aria-hidden={!isExpanded}
         >
@@ -200,7 +203,10 @@ const CardNav = ({
                     href={lnk.href}
                     aria-label={lnk.ariaLabel}
                   >
-                    <ArrowUpRight className="nav-card-link-icon shrink-0 size-4 text-muted-foreground" aria-hidden="true" />
+                    <ArrowUpRight
+                      className="nav-card-link-icon shrink-0 size-4 text-muted-foreground"
+                      aria-hidden="true"
+                    />
                     {lnk.label}
                   </a>
                 ))}

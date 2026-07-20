@@ -10,33 +10,36 @@ export function Nav() {
       links: [
         { label: "Features", href: "#features", ariaLabel: "Platform Features" },
         { label: "How it Works", href: "#how-it-works", ariaLabel: "How it Works" },
-        { label: "Benefits", href: "#benefits", ariaLabel: "Platform Benefits" }
-      ]
+        { label: "Benefits", href: "#benefits", ariaLabel: "Platform Benefits" },
+      ],
     },
     {
-      label: "Resources", 
+      label: "Resources",
       bgColor: "oklch(0.14 0.03 280)",
       textColor: "#fff",
       links: [
         { label: "Documentation", href: "#", ariaLabel: "Documentation" },
         { label: "Knowledge Graph API", href: "#", ariaLabel: "API Reference" },
-        { label: "Pricing", href: "#pricing", ariaLabel: "Pricing Plans" }
-      ]
+        { label: "Pricing", href: "#pricing", ariaLabel: "Pricing Plans" },
+      ],
     },
     {
       label: "Company",
-      bgColor: "oklch(0.16 0.04 280)", 
+      bgColor: "oklch(0.16 0.04 280)",
       textColor: "#fff",
       links: [
         { label: "About Us", href: "#", ariaLabel: "About Company" },
         { label: "Careers", href: "#", ariaLabel: "Careers" },
-        { label: "Contact", href: "#", ariaLabel: "Contact Us" }
-      ]
-    }
+        { label: "Contact", href: "#", ariaLabel: "Contact Us" },
+      ],
+    },
   ];
 
   const logoNode = (
-    <Link to="/" className="flex items-center gap-2 font-display text-xl px-4 hover:opacity-80 transition">
+    <Link
+      to="/"
+      className="flex items-center gap-2 font-display text-xl px-4 hover:opacity-80 transition"
+    >
       <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
       CodePilot AI
     </Link>

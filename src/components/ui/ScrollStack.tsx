@@ -10,9 +10,9 @@
  * Uses GSAP ScrollTrigger with gsap.context() for scoped, clean teardown.
  */
 
-import { useLayoutEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,16 +22,13 @@ interface ScrollStackItemProps {
   itemClassName?: string;
 }
 
-export const ScrollStackItem = ({
-  children,
-  itemClassName = '',
-}: ScrollStackItemProps) => (
+export const ScrollStackItem = ({ children, itemClassName = "" }: ScrollStackItemProps) => (
   <div
     className={`scroll-stack-card absolute inset-x-0 top-0 w-full rounded-3xl overflow-hidden shadow-2xl ${itemClassName}`}
     style={{
-      transformOrigin: 'bottom center',
-      backfaceVisibility: 'hidden',
-      willChange: 'transform, opacity',
+      transformOrigin: "bottom center",
+      backfaceVisibility: "hidden",
+      willChange: "transform, opacity",
     }}
   >
     {children}
@@ -52,7 +49,7 @@ interface ScrollStackProps {
 
 const ScrollStack = ({
   children,
-  className = '',
+  className = "",
   peekOffset = 16,
   itemScale = 0.06,
   scrollPerCard = 80,
@@ -66,10 +63,7 @@ const ScrollStack = ({
     if (!container || !sticky) return;
 
     const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray<HTMLElement>(
-        '.scroll-stack-card',
-        sticky,
-      );
+      const cards = gsap.utils.toArray<HTMLElement>(".scroll-stack-card", sticky);
       const total = cards.length;
       if (total < 2) return;
 
@@ -93,7 +87,7 @@ const ScrollStack = ({
       // Pin the sticky deck while we scroll through all card transitions
       ScrollTrigger.create({
         trigger: container,
-        start: 'top top+=90',
+        start: "top top+=90",
         end: `+=${scrollDistance}`,
         pin: sticky,
         pinSpacing: true,
@@ -112,10 +106,10 @@ const ScrollStack = ({
 
         // 1. Fly the front card up and out
         gsap.to(frontCard, {
-          y: '-120%',
+          y: "-120%",
           opacity: 0,
           scale: 0.8,
-          ease: 'none',
+          ease: "none",
           scrollTrigger: {
             trigger: container,
             start: `top+=${stepStart} top+=90`,
@@ -133,7 +127,7 @@ const ScrollStack = ({
             y: newDepth * peekOffset,
             scale: 1 - newDepth * itemScale,
             opacity: newDepth > 3 ? 0 : 1,
-            ease: 'none',
+            ease: "none",
             scrollTrigger: {
               trigger: container,
               start: `top+=${stepStart} top+=90`,
@@ -153,11 +147,7 @@ const ScrollStack = ({
     // Outer container defines scroll height
     <div ref={containerRef} className={`relative w-full ${className}`}>
       {/* Inner sticky deck — all cards are absolute inside here */}
-      <div
-        ref={stickyRef}
-        className="relative w-full"
-        style={{ height: '60vh' }}
-      >
+      <div ref={stickyRef} className="relative w-full" style={{ height: "60vh" }}>
         {children}
       </div>
     </div>

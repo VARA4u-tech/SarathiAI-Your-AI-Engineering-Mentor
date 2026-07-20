@@ -41,7 +41,9 @@ function Register() {
 
           <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
             <div>
-              <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">Name</label>
+              <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                Name
+              </label>
               <input
                 type="text"
                 value={name}
@@ -51,7 +53,9 @@ function Register() {
               />
             </div>
             <div>
-              <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">Email</label>
+              <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                Email
+              </label>
               <input
                 type="email"
                 value={email}
@@ -61,7 +65,9 @@ function Register() {
               />
             </div>
             <div>
-              <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">Password</label>
+              <label className="block text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                Password
+              </label>
               <input
                 type="password"
                 value={password}
