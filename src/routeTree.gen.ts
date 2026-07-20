@@ -10,10 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ImportRouteImport } from './routes/import'
 import { Route as ProcessingRouteImport } from './routes/processing'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as AuthForgotRouteImport } from './routes/auth/forgot'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
@@ -26,6 +29,11 @@ import { Route as WorkspaceRepoIdTestingRouteImport } from './routes/workspace/$
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
@@ -46,6 +54,16 @@ const ImportRoute = ImportRouteImport.update({
 const ProcessingRoute = ProcessingRouteImport.update({
   id: '/processing',
   path: '/processing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthForgotRoute = AuthForgotRouteImport.update({
@@ -91,10 +109,13 @@ const WorkspaceRepoIdTestingRoute = WorkspaceRepoIdTestingRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
   '/import': typeof ImportRoute
   '/processing': typeof ProcessingRoute
+  '/profile': typeof ProfileRoute
+  '/settings': typeof SettingsRoute
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -106,10 +127,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
   '/import': typeof ImportRoute
   '/processing': typeof ProcessingRoute
+  '/profile': typeof ProfileRoute
+  '/settings': typeof SettingsRoute
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -122,10 +146,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
   '/import': typeof ImportRoute
   '/processing': typeof ProcessingRoute
+  '/profile': typeof ProfileRoute
+  '/settings': typeof SettingsRoute
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -139,10 +166,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/analytics'
     | '/dashboard'
     | '/import'
     | '/processing'
+    | '/profile'
+    | '/settings'
     | '/auth/forgot'
     | '/auth/login'
     | '/auth/register'
@@ -154,10 +184,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/analytics'
     | '/dashboard'
     | '/import'
     | '/processing'
+    | '/profile'
+    | '/settings'
     | '/auth/forgot'
     | '/auth/login'
     | '/auth/register'
@@ -169,10 +202,13 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/analytics'
     | '/dashboard'
     | '/import'
     | '/processing'
+    | '/profile'
+    | '/settings'
     | '/auth/forgot'
     | '/auth/login'
     | '/auth/register'
@@ -185,10 +221,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   AnalyticsRoute: typeof AnalyticsRoute
   DashboardRoute: typeof DashboardRoute
   ImportRoute: typeof ImportRoute
   ProcessingRoute: typeof ProcessingRoute
+  ProfileRoute: typeof ProfileRoute
+  SettingsRoute: typeof SettingsRoute
   AuthForgotRoute: typeof AuthForgotRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
@@ -202,6 +241,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analytics': {
@@ -230,6 +276,20 @@ declare module '@tanstack/react-router' {
       path: '/processing'
       fullPath: '/processing'
       preLoaderRoute: typeof ProcessingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/forgot': {
@@ -311,10 +371,13 @@ const WorkspaceRepoIdRouteWithChildren = WorkspaceRepoIdRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   AnalyticsRoute: AnalyticsRoute,
   DashboardRoute: DashboardRoute,
   ImportRoute: ImportRoute,
   ProcessingRoute: ProcessingRoute,
+  ProfileRoute: ProfileRoute,
+  SettingsRoute: SettingsRoute,
   AuthForgotRoute: AuthForgotRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
