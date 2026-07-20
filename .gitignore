@@ -30,3 +30,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Project specific
+.env
+.env.*.local
+.code-review-graph/
+coverage/
+.eslintcache
