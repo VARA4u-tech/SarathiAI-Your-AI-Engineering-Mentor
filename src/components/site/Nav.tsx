@@ -43,7 +43,7 @@ export function Nav() {
   );
 
   return (
-    <header className="fixed top-0 left-1/2 -translate-x-1/2 z-50 w-[min(96%,1200px)] pointer-events-none">
+    <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[min(96%,1200px)] pointer-events-none">
       <div className="pointer-events-auto">
         <CardNav
           logo={logoNode}

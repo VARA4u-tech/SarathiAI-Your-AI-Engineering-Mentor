@@ -141,8 +141,24 @@ const CardNav = ({
       >
         <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between px-2 md:px-4 z-[2]">
           
-          {/* Logo on the Left */}
-          <div className="logo-container flex items-center h-full">
+          {/* Menu Trigger on the Left */}
+          <button
+            type="button"
+            className="flex items-center gap-2 px-2 md:px-4 py-2 text-sm font-medium transition-opacity hover:opacity-80"
+            style={{ color: menuColor || '#fff' }}
+            onClick={toggleMenu}
+            aria-label={isExpanded ? 'Close menu' : 'Open menu'}
+            aria-expanded={isExpanded}
+          >
+            Menu
+            <div className="flex flex-col gap-[4px] w-[18px]">
+              <div className={`h-[1.5px] bg-current transition-transform duration-300 ${isExpanded ? 'translate-y-[2.75px] rotate-45' : ''}`} />
+              <div className={`h-[1.5px] bg-current transition-transform duration-300 ${isExpanded ? '-translate-y-[2.75px] -rotate-45' : ''}`} />
+            </div>
+          </button>
+
+          {/* Logo perfectly Centered */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center h-full pointer-events-auto">
             {typeof logo === 'string' ? (
               <img src={logo} alt={logoAlt} className="logo h-[28px]" />
             ) : (
@@ -150,58 +166,14 @@ const CardNav = ({
             )}
           </div>
 
-          {/* Hamburger (Mobile) or Nothing (Desktop uses cards) */}
-          <div
-            className={`hamburger-menu ${isHamburgerOpen ? 'open' : ''} group h-full flex md:hidden flex-col items-center justify-center cursor-pointer gap-[6px] px-4`}
-            onClick={toggleMenu}
-            onKeyDown={e => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleMenu();
-              }
-            }}
-            role="button"
-            aria-label={isExpanded ? 'Close menu' : 'Open menu'}
-            aria-expanded={isExpanded}
-            tabIndex={0}
-            style={{ color: menuColor || '#fff' }}
+          {/* Dashboard Button on the Right */}
+          <Link
+            to="/dashboard"
+            className="card-nav-cta-button inline-flex border-0 rounded-full px-5 py-1.5 items-center text-sm font-medium cursor-pointer transition-colors duration-300 hover:opacity-90"
+            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
           >
-            <div
-              className={`hamburger-line w-[24px] h-[2px] bg-current transition-[transform,opacity,margin] duration-300 ease-linear [transform-origin:50%_50%] ${
-                isHamburgerOpen ? 'translate-y-[4px] rotate-45' : ''
-              } group-hover:opacity-75`}
-            />
-            <div
-              className={`hamburger-line w-[24px] h-[2px] bg-current transition-[transform,opacity,margin] duration-300 ease-linear [transform-origin:50%_50%] ${
-                isHamburgerOpen ? '-translate-y-[4px] -rotate-45' : ''
-              } group-hover:opacity-75`}
-            />
-          </div>
-
-          {/* Desktop Trigger / Dashboard Button on the Right */}
-          <div className="flex items-center gap-2 h-full">
-            {/* Desktop Menu Trigger */}
-            <button
-              type="button"
-              className="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium transition-opacity hover:opacity-80"
-              style={{ color: menuColor || '#fff' }}
-              onClick={toggleMenu}
-            >
-              Menu
-              <div className="flex flex-col gap-1 w-4">
-                <div className={`h-[1.5px] bg-current transition-transform duration-300 ${isExpanded ? 'translate-y-[2.5px] rotate-45' : ''}`} />
-                <div className={`h-[1.5px] bg-current transition-transform duration-300 ${isExpanded ? '-translate-y-[2.5px] -rotate-45' : ''}`} />
-              </div>
-            </button>
-
-            <Link
-              to="/dashboard"
-              className="card-nav-cta-button hidden md:inline-flex border-0 rounded-full px-5 py-1.5 items-center text-sm font-medium cursor-pointer transition-colors duration-300 hover:opacity-90"
-              style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
-            >
-              Dashboard
-            </Link>
-          </div>
+            Dashboard
+          </Link>
         </div>
 
         <div
