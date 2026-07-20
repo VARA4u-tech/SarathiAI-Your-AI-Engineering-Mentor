@@ -110,7 +110,7 @@ function ProcessingRepo() {
           animate={{ opacity: isComplete ? 1 : 0, y: isComplete ? 0 : 10, pointerEvents: isComplete ? "auto" : "none" }}
           className="mt-10 flex justify-center"
         >
-          <Link to="/workspace/demo-repo" className="rounded-full bg-foreground text-background px-8 py-4 text-sm font-medium hover:opacity-90 transition flex items-center gap-2">
+          <Link to="/workspace/$repoId" params={{ repoId: "demo-repo" }} className="rounded-full bg-foreground text-background px-8 py-4 text-sm font-medium hover:opacity-90 transition flex items-center gap-2">
             Enter Workspace <ArrowRight className="size-4" />
           </Link>
         </motion.div>

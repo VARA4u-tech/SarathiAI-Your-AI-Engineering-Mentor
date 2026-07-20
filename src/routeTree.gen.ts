@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ImportRouteImport } from './routes/import'
 import { Route as ProcessingRouteImport } from './routes/processing'
@@ -17,10 +18,19 @@ import { Route as AuthForgotRouteImport } from './routes/auth/forgot'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as WorkspaceRepoIdRouteImport } from './routes/workspace/$repoId'
+import { Route as WorkspaceRepoIdDebugRouteImport } from './routes/workspace/$repoId/debug'
+import { Route as WorkspaceRepoIdDocsRouteImport } from './routes/workspace/$repoId/docs'
+import { Route as WorkspaceRepoIdGraphRouteImport } from './routes/workspace/$repoId/graph'
+import { Route as WorkspaceRepoIdTestingRouteImport } from './routes/workspace/$repoId/testing'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -58,42 +68,78 @@ const WorkspaceRepoIdRoute = WorkspaceRepoIdRouteImport.update({
   path: '/workspace/$repoId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkspaceRepoIdDebugRoute = WorkspaceRepoIdDebugRouteImport.update({
+  id: '/debug',
+  path: '/debug',
+  getParentRoute: () => WorkspaceRepoIdRoute,
+} as any)
+const WorkspaceRepoIdDocsRoute = WorkspaceRepoIdDocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => WorkspaceRepoIdRoute,
+} as any)
+const WorkspaceRepoIdGraphRoute = WorkspaceRepoIdGraphRouteImport.update({
+  id: '/graph',
+  path: '/graph',
+  getParentRoute: () => WorkspaceRepoIdRoute,
+} as any)
+const WorkspaceRepoIdTestingRoute = WorkspaceRepoIdTestingRouteImport.update({
+  id: '/testing',
+  path: '/testing',
+  getParentRoute: () => WorkspaceRepoIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
   '/import': typeof ImportRoute
   '/processing': typeof ProcessingRoute
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/workspace/$repoId': typeof WorkspaceRepoIdRoute
+  '/workspace/$repoId': typeof WorkspaceRepoIdRouteWithChildren
+  '/workspace/$repoId/debug': typeof WorkspaceRepoIdDebugRoute
+  '/workspace/$repoId/docs': typeof WorkspaceRepoIdDocsRoute
+  '/workspace/$repoId/graph': typeof WorkspaceRepoIdGraphRoute
+  '/workspace/$repoId/testing': typeof WorkspaceRepoIdTestingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
   '/import': typeof ImportRoute
   '/processing': typeof ProcessingRoute
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/workspace/$repoId': typeof WorkspaceRepoIdRoute
+  '/workspace/$repoId': typeof WorkspaceRepoIdRouteWithChildren
+  '/workspace/$repoId/debug': typeof WorkspaceRepoIdDebugRoute
+  '/workspace/$repoId/docs': typeof WorkspaceRepoIdDocsRoute
+  '/workspace/$repoId/graph': typeof WorkspaceRepoIdGraphRoute
+  '/workspace/$repoId/testing': typeof WorkspaceRepoIdTestingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
   '/import': typeof ImportRoute
   '/processing': typeof ProcessingRoute
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/workspace/$repoId': typeof WorkspaceRepoIdRoute
+  '/workspace/$repoId': typeof WorkspaceRepoIdRouteWithChildren
+  '/workspace/$repoId/debug': typeof WorkspaceRepoIdDebugRoute
+  '/workspace/$repoId/docs': typeof WorkspaceRepoIdDocsRoute
+  '/workspace/$repoId/graph': typeof WorkspaceRepoIdGraphRoute
+  '/workspace/$repoId/testing': typeof WorkspaceRepoIdTestingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/analytics'
     | '/dashboard'
     | '/import'
     | '/processing'
@@ -101,9 +147,14 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/workspace/$repoId'
+    | '/workspace/$repoId/debug'
+    | '/workspace/$repoId/docs'
+    | '/workspace/$repoId/graph'
+    | '/workspace/$repoId/testing'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/analytics'
     | '/dashboard'
     | '/import'
     | '/processing'
@@ -111,9 +162,14 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/workspace/$repoId'
+    | '/workspace/$repoId/debug'
+    | '/workspace/$repoId/docs'
+    | '/workspace/$repoId/graph'
+    | '/workspace/$repoId/testing'
   id:
     | '__root__'
     | '/'
+    | '/analytics'
     | '/dashboard'
     | '/import'
     | '/processing'
@@ -121,17 +177,22 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/workspace/$repoId'
+    | '/workspace/$repoId/debug'
+    | '/workspace/$repoId/docs'
+    | '/workspace/$repoId/graph'
+    | '/workspace/$repoId/testing'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyticsRoute: typeof AnalyticsRoute
   DashboardRoute: typeof DashboardRoute
   ImportRoute: typeof ImportRoute
   ProcessingRoute: typeof ProcessingRoute
   AuthForgotRoute: typeof AuthForgotRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
-  WorkspaceRepoIdRoute: typeof WorkspaceRepoIdRoute
+  WorkspaceRepoIdRoute: typeof WorkspaceRepoIdRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -141,6 +202,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -192,18 +260,65 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkspaceRepoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/workspace/$repoId/debug': {
+      id: '/workspace/$repoId/debug'
+      path: '/debug'
+      fullPath: '/workspace/$repoId/debug'
+      preLoaderRoute: typeof WorkspaceRepoIdDebugRouteImport
+      parentRoute: typeof WorkspaceRepoIdRoute
+    }
+    '/workspace/$repoId/docs': {
+      id: '/workspace/$repoId/docs'
+      path: '/docs'
+      fullPath: '/workspace/$repoId/docs'
+      preLoaderRoute: typeof WorkspaceRepoIdDocsRouteImport
+      parentRoute: typeof WorkspaceRepoIdRoute
+    }
+    '/workspace/$repoId/graph': {
+      id: '/workspace/$repoId/graph'
+      path: '/graph'
+      fullPath: '/workspace/$repoId/graph'
+      preLoaderRoute: typeof WorkspaceRepoIdGraphRouteImport
+      parentRoute: typeof WorkspaceRepoIdRoute
+    }
+    '/workspace/$repoId/testing': {
+      id: '/workspace/$repoId/testing'
+      path: '/testing'
+      fullPath: '/workspace/$repoId/testing'
+      preLoaderRoute: typeof WorkspaceRepoIdTestingRouteImport
+      parentRoute: typeof WorkspaceRepoIdRoute
+    }
   }
 }
 
+interface WorkspaceRepoIdRouteChildren {
+  WorkspaceRepoIdDebugRoute: typeof WorkspaceRepoIdDebugRoute
+  WorkspaceRepoIdDocsRoute: typeof WorkspaceRepoIdDocsRoute
+  WorkspaceRepoIdGraphRoute: typeof WorkspaceRepoIdGraphRoute
+  WorkspaceRepoIdTestingRoute: typeof WorkspaceRepoIdTestingRoute
+}
+
+const WorkspaceRepoIdRouteChildren: WorkspaceRepoIdRouteChildren = {
+  WorkspaceRepoIdDebugRoute: WorkspaceRepoIdDebugRoute,
+  WorkspaceRepoIdDocsRoute: WorkspaceRepoIdDocsRoute,
+  WorkspaceRepoIdGraphRoute: WorkspaceRepoIdGraphRoute,
+  WorkspaceRepoIdTestingRoute: WorkspaceRepoIdTestingRoute,
+}
+
+const WorkspaceRepoIdRouteWithChildren = WorkspaceRepoIdRoute._addFileChildren(
+  WorkspaceRepoIdRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyticsRoute: AnalyticsRoute,
   DashboardRoute: DashboardRoute,
   ImportRoute: ImportRoute,
   ProcessingRoute: ProcessingRoute,
   AuthForgotRoute: AuthForgotRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
-  WorkspaceRepoIdRoute: WorkspaceRepoIdRoute,
+  WorkspaceRepoIdRoute: WorkspaceRepoIdRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
