@@ -13,9 +13,9 @@ export function Work() {
   return (
     <section id="work" className="py-32">
       <div className="mx-auto w-[min(92%,1300px)]">
-        <p data-reveal="fade" className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">— Selected work</p>
-        <h2 data-reveal="lines" className="font-display text-5xl md:text-7xl text-gradient mb-16 max-w-3xl leading-[1]">
-          Recent collaborations with good people.
+        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">— Selected work</p>
+        <h2 className="font-display text-5xl md:text-7xl text-gradient mb-16 max-w-3xl leading-[1]">
+          Recent collaborations <span className="italic text-iridescent">with</span> good people.
         </h2>
 
         <div className="space-y-6">
@@ -29,7 +29,7 @@ export function Work() {
               transition={{ duration: 0.6, delay: i * 0.05 }}
               className="group block relative overflow-hidden rounded-3xl"
             >
-              <div data-reveal="mask" className="aspect-[16/9] md:aspect-[21/9] overflow-hidden">
+              <div className="aspect-[16/9] md:aspect-[21/9] overflow-hidden">
                 <img src={p.img} alt={p.t} loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-[1200ms]" />
               </div>

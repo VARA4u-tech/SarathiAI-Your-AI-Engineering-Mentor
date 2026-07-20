@@ -1,9 +1,5 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function SmoothScroll() {
   useEffect(() => {
@@ -13,11 +9,11 @@ export function SmoothScroll() {
       smoothWheel: true,
     });
 
-    // Drive ScrollTrigger from Lenis for perfectly synced scroll animations
-    lenis.on("scroll", ScrollTrigger.update);
-    const tickerCb = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(tickerCb);
-    gsap.ticker.lagSmoothing(0);
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    const id = requestAnimationFrame(raf);
 
     // Hijack in-page anchor clicks so Lenis handles them
     const onClick = (e: MouseEvent) => {
@@ -33,8 +29,8 @@ export function SmoothScroll() {
     document.addEventListener("click", onClick);
 
     return () => {
+      cancelAnimationFrame(id);
       document.removeEventListener("click", onClick);
-      gsap.ticker.remove(tickerCb);
       lenis.destroy();
     };
   }, []);
