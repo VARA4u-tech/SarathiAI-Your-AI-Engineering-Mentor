@@ -184,7 +184,17 @@ function Workspace() {
 
 // Subcomponents
 
-function NavIcon({ icon: Icon, active, onClick, tooltip }: any) {
+function NavIcon({
+  icon: Icon,
+  active,
+  onClick,
+  tooltip,
+}: {
+  icon: React.ElementType;
+  active?: boolean;
+  onClick?: () => void;
+  tooltip?: string;
+}) {
   return (
     <button
       onClick={onClick}
@@ -200,7 +210,15 @@ function NavIcon({ icon: Icon, active, onClick, tooltip }: any) {
   );
 }
 
-function ModuleItem({ icon: Icon, label, active }: any) {
+function ModuleItem({
+  icon: Icon,
+  label,
+  active,
+}: {
+  icon: React.ElementType;
+  label: string;
+  active?: boolean;
+}) {
   return (
     <button
       className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${

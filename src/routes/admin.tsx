@@ -94,7 +94,17 @@ function AdminConsole() {
   );
 }
 
-function StatCard({ icon: Icon, label, value, color }: any) {
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+  color,
+}: {
+  icon: React.ElementType;
+  label: string;
+  value: string | number;
+  color: string;
+}) {
   return (
     <div
       className="glass rounded-2xl p-6 border border-border border-l-4"
@@ -109,7 +119,17 @@ function StatCard({ icon: Icon, label, value, color }: any) {
   );
 }
 
-function ActivityRow({ user, action, ws, time }: any) {
+function ActivityRow({
+  user,
+  action,
+  ws,
+  time,
+}: {
+  user: string;
+  action: string;
+  ws: string;
+  time: string;
+}) {
   return (
     <tr className="hover:bg-foreground/5 transition">
       <td className="px-6 py-4 font-medium">{user}</td>

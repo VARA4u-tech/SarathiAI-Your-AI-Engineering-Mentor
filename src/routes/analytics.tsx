@@ -91,7 +91,19 @@ function Analytics() {
   );
 }
 
-function StatCard({ icon: Icon, label, value, trend, color }: any) {
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+  trend,
+  color,
+}: {
+  icon: React.ElementType;
+  label: string;
+  value: string | number;
+  trend: string;
+  color: string;
+}) {
   return (
     <div className="glass rounded-2xl p-6 border border-border">
       <div className="flex items-center justify-between mb-4">
@@ -108,7 +120,7 @@ function StatCard({ icon: Icon, label, value, trend, color }: any) {
   );
 }
 
-function WorkspaceItem({ name, ops }: any) {
+function WorkspaceItem({ name, ops }: { name: string; ops: string | number }) {
   return (
     <div className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border">
       <span className="text-sm font-medium">{name}</span>

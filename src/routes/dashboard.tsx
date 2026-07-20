@@ -176,7 +176,7 @@ function NavItem({
   label,
   active = false,
 }: {
-  icon: any;
+  icon: React.ElementType;
   label: string;
   active?: boolean;
 }) {
@@ -191,7 +191,17 @@ function NavItem({
   );
 }
 
-function StatCard({ icon: Icon, label, value, trend }: any) {
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+  trend,
+}: {
+  icon: React.ElementType;
+  label: string;
+  value: string | number;
+  trend: string;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -212,7 +222,19 @@ function StatCard({ icon: Icon, label, value, trend }: any) {
   );
 }
 
-function ProjectCard({ name, branch, status, time, active }: any) {
+function ProjectCard({
+  name,
+  branch,
+  status,
+  time,
+  active,
+}: {
+  name: string;
+  branch: string;
+  status: string;
+  time: string;
+  active?: boolean;
+}) {
   return (
     <div
       className={`flex items-center justify-between p-4 rounded-2xl transition border ${active ? "bg-foreground/5 border-foreground/20" : "bg-background/40 border-border hover:bg-foreground/5"}`}
@@ -247,7 +269,7 @@ function ProjectCard({ name, branch, status, time, active }: any) {
   );
 }
 
-function ActivityItem({ text, time }: any) {
+function ActivityItem({ text, time }: { text: React.ReactNode; time: string }) {
   return (
     <div className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
       <span className="text-sm">{text}</span>
@@ -256,7 +278,7 @@ function ActivityItem({ text, time }: any) {
   );
 }
 
-function TimelineItem({ title, desc, time }: any) {
+function TimelineItem({ title, desc, time }: { title: string; desc: string; time: string }) {
   return (
     <div className="relative">
       <div className="absolute -left-[23px] top-1.5 size-2.5 rounded-full bg-fuchsia-400 shadow-[0_0_8px_oklch(0.65_0.25_320)]" />
@@ -269,7 +291,7 @@ function TimelineItem({ title, desc, time }: any) {
   );
 }
 
-function ProgressItem({ label, val, color }: any) {
+function ProgressItem({ label, val, color }: { label: string; val: number; color: string }) {
   return (
     <div>
       <div className="flex justify-between text-xs mb-1.5">

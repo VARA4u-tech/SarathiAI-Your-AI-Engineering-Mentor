@@ -125,7 +125,15 @@ function DocumentationCenter() {
   );
 }
 
-function NavItem({ icon: Icon, label, active }: any) {
+function NavItem({
+  icon: Icon,
+  label,
+  active,
+}: {
+  icon: React.ElementType;
+  label: string;
+  active?: boolean;
+}) {
   return (
     <a
       href="#"

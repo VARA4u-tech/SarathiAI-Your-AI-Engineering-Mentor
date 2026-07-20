@@ -170,7 +170,19 @@ function KnowledgeGraph() {
   );
 }
 
-function Node({ icon: Icon, label, x, y, active }: any) {
+function Node({
+  icon: Icon,
+  label,
+  x,
+  y,
+  active,
+}: {
+  icon: React.ElementType;
+  label: string;
+  x: number;
+  y: number;
+  active?: boolean;
+}) {
   return (
     <div className="absolute group" style={{ left: x, top: y, transform: "translate(-50%, -50%)" }}>
       <div

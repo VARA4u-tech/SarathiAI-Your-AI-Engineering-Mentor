@@ -3,6 +3,31 @@ import { gsap } from "gsap";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
+export interface NavLink {
+  label: string;
+  href: string;
+  ariaLabel?: string;
+}
+
+export interface NavItem {
+  label: string;
+  bgColor?: string;
+  textColor?: string;
+  links?: NavLink[];
+}
+
+export interface CardNavProps {
+  logo?: React.ReactNode;
+  logoAlt?: string;
+  items?: NavItem[];
+  className?: string;
+  ease?: string;
+  baseColor?: string;
+  menuColor?: string;
+  buttonBgColor?: string;
+  buttonTextColor?: string;
+}
+
 const CardNav = ({
   logo,
   logoAlt = "Logo",
@@ -13,7 +38,7 @@ const CardNav = ({
   menuColor,
   buttonBgColor,
   buttonTextColor,
-}: any) => {
+}: CardNavProps) => {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
@@ -38,7 +63,7 @@ const CardNav = ({
         contentEl.style.position = "static";
         contentEl.style.height = "auto";
 
-        contentEl.offsetHeight;
+        void contentEl.offsetHeight;
 
         const topBar = 60;
         const padding = 16;
@@ -185,7 +210,7 @@ const CardNav = ({
           } md:flex-row md:items-end md:gap-[12px]`}
           aria-hidden={!isExpanded}
         >
-          {(items || []).slice(0, 3).map((item: any, idx: number) => (
+          {(items || []).slice(0, 3).map((item, idx: number) => (
             <div
               key={`${item.label}-${idx}`}
               className="nav-card select-none relative flex flex-col gap-2 p-[16px_20px] rounded-[calc(0.75rem-0.2rem)] min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%] border border-white/5"
@@ -196,7 +221,7 @@ const CardNav = ({
                 {item.label}
               </div>
               <div className="nav-card-links mt-auto flex flex-col gap-[8px]">
-                {item.links?.map((lnk: any, i: number) => (
+                {item.links?.map((lnk, i: number) => (
                   <a
                     key={`${lnk.label}-${i}`}
                     className="nav-card-link inline-flex items-center gap-[6px] no-underline cursor-pointer transition-opacity duration-300 hover:opacity-75 text-[15px]"

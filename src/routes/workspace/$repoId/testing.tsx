@@ -127,7 +127,21 @@ function TestingCenter() {
   );
 }
 
-function TestSuite({ name, tests, passed, failed = 0, time, type }: any) {
+function TestSuite({
+  name,
+  tests,
+  passed,
+  failed = 0,
+  time,
+  type,
+}: {
+  name: string;
+  tests: number;
+  passed: number;
+  failed?: number;
+  time: string;
+  type: string;
+}) {
   const allPassed = failed === 0;
 
   return (

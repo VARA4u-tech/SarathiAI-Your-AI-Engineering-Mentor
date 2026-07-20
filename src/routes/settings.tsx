@@ -143,7 +143,19 @@ function Settings() {
   );
 }
 
-function TabButton({ icon: Icon, label, id, active, onClick }: any) {
+function TabButton({
+  icon: Icon,
+  label,
+  id,
+  active,
+  onClick,
+}: {
+  icon: React.ElementType;
+  label: string;
+  id: string;
+  active: boolean;
+  onClick: () => void;
+}) {
   const isActive = active === id;
   return (
     <button
