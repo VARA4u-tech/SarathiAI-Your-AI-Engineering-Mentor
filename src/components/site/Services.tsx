@@ -12,7 +12,7 @@ const services = [
 export function Services() {
   return (
     <section id="features" className="relative py-32">
-      <div className="mx-auto w-[min(92%,1200px)]">
+      <div className="mx-auto w-[min(96%,1200px)]">
         <div className="flex items-end justify-between mb-16 flex-wrap gap-6">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">— Features</p>

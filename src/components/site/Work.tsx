@@ -12,7 +12,7 @@ const projects = [
 export function Work() {
   return (
     <section id="how-it-works" className="py-32">
-      <div className="mx-auto w-[min(92%,1300px)]">
+      <div className="mx-auto w-[min(96%,1200px)]">
         <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">— How it works</p>
         <h2 className="font-display text-5xl md:text-7xl text-gradient mb-16 max-w-3xl leading-[1]">
           Import your repository <span className="italic text-iridescent">and start building</span> instantly.

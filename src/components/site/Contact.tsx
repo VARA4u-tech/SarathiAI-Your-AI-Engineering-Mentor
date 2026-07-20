@@ -30,7 +30,7 @@ export function Pricing() {
         loading="lazy"
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] max-w-none opacity-40 blur-2xl pointer-events-none"
       />
-      <div className="relative mx-auto w-[min(92%,1000px)] text-center">
+      <div className="relative mx-auto w-[min(96%,1200px)] text-center">
         <h2 className="font-display text-[clamp(3rem,8vw,6rem)] leading-[0.95] text-gradient mb-4">
           Simple pricing for
           <br />
@@ -81,7 +81,7 @@ export function Pricing() {
 export function Footer() {
   return (
     <footer className="border-t border-border py-10">
-      <div className="mx-auto w-[min(92%,1200px)] flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
+      <div className="mx-auto w-[min(96%,1200px)] flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
         <div className="flex items-center gap-2 font-display text-lg text-foreground">
           <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400" />
           CodePilot AI

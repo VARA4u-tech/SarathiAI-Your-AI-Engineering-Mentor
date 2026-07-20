@@ -11,7 +11,7 @@ export function Hero() {
         <div className="absolute inset-0 noise" />
       </div>
 
-      <div className="relative mx-auto w-[min(92%,1200px)] text-center">
+      <div className="relative mx-auto w-[min(96%,1200px)] text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}

@@ -1,6 +1,6 @@
 export function Nav() {
   return (
-    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[min(96%,1100px)]">
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[min(96%,1200px)]">
       <nav className="glass rounded-full flex items-center justify-between px-5 py-2.5">
         <a href="#" className="flex items-center gap-2 font-display text-xl">
           <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
