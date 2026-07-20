@@ -180,16 +180,16 @@ const CardSwap = ({
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
-      ? cloneElement(child as React.ReactElement<React.HTMLAttributes<HTMLElement>>, {
+      ? cloneElement(child as React.ReactElement<React.ComponentPropsWithRef<"div">>, {
           key: i,
           ref: refs[i],
           style: {
             width,
             height,
-            ...((child.props as React.HTMLAttributes<HTMLElement>).style ?? {}),
+            ...((child.props as React.ComponentPropsWithRef<"div">).style ?? {}),
           },
-          onClick: (e: React.MouseEvent<HTMLElement>) => {
-            (child.props as React.HTMLAttributes<HTMLElement>).onClick?.(e);
+          onClick: (e: React.MouseEvent<HTMLDivElement>) => {
+            (child.props as React.ComponentPropsWithRef<"div">).onClick?.(e);
             onCardClick?.(i);
           },
         })

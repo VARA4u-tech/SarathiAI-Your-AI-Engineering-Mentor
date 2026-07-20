@@ -11,7 +11,13 @@ export const Route = createFileRoute("/import")({
 function ImportRepo() {
   const [url, setUrl] = useState("");
   const [isValidating, setIsValidating] = useState(false);
-  const [stats, setStats] = useState<unknown>(null);
+  const [stats, setStats] = useState<{
+    name: string;
+    lang: string;
+    framework: string;
+    files: number | string;
+    time: string;
+  } | null>(null);
 
   const handleValidate = (e: React.FormEvent) => {
     e.preventDefault();

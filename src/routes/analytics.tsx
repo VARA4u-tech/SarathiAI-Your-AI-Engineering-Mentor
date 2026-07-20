@@ -101,7 +101,7 @@ function StatCard({
   icon: React.ElementType;
   label: string;
   value: string | number;
-  trend: string;
+  trend?: string;
   color: string;
 }) {
   return (
