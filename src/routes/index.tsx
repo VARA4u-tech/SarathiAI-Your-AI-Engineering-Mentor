@@ -5,17 +5,17 @@ import { Marquee } from "@/components/site/Marquee";
 import { Services } from "@/components/site/Services";
 import { Work } from "@/components/site/Work";
 import { Process } from "@/components/site/Process";
-import { Contact, Footer } from "@/components/site/Contact";
+import { Pricing, Footer } from "@/components/site/Contact";
 import { SmoothScroll } from "@/components/site/SmoothScroll";
 import { Toaster } from "sonner";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Fluidic — A studio for fluid brand & interactive design" },
-      { name: "description", content: "Fluidic is a design studio crafting brand systems, websites, and product experiences for ambitious teams." },
-      { property: "og:title", content: "Fluidic — Design that flows" },
-      { property: "og:description", content: "Brand, web, and product design for companies who refuse to look ordinary." },
+      { title: "CodePilot AI — Your AI Engineering Team" },
+      { name: "description", content: "An AI-powered Engineering Operating System that understands entire repositories, explains architecture, finds code, generates documentation, plans features, debugs applications, and helps developers build software faster." },
+      { property: "og:title", content: "CodePilot AI — Your AI Engineering Team" },
+      { property: "og:description", content: "An AI-powered Engineering Operating System that understands entire repositories, explains architecture, finds code, generates documentation, plans features, debugs applications, and helps developers build software faster." },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -36,7 +36,7 @@ function Index() {
       <Services />
       <Work />
       <Process />
-      <Contact />
+      <Pricing />
       <Footer />
       <Toaster theme="dark" position="bottom-center" />
     </main>

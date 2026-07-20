@@ -3,25 +3,25 @@ import orb1 from "@/assets/orb-1.jpg";
 import orb2 from "@/assets/orb-2.jpg";
 
 const services = [
-  { n: "01", t: "Brand Identity", d: "Logomarks, type systems, and motion principles that hold up across every surface.", img: orb1 },
-  { n: "02", t: "Web & Interactive", d: "Editorial sites and product marketing pages built with care, speed, and craft.", img: orb2 },
-  { n: "03", t: "Product Design", d: "End-to-end interface design for ambitious software teams. From zero to launch.", img: orb1 },
-  { n: "04", t: "Art Direction", d: "Campaigns, launches, and visual languages with a singular point of view.", img: orb2 },
+  { n: "01", t: "Repository Intelligence", d: "Understands your entire codebase, dependencies, and architecture instantly.", img: orb1 },
+  { n: "02", t: "Feature Planner", d: "Automatically break down features into actionable steps and risk analysis.", img: orb2 },
+  { n: "03", t: "Debug & Test Center", d: "Paste errors and get instant root cause analysis with suggested fixes.", img: orb1 },
+  { n: "04", t: "AI Code Generation", d: "Generate boilerplate, API routes, and components that match your existing design system.", img: orb2 },
 ];
 
 export function Services() {
   return (
-    <section id="services" className="relative py-32">
+    <section id="features" className="relative py-32">
       <div className="mx-auto w-[min(92%,1200px)]">
         <div className="flex items-end justify-between mb-16 flex-wrap gap-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">— Services</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">— Features</p>
             <h2 className="font-display text-5xl md:text-7xl text-gradient max-w-2xl leading-[1]">
-              Four disciplines, one fluid practice.
+              Everything you need to ship faster.
             </h2>
           </div>
           <p className="max-w-sm text-muted-foreground">
-            We blur the lines between brand, product, and interactive — because the best work refuses to sit in one box.
+            CodePilot AI is your central hub for repository intelligence, planning, debugging, and code generation.
           </p>
         </div>
 
