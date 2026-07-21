@@ -1,11 +1,19 @@
 import { motion } from "motion/react";
+import { lazy, Suspense } from "react";
+// @ts-expect-error - Orb is a JSX component without type declarations
+const Orb = lazy(() => import("@/components/ui/Orb"));
 
 export function Hero() {
   return (
     <section className="relative min-h-screen overflow-hidden flex items-center pt-32 pb-20">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
-        <div className="absolute inset-0 noise" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background/90 pointer-events-none z-10" />
+        <div className="absolute inset-0 noise pointer-events-none z-10" />
+        <div className="absolute inset-0 z-0">
+          <Suspense fallback={<div className="absolute inset-0 w-full h-full border-4 border-yellow-500 z-50">Loading Orb...</div>}>
+            <Orb hoverIntensity={0.5} rotateOnHover={true} hue={0} forceHoverState={false} />
+          </Suspense>
+        </div>
       </div>
 
       <div className="relative mx-auto w-[min(96%,1200px)] text-center">
