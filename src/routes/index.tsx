@@ -40,7 +40,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="bg-background text-foreground overflow-x-hidden">
+    <main className="bg-background text-foreground">
       <SmoothScroll />
       <Nav />
       <Hero />
