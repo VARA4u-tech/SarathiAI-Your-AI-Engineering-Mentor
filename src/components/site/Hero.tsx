@@ -5,7 +5,7 @@ const Orb = lazy(() => import("@/components/ui/Orb"));
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden flex items-center pt-32 pb-20">
+    <section className="relative min-h-screen overflow-hidden flex items-center pt-32 pb-20 isolate">
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background/90 pointer-events-none z-10" />
         <div className="absolute inset-0 noise pointer-events-none z-10" />
@@ -16,7 +16,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="relative mx-auto w-[min(96%,1200px)] text-center">
+      <div className="relative z-10 mx-auto w-[min(96%,1200px)] text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

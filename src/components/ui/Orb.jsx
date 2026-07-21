@@ -292,11 +292,7 @@ export default function Orb({
   }, [hue, hoverIntensity, rotateOnHover, forceHoverState, backgroundColor]);
 
   return (
-    <div ref={ctnDom} className="absolute inset-0 w-full h-full" style={{ border: '2px solid red', zIndex: 50 }}>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-red-500 font-bold z-50 pointer-events-none">
-        If you see this, Orb component mounted!
-      </div>
-    </div>
+    <div ref={ctnDom} className="absolute inset-0 w-full h-full" />
   );
 }
 
