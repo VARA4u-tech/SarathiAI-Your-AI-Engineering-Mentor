@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Mail, MapPin, Send } from "lucide-react";
+import { Mail, MapPin, Send, User, MessageSquare } from "lucide-react";
 
 export function ContactSection() {
   return (
@@ -76,49 +76,61 @@ export function ContactSection() {
 
             <form className="relative space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label htmlFor="firstName" className="text-sm font-medium text-muted-foreground ml-1">First Name</label>
-                  <input 
-                    type="text" 
-                    id="firstName" 
-                    placeholder="Jane"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-transparent transition-all"
-                  />
+                <div className="space-y-2 relative group/input">
+                  <label htmlFor="firstName" className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1">First Name</label>
+                  <div className="relative">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/input:text-fuchsia-500 transition-colors" />
+                    <input 
+                      type="text" 
+                      id="firstName" 
+                      placeholder="Enter Your First Name"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500/50 focus:bg-white/10 transition-all duration-300"
+                    />
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <label htmlFor="lastName" className="text-sm font-medium text-muted-foreground ml-1">Last Name</label>
+                <div className="space-y-2 relative group/input">
+                  <label htmlFor="lastName" className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1">Last Name</label>
+                  <div className="relative">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/input:text-cyan-500 transition-colors" />
+                    <input 
+                      type="text" 
+                      id="lastName" 
+                      placeholder="Enter Your Last Name"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 focus:bg-white/10 transition-all duration-300"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2 relative group/input">
+                <label htmlFor="email" className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1">Email Address</label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/input:text-emerald-500 transition-colors" />
                   <input 
-                    type="text" 
-                    id="lastName" 
-                    placeholder="Doe"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all"
+                    type="email" 
+                    id="email" 
+                    placeholder="Enter Your Email"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 focus:bg-white/10 transition-all duration-300"
                   />
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-muted-foreground ml-1">Email Address</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  placeholder="jane@example.com"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium text-muted-foreground ml-1">Your Message</label>
-                <textarea 
-                  id="message" 
-                  rows={4}
-                  placeholder="Tell us what you're building..."
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-transparent transition-all resize-none"
-                />
+              <div className="space-y-2 relative group/input">
+                <label htmlFor="message" className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1">Your Message</label>
+                <div className="relative">
+                  <MessageSquare className="absolute left-4 top-4 w-4 h-4 text-muted-foreground group-focus-within/input:text-fuchsia-500 transition-colors" />
+                  <textarea 
+                    id="message" 
+                    rows={4}
+                    placeholder="Tell us what you're building..."
+                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500/50 focus:bg-white/10 transition-all duration-300 resize-none"
+                  />
+                </div>
               </div>
 
               <button 
                 type="submit"
-                className="group w-full flex items-center justify-center gap-2 bg-foreground text-background rounded-xl px-6 py-4 text-sm font-medium hover:opacity-90 transition-opacity"
+                className="group w-full flex items-center justify-center gap-2 bg-gradient-to-r from-fuchsia-500 via-purple-500 to-cyan-500 text-white rounded-xl px-6 py-4 text-sm font-bold tracking-wide uppercase hover:opacity-90 shadow-[0_0_20px_rgba(192,38,211,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:-translate-y-0.5 transition-all duration-300"
               >
                 Send Message
                 <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
