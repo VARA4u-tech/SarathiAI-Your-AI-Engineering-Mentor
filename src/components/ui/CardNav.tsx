@@ -167,7 +167,7 @@ const CardNav = ({
           {/* Menu Trigger on the Left */}
           <button
             type="button"
-            className="flex items-center gap-2 px-2 md:px-4 py-2 text-sm font-medium transition-opacity hover:opacity-80 text-foreground"
+            className="flex items-center gap-2 px-2 md:px-4 py-2 font-display text-xl transition-opacity hover:opacity-80 text-foreground"
             onClick={toggleMenu}
             aria-label={isExpanded ? "Close menu" : "Open menu"}
             aria-expanded={isExpanded}
@@ -195,7 +195,7 @@ const CardNav = ({
           {/* Dashboard Button on the Right */}
           <Link
             to="/dashboard"
-            className="card-nav-cta-button inline-flex border-0 rounded-full bg-foreground text-background px-5 py-1.5 items-center text-sm font-medium cursor-pointer transition-colors duration-300 hover:opacity-90"
+            className="card-nav-cta-button inline-flex border-0 rounded-full bg-foreground text-background px-5 py-1.5 items-center font-display text-lg cursor-pointer transition-colors duration-300 hover:opacity-90"
           >
             Dashboard
           </Link>
@@ -213,14 +213,14 @@ const CardNav = ({
               className="nav-card select-none relative flex flex-col gap-2 p-[16px_20px] rounded-[calc(0.75rem-0.2rem)] min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%] glass"
               ref={setCardRef(idx)}
             >
-              <div className="nav-card-label font-medium text-lg md:text-xl text-foreground">
+              <div className="nav-card-label font-display text-2xl md:text-3xl text-foreground">
                 {item.label}
               </div>
               <div className="nav-card-links mt-auto flex flex-col gap-[8px]">
                 {item.links?.map((lnk, i: number) => (
                   <a
                     key={`${lnk.label}-${i}`}
-                    className="nav-card-link inline-flex items-center gap-[6px] no-underline cursor-pointer transition-opacity duration-300 hover:opacity-75 text-[15px]"
+                    className="nav-card-link inline-flex items-center gap-[6px] no-underline cursor-pointer transition-opacity duration-300 hover:opacity-75 font-display text-lg md:text-xl"
                     href={lnk.href}
                     aria-label={lnk.ariaLabel}
                   >
