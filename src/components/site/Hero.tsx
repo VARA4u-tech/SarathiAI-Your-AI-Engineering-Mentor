@@ -10,7 +10,13 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background/90 pointer-events-none z-10" />
         <div className="absolute inset-0 noise pointer-events-none z-10" />
         <div className="absolute inset-0 z-0">
-          <Suspense fallback={<div className="absolute inset-0 w-full h-full border-4 border-yellow-500 z-50">Loading Orb...</div>}>
+          <Suspense
+            fallback={
+              <div className="absolute inset-0 w-full h-full border-4 border-yellow-500 z-50">
+                Loading Orb...
+              </div>
+            }
+          >
             <Orb hoverIntensity={0.5} rotateOnHover={true} hue={0} forceHoverState={false} />
           </Suspense>
         </div>

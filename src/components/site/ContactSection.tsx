@@ -5,22 +5,23 @@ export function ContactSection() {
   return (
     <section id="contact" className="relative py-32 overflow-hidden">
       {/* Premium Background Glow */}
-      <div 
+      <div
         className="absolute right-0 top-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(192, 38, 211, 0.1) 0%, rgba(192, 38, 211, 0) 60%)" 
+          background:
+            "radial-gradient(circle, rgba(192, 38, 211, 0.1) 0%, rgba(192, 38, 211, 0) 60%)",
         }}
       />
-      <div 
+      <div
         className="absolute left-0 bottom-0 w-[600px] h-[600px] pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(34, 211, 238, 0.08) 0%, rgba(34, 211, 238, 0) 60%)" 
+          background:
+            "radial-gradient(circle, rgba(34, 211, 238, 0.08) 0%, rgba(34, 211, 238, 0) 60%)",
         }}
       />
 
       <div className="relative mx-auto w-[min(96%,1200px)]">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          
           {/* Left Column: Content */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -33,7 +34,8 @@ export function ContactSection() {
               <span className="italic text-iridescent">future together.</span>
             </h2>
             <p className="text-lg text-muted-foreground mb-12 max-w-md">
-              Whether you're looking to 10x your team's output or just want to say hello, our inbox is always open.
+              Whether you're looking to 10x your team's output or just want to say hello, our inbox
+              is always open.
             </p>
 
             <div className="space-y-8">
@@ -43,7 +45,10 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-foreground mb-1">Email Us</h4>
-                  <a href="mailto:hello@codepilot.ai" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a
+                    href="mailto:hello@codepilot.ai"
+                    className="text-muted-foreground hover:text-foreground transition-colors"
+                  >
                     hello@codepilot.ai
                   </a>
                 </div>
@@ -56,7 +61,9 @@ export function ContactSection() {
                 <div>
                   <h4 className="text-sm font-medium text-foreground mb-1">HQ Location</h4>
                   <p className="text-muted-foreground">
-                    100 Innovation Drive<br />San Francisco, CA 94107
+                    100 Innovation Drive
+                    <br />
+                    San Francisco, CA 94107
                   </p>
                 </div>
               </div>
@@ -77,24 +84,34 @@ export function ContactSection() {
             <form className="relative space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2 relative group/input">
-                  <label htmlFor="firstName" className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1">First Name</label>
+                  <label
+                    htmlFor="firstName"
+                    className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1"
+                  >
+                    First Name
+                  </label>
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/input:text-fuchsia-500 transition-colors" />
-                    <input 
-                      type="text" 
-                      id="firstName" 
+                    <input
+                      type="text"
+                      id="firstName"
                       placeholder="Enter Your First Name"
                       className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500/50 focus:bg-white/10 transition-all duration-300"
                     />
                   </div>
                 </div>
                 <div className="space-y-2 relative group/input">
-                  <label htmlFor="lastName" className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1">Last Name</label>
+                  <label
+                    htmlFor="lastName"
+                    className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1"
+                  >
+                    Last Name
+                  </label>
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/input:text-cyan-500 transition-colors" />
-                    <input 
-                      type="text" 
-                      id="lastName" 
+                    <input
+                      type="text"
+                      id="lastName"
                       placeholder="Enter Your Last Name"
                       className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 focus:bg-white/10 transition-all duration-300"
                     />
@@ -103,12 +120,17 @@ export function ContactSection() {
               </div>
 
               <div className="space-y-2 relative group/input">
-                <label htmlFor="email" className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1">Email Address</label>
+                <label
+                  htmlFor="email"
+                  className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1"
+                >
+                  Email Address
+                </label>
                 <div className="relative">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/input:text-emerald-500 transition-colors" />
-                  <input 
-                    type="email" 
-                    id="email" 
+                  <input
+                    type="email"
+                    id="email"
                     placeholder="Enter Your Email"
                     className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 focus:bg-white/10 transition-all duration-300"
                   />
@@ -116,11 +138,16 @@ export function ContactSection() {
               </div>
 
               <div className="space-y-2 relative group/input">
-                <label htmlFor="message" className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1">Your Message</label>
+                <label
+                  htmlFor="message"
+                  className="text-xs font-semibold tracking-wider uppercase text-muted-foreground ml-1"
+                >
+                  Your Message
+                </label>
                 <div className="relative">
                   <MessageSquare className="absolute left-4 top-4 w-4 h-4 text-muted-foreground group-focus-within/input:text-fuchsia-500 transition-colors" />
-                  <textarea 
-                    id="message" 
+                  <textarea
+                    id="message"
                     rows={4}
                     placeholder="Tell us what you're building..."
                     className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500/50 focus:bg-white/10 transition-all duration-300 resize-none"
@@ -128,7 +155,7 @@ export function ContactSection() {
                 </div>
               </div>
 
-              <button 
+              <button
                 type="submit"
                 className="group w-full flex items-center justify-center gap-2 bg-gradient-to-r from-fuchsia-500 via-purple-500 to-cyan-500 text-white rounded-xl px-6 py-4 text-sm font-bold tracking-wide uppercase hover:opacity-90 shadow-[0_0_20px_rgba(192,38,211,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:-translate-y-0.5 transition-all duration-300"
               >
@@ -137,7 +164,6 @@ export function ContactSection() {
               </button>
             </form>
           </motion.div>
-
         </div>
       </div>
     </section>
