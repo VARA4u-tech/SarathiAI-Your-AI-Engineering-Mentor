@@ -6,7 +6,7 @@ export function Footer() {
       className="relative h-[80vh] w-full"
       style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
-      <div className="fixed bottom-0 w-full h-[80vh] bg-[#0a0a0a] border-t border-white/5 flex flex-col justify-between overflow-hidden">
+      <div className="fixed bottom-0 w-full h-[80vh] bg-black border-t border-white/5 flex flex-col justify-between overflow-hidden">
         {/* Minimalist Link Grid */}
         <div className="px-8 md:px-16 py-8 md:py-16 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-[1600px] mx-auto w-full flex-grow z-10">
           <div className="flex flex-col gap-6">
