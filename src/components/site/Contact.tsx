@@ -15,19 +15,19 @@ export function Footer() {
             </h4>
             <a
               href="#"
-              className="text-2xl font-medium text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
+              className="text-4xl font-display text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
             >
               Twitter ↗
             </a>
             <a
               href="#"
-              className="text-2xl font-medium text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
+              className="text-4xl font-display text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
             >
               GitHub ↗
             </a>
             <a
               href="#"
-              className="text-2xl font-medium text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
+              className="text-4xl font-display text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
             >
               LinkedIn ↗
             </a>
@@ -39,19 +39,19 @@ export function Footer() {
             </h4>
             <a
               href="#"
-              className="text-2xl font-medium text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
+              className="text-4xl font-display text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
             >
               Platform
             </a>
             <a
               href="#"
-              className="text-2xl font-medium text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
+              className="text-4xl font-display text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
             >
               Company
             </a>
             <a
               href="#"
-              className="text-2xl font-medium text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
+              className="text-4xl font-display text-white/70 hover:text-white hover:translate-x-2 transition-all duration-300 w-max"
             >
               Pricing
             </a>
@@ -63,7 +63,7 @@ export function Footer() {
             </h4>
             <a
               href="mailto:hello@codepilot.ai"
-              className="text-2xl font-medium text-white/70 hover:text-white transition-colors"
+              className="text-4xl font-display text-white/70 hover:text-white transition-colors"
             >
               hello@codepilot.ai
             </a>
