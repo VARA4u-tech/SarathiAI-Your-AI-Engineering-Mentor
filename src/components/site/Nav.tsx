@@ -16,7 +16,6 @@ export function Nav() {
       links: [
         { label: "Documentation", href: "#", ariaLabel: "Documentation" },
         { label: "Knowledge Graph API", href: "#", ariaLabel: "API Reference" },
-        { label: "Pricing", href: "#pricing", ariaLabel: "Pricing Plans" },
       ],
     },
     {
