@@ -6,7 +6,7 @@ import { Services } from "@/components/site/Services";
 import { Work } from "@/components/site/Work";
 import { Process } from "@/components/site/Process";
 import { ContactSection } from "@/components/site/ContactSection";
-import { Benefits, Footer } from "@/components/site/Contact";
+import { Footer } from "@/components/site/Contact";
 import { SmoothScroll } from "@/components/site/SmoothScroll";
 import { Toaster } from "sonner";
 
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/")({
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap",
       },
     ],
   }),
@@ -48,7 +48,6 @@ function Index() {
       <Services />
       <Work />
       <Process />
-      <Benefits />
       <ContactSection />
       <Footer />
       <Toaster theme="dark" position="bottom-center" />
