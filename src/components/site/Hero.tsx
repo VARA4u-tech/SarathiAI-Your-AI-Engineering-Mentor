@@ -22,7 +22,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto w-[min(96%,1200px)] text-center">
+      <div className="relative z-10 mx-auto w-[min(96%,1200px)] text-center pointer-events-none">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -60,7 +60,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-10 flex items-center justify-center gap-3"
+          className="mt-10 flex items-center justify-center gap-3 pointer-events-auto"
         >
           <a
             href="/dashboard"
