@@ -137,3 +137,15 @@
 .animate-marquee {
   animation: marquee 30s linear infinite;
 }
+
+@keyframes marquee-full {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+.animate-marquee-full {
+  animation: marquee-full 30s linear infinite;
+}
