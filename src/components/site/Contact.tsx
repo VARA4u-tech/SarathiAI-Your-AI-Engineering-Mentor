@@ -100,8 +100,8 @@ export function Footer() {
         </div>
 
         {/* Massive Background Text */}
-        <div className="absolute bottom-[-5%] left-0 w-full flex justify-center pointer-events-none select-none overflow-hidden opacity-40">
-          <h1 className="text-[22vw] font-display font-bold leading-none text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-transparent">
+        <div className="absolute bottom-[-5%] left-0 w-full flex justify-center pointer-events-none select-none overflow-hidden opacity-80">
+          <h1 className="text-[22vw] font-display font-bold leading-none text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-500/40 via-violet-500/20 to-transparent">
             CODEPILOT
           </h1>
         </div>
