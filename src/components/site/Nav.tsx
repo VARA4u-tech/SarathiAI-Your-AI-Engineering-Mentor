@@ -17,7 +17,7 @@ export function Nav() {
       links: [
         { label: "About Us", href: "#", ariaLabel: "About Company" },
         { label: "Careers", href: "#", ariaLabel: "Careers" },
-        { label: "Contact", href: "#", ariaLabel: "Contact Us" },
+        { label: "Contact", href: "#contact", ariaLabel: "Contact Us" },
       ],
     },
   ];
