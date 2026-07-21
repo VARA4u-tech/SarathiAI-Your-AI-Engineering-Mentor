@@ -11,13 +11,7 @@ export function Nav() {
         { label: "Benefits", href: "#benefits", ariaLabel: "Platform Benefits" },
       ],
     },
-    {
-      label: "Resources",
-      links: [
-        { label: "Documentation", href: "#", ariaLabel: "Documentation" },
-        { label: "Knowledge Graph API", href: "#", ariaLabel: "API Reference" },
-      ],
-    },
+
     {
       label: "Company",
       links: [
