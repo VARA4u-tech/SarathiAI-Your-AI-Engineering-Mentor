@@ -161,15 +161,13 @@ const CardNav = ({
     <div className={`card-nav-container relative w-full z-[99] ${className}`}>
       <nav
         ref={navRef}
-        className={`card-nav ${isExpanded ? "open" : ""} block h-[60px] p-0 rounded-2xl shadow-md relative overflow-hidden will-change-[height] border border-border/20 backdrop-blur-md`}
-        style={{ backgroundColor: baseColor }}
+        className={`card-nav ${isExpanded ? "open" : ""} block h-[60px] p-0 rounded-2xl shadow-md relative overflow-hidden will-change-[height] glass`}
       >
         <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between px-2 md:px-4 z-[2]">
           {/* Menu Trigger on the Left */}
           <button
             type="button"
-            className="flex items-center gap-2 px-2 md:px-4 py-2 text-sm font-medium transition-opacity hover:opacity-80"
-            style={{ color: menuColor || "#fff" }}
+            className="flex items-center gap-2 px-2 md:px-4 py-2 text-sm font-medium transition-opacity hover:opacity-80 text-foreground"
             onClick={toggleMenu}
             aria-label={isExpanded ? "Close menu" : "Open menu"}
             aria-expanded={isExpanded}
@@ -197,8 +195,7 @@ const CardNav = ({
           {/* Dashboard Button on the Right */}
           <Link
             to="/dashboard"
-            className="card-nav-cta-button inline-flex border-0 rounded-lg px-5 py-1.5 items-center text-sm font-medium cursor-pointer transition-colors duration-300 hover:opacity-90"
-            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+            className="card-nav-cta-button inline-flex border-0 rounded-full bg-foreground text-background px-5 py-1.5 items-center text-sm font-medium cursor-pointer transition-colors duration-300 hover:opacity-90"
           >
             Dashboard
           </Link>
@@ -213,11 +210,10 @@ const CardNav = ({
           {(items || []).slice(0, 3).map((item, idx: number) => (
             <div
               key={`${item.label}-${idx}`}
-              className="nav-card select-none relative flex flex-col gap-2 p-[16px_20px] rounded-[calc(0.75rem-0.2rem)] min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%] border border-white/5"
+              className="nav-card select-none relative flex flex-col gap-2 p-[16px_20px] rounded-[calc(0.75rem-0.2rem)] min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%] glass"
               ref={setCardRef(idx)}
-              style={{ backgroundColor: item.bgColor, color: item.textColor }}
             >
-              <div className="nav-card-label font-display text-[20px] md:text-[24px]">
+              <div className="nav-card-label font-medium text-lg md:text-xl text-foreground">
                 {item.label}
               </div>
               <div className="nav-card-links mt-auto flex flex-col gap-[8px]">

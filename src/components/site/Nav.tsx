@@ -5,8 +5,6 @@ export function Nav() {
   const items = [
     {
       label: "Platform",
-      bgColor: "oklch(0.12 0.02 280)", // Darker glass-like color
-      textColor: "#fff",
       links: [
         { label: "Features", href: "#features", ariaLabel: "Platform Features" },
         { label: "How it Works", href: "#how-it-works", ariaLabel: "How it Works" },
@@ -15,8 +13,6 @@ export function Nav() {
     },
     {
       label: "Resources",
-      bgColor: "oklch(0.14 0.03 280)",
-      textColor: "#fff",
       links: [
         { label: "Documentation", href: "#", ariaLabel: "Documentation" },
         { label: "Knowledge Graph API", href: "#", ariaLabel: "API Reference" },
@@ -25,8 +21,6 @@ export function Nav() {
     },
     {
       label: "Company",
-      bgColor: "oklch(0.16 0.04 280)",
-      textColor: "#fff",
       links: [
         { label: "About Us", href: "#", ariaLabel: "About Company" },
         { label: "Careers", href: "#", ariaLabel: "Careers" },
@@ -38,7 +32,7 @@ export function Nav() {
   const logoNode = (
     <Link
       to="/"
-      className="flex items-center gap-2 font-display text-xl px-4 hover:opacity-80 transition"
+      className="flex items-center gap-2 font-semibold text-lg px-4 hover:opacity-80 transition text-foreground"
     >
       <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
       CodePilot AI
@@ -51,10 +45,6 @@ export function Nav() {
         <CardNav
           logo={logoNode}
           items={items}
-          baseColor="rgba(20, 15, 25, 0.65)" // Glass background
-          menuColor="#fff"
-          buttonBgColor="#fff"
-          buttonTextColor="#000"
           ease="back.out(1.7)"
           className="!static !w-full !max-w-none !transform-none !top-4"
         />
