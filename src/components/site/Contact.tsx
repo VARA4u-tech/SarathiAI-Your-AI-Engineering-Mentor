@@ -7,24 +7,7 @@ export function Footer() {
       style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
       <div className="fixed bottom-0 w-full h-[80vh] bg-[#0a0a0a] border-t border-white/5 flex flex-col justify-between overflow-hidden">
-        
-        {/* Massive Marquee */}
-        <div className="w-full overflow-hidden whitespace-nowrap pt-24 md:pt-32 pb-12 border-b border-white/5">
-          <div className="animate-marquee flex w-max will-change-transform transform-gpu">
-            {[...Array(4)].map((_, i) => (
-              <span key={`a-${i}`} className="text-4xl md:text-7xl font-display font-medium text-white px-8 flex items-center gap-8 shrink-0">
-                LET'S BUILD SOMETHING EXTRAORDINARY 
-                <span className="text-fuchsia-500">✦</span>
-              </span>
-            ))}
-            {[...Array(4)].map((_, i) => (
-              <span key={`b-${i}`} className="text-4xl md:text-7xl font-display font-medium text-white px-8 flex items-center gap-8 shrink-0" aria-hidden="true">
-                LET'S BUILD SOMETHING EXTRAORDINARY 
-                <span className="text-fuchsia-500">✦</span>
-              </span>
-            ))}
-          </div>
-        </div>
+
 
         {/* Minimalist Link Grid */}
         <div className="px-8 md:px-16 py-8 md:py-16 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-[1600px] mx-auto w-full flex-grow z-10">
