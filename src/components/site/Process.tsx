@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { Zap, BrainCircuit, Wrench, Rocket } from "lucide-react";
 
 const steps = [
@@ -60,70 +60,79 @@ export function Process() {
 
         {/* Sticky Stacking Cards Area */}
         <div ref={cardsContainerRef} className="relative z-10">
-          {steps.map((s, i) => {
-            const progressStart = i * (1 / (steps.length - 1));
-            const targetScale = 1 - (steps.length - 1 - i) * 0.05;
-
-            // Map scroll progress to scale and opacity to create 3D depth
-            const scale = useTransform(scrollYProgress, [progressStart, 1], [1, targetScale]);
-            const overlayOpacity = useTransform(scrollYProgress, [progressStart, 1], [0, 0.6]);
-
-            return (
-              <div key={i} className="sticky top-0 flex items-start justify-center w-full h-screen">
-                <motion.div
-                  style={{
-                    scale,
-                    top: `calc(15vh + ${i * 40}px)`,
-                  }}
-                  className={`absolute w-full h-[400px] md:h-[500px] bg-gradient-to-br ${s.color} bg-background border border-white/10 rounded-[2.5rem] glass overflow-hidden shadow-2xl shadow-black/50 ring-1 ring-white/5`}
-                >
-                  {/* Top Inner Highlight for Glass Effect */}
-                  <div className="absolute inset-0 rounded-[2.5rem] pointer-events-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]" />
-
-                  {/* Darkening overlay for 3D depth */}
-                  <motion.div
-                    style={{ opacity: overlayOpacity }}
-                    className="absolute inset-0 bg-black z-20 pointer-events-none rounded-[2.5rem]"
-                  />
-
-                  {/* Giant Watermark */}
-                  <div className="absolute -right-4 -bottom-10 md:-right-10 md:-bottom-20 text-[12rem] md:text-[20rem] font-display text-white/[0.02] font-bold select-none leading-none z-0">
-                    {s.n}
-                  </div>
-
-                  <div className="relative z-10 p-10 md:p-16 h-full flex flex-col md:flex-row md:items-center justify-between gap-10">
-                    {/* Text Content */}
-                    <div className="flex-1 z-10">
-                      <h3 className="font-display text-4xl md:text-6xl mb-6 text-white drop-shadow-lg">
-                        {s.t}
-                      </h3>
-                      <p className="text-lg md:text-2xl text-muted-foreground max-w-xl leading-relaxed">
-                        {s.d}
-                      </p>
-                    </div>
-
-                    {/* Rich Visual Art / Icon */}
-                    <div className="hidden md:flex flex-1 items-center justify-center relative">
-                      {/* Deep Background Glow */}
-                      <div
-                        className={`absolute w-64 h-64 ${s.glow} opacity-20 blur-[100px] rounded-full`}
-                      ></div>
-
-                      {/* Floating Glass Icon Orb */}
-                      <div className="relative p-10 bg-white/5 border border-white/10 rounded-full shadow-2xl backdrop-blur-xl">
-                        <s.icon
-                          className={`w-32 h-32 text-white/90 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]`}
-                          strokeWidth={1}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            );
-          })}
+          {steps.map((step, index) => (
+            <ProcessCard key={step.n} step={step} index={index} scrollYProgress={scrollYProgress} />
+          ))}
         </div>
       </div>
     </section>
+  );
+}
+
+type ProcessCardProps = {
+  step: (typeof steps)[number];
+  index: number;
+  scrollYProgress: MotionValue<number>;
+};
+
+function ProcessCard({ step, index, scrollYProgress }: ProcessCardProps) {
+  const progressStart = index * (1 / (steps.length - 1));
+  const targetScale = 1 - (steps.length - 1 - index) * 0.05;
+  const scale = useTransform(scrollYProgress, [progressStart, 1], [1, targetScale]);
+  const overlayOpacity = useTransform(scrollYProgress, [progressStart, 1], [0, 0.6]);
+  const Icon = step.icon;
+
+  return (
+    <div className="sticky top-0 flex items-start justify-center w-full h-screen">
+      <motion.div
+        style={{
+          scale,
+          top: `calc(15vh + ${index * 40}px)`,
+        }}
+        className={`absolute w-full h-[400px] md:h-[500px] bg-gradient-to-br ${step.color} bg-background border border-white/10 rounded-[2.5rem] glass overflow-hidden shadow-2xl shadow-black/50 ring-1 ring-white/5`}
+      >
+        {/* Top Inner Highlight for Glass Effect */}
+        <div className="absolute inset-0 rounded-[2.5rem] pointer-events-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]" />
+
+        {/* Darkening overlay for 3D depth */}
+        <motion.div
+          style={{ opacity: overlayOpacity }}
+          className="absolute inset-0 bg-black z-20 pointer-events-none rounded-[2.5rem]"
+        />
+
+        {/* Giant Watermark */}
+        <div className="absolute -right-4 -bottom-10 md:-right-10 md:-bottom-20 text-[12rem] md:text-[20rem] font-display text-white/[0.02] font-bold select-none leading-none z-0">
+          {step.n}
+        </div>
+
+        <div className="relative z-10 p-10 md:p-16 h-full flex flex-col md:flex-row md:items-center justify-between gap-10">
+          {/* Text Content */}
+          <div className="flex-1 z-10">
+            <h3 className="font-display text-4xl md:text-6xl mb-6 text-white drop-shadow-lg">
+              {step.t}
+            </h3>
+            <p className="text-lg md:text-2xl text-muted-foreground max-w-xl leading-relaxed">
+              {step.d}
+            </p>
+          </div>
+
+          {/* Rich Visual Art / Icon */}
+          <div className="hidden md:flex flex-1 items-center justify-center relative">
+            {/* Deep Background Glow */}
+            <div
+              className={`absolute w-64 h-64 ${step.glow} opacity-20 blur-[100px] rounded-full`}
+            ></div>
+
+            {/* Floating Glass Icon Orb */}
+            <div className="relative p-10 bg-white/5 border border-white/10 rounded-full shadow-2xl backdrop-blur-xl">
+              <Icon
+                className={`w-32 h-32 text-white/90 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]`}
+                strokeWidth={1}
+              />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }
