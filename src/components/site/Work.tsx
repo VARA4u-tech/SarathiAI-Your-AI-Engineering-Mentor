@@ -47,7 +47,7 @@ export function Work() {
         setScrollRange(carouselRef.current.scrollWidth - window.innerWidth);
       }
     };
-    
+
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
@@ -69,8 +69,8 @@ export function Work() {
             — How it works
           </p>
           <h2 className="font-display text-4xl md:text-6xl text-gradient max-w-3xl leading-[1]">
-            Import your repository <span className="italic text-iridescent">and start building</span>{" "}
-            instantly.
+            Import your repository{" "}
+            <span className="italic text-iridescent">and start building</span> instantly.
           </h2>
         </div>
 
@@ -102,9 +102,7 @@ export function Work() {
                   <h3 className="font-display text-4xl md:text-5xl mb-4 text-white group-hover:text-fuchsia-100 transition-colors">
                     {p.t}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed mb-8 md:text-lg">
-                    {p.desc}
-                  </p>
+                  <p className="text-muted-foreground leading-relaxed mb-8 md:text-lg">{p.desc}</p>
 
                   <div className="flex flex-wrap gap-2 mb-8">
                     {p.tags.map((tag) => (

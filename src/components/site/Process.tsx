@@ -39,7 +39,7 @@ const steps = [
 
 export function Process() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: cardsContainerRef,
     offset: ["start start", "end end"],
@@ -62,8 +62,8 @@ export function Process() {
         <div ref={cardsContainerRef} className="relative z-10">
           {steps.map((s, i) => {
             const progressStart = i * (1 / (steps.length - 1));
-            const targetScale = 1 - ((steps.length - 1) - i) * 0.05;
-            
+            const targetScale = 1 - (steps.length - 1 - i) * 0.05;
+
             // Map scroll progress to scale and opacity to create 3D depth
             const scale = useTransform(scrollYProgress, [progressStart, 1], [1, targetScale]);
             const overlayOpacity = useTransform(scrollYProgress, [progressStart, 1], [0, 0.6]);
@@ -105,11 +105,16 @@ export function Process() {
                     {/* Rich Visual Art / Icon */}
                     <div className="hidden md:flex flex-1 items-center justify-center relative">
                       {/* Deep Background Glow */}
-                      <div className={`absolute w-64 h-64 ${s.glow} opacity-20 blur-[100px] rounded-full`}></div>
-                      
+                      <div
+                        className={`absolute w-64 h-64 ${s.glow} opacity-20 blur-[100px] rounded-full`}
+                      ></div>
+
                       {/* Floating Glass Icon Orb */}
                       <div className="relative p-10 bg-white/5 border border-white/10 rounded-full shadow-2xl backdrop-blur-xl">
-                        <s.icon className={`w-32 h-32 text-white/90 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]`} strokeWidth={1} />
+                        <s.icon
+                          className={`w-32 h-32 text-white/90 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]`}
+                          strokeWidth={1}
+                        />
                       </div>
                     </div>
                   </div>
