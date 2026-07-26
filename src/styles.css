@@ -59,6 +59,29 @@
   box-shadow: 0 0 0 3px rgb(240 171 252 / 12%);
 }
 
+@media (max-width: 767px) {
+  .glass {
+    backdrop-filter: none;
+  }
+  .noise::before {
+    display: none;
+  }
+  .premium-input {
+    min-height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 :root {
   --radius: 1rem;
   --background: oklch(0.08 0.015 280);
@@ -100,6 +123,20 @@
     background: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 

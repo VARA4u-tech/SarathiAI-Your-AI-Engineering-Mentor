@@ -11,12 +11,14 @@ import {
   FileText,
   GitBranch,
   History,
+  Menu,
   Network,
   Plus,
   Settings,
   ShieldCheck,
   Sparkles,
   TestTube2,
+  X,
 } from "lucide-react";
 import { isAuthenticated } from "@/lib/demo-auth";
 
@@ -61,6 +63,7 @@ function Dashboard() {
   const navigate = useNavigate();
   const [status, setStatus] = useState<MissionStatus>("awaiting-approval");
   const [mission, setMission] = useState("Add role-based authentication");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated()) navigate({ to: "/login" });
@@ -79,11 +82,18 @@ function Dashboard() {
   return (
     <main className="min-h-screen bg-background text-foreground flex">
       <div className="absolute inset-0 noise pointer-events-none" />
-      <Sidebar />
+      <Sidebar mobileOpen={menuOpen} onClose={() => setMenuOpen(false)} />
 
       <div className="relative z-10 flex-1 min-w-0 overflow-y-auto p-5 md:p-10">
         <header className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8">
           <div>
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="md:hidden mb-5 grid size-11 place-items-center rounded-xl border border-border bg-white/5"
+              aria-label="Open dashboard navigation"
+            >
+              <Menu className="size-5" />
+            </button>
             <p className="text-xs uppercase tracking-[0.24em] text-fuchsia-300 mb-2">
               CodePilot AI / Autonomous engineering OS
             </p>
@@ -293,14 +303,25 @@ function Dashboard() {
   );
 }
 
-function Sidebar() {
+function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose: () => void }) {
   return (
-    <aside className="relative z-10 hidden md:flex w-20 lg:w-64 border-r border-border flex-col justify-between p-4 glass">
+    <aside
+      className={`fixed md:relative inset-y-0 left-0 z-30 flex w-72 md:w-20 lg:w-64 border-r border-border flex-col justify-between p-4 glass transition-transform duration-200 ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+    >
       <div>
-        <Link to="/" className="flex items-center gap-2 font-display text-xl px-2 mb-10">
-          <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
-          <span className="hidden lg:inline">CodePilot AI</span>
-        </Link>
+        <div className="flex items-center justify-between mb-10">
+          <Link to="/" className="flex items-center gap-2 font-display text-xl px-2">
+            <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
+            <span>CodePilot AI</span>
+          </Link>
+          <button
+            onClick={onClose}
+            className="md:hidden grid size-10 place-items-center rounded-lg hover:bg-white/10"
+            aria-label="Close dashboard navigation"
+          >
+            <X className="size-5" />
+          </button>
+        </div>
         <nav className="space-y-2">
           <NavItem icon={Activity} label="Mission Control" active />
           <NavItem icon={FileCode2} label="Repositories" />

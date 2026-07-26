@@ -91,7 +91,7 @@ export function ContactSection() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-b from-fuchsia-500/10 to-transparent blur-3xl pointer-events-none" />
 
             <form className="relative space-y-6" onSubmit={submit} noValidate>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2 relative group/input">
                   <label
                     htmlFor="firstName"

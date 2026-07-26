@@ -4,12 +4,12 @@ import { Link } from "@tanstack/react-router";
 export function Footer() {
   return (
     <footer
-      className="relative h-[80vh] w-full"
+      className="relative h-auto md:h-[80vh] w-full"
       style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
-      <div className="fixed bottom-0 w-full h-[80vh] bg-black border-t border-white/5 flex flex-col justify-between overflow-hidden">
+      <div className="relative md:fixed bottom-0 w-full min-h-[720px] md:h-[80vh] bg-black border-t border-white/5 flex flex-col justify-between overflow-hidden">
         {/* Minimalist Link Grid */}
-        <div className="px-8 md:px-16 py-8 md:py-16 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-[1600px] mx-auto w-full flex-grow z-10">
+        <div className="px-5 sm:px-8 md:px-16 py-10 md:py-16 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-[1600px] mx-auto w-full flex-grow z-10">
           <div className="flex flex-col gap-6">
             <h4 className="text-muted-foreground uppercase tracking-[0.2em] text-xs font-semibold mb-2">
               Connect
