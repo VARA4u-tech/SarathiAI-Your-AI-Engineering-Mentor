@@ -26,6 +26,7 @@ export interface CardNavProps {
   menuColor?: string;
   buttonBgColor?: string;
   buttonTextColor?: string;
+  rightAction?: React.ReactNode;
 }
 
 const CardNav = ({
@@ -38,6 +39,7 @@ const CardNav = ({
   menuColor,
   buttonBgColor,
   buttonTextColor,
+  rightAction,
 }: CardNavProps) => {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -192,13 +194,8 @@ const CardNav = ({
             )}
           </div>
 
-          {/* Dashboard Button on the Right */}
-          <Link
-            to="/dashboard"
-            className="card-nav-cta-button inline-flex border-0 rounded-full bg-foreground text-background px-5 py-1.5 items-center font-display text-lg cursor-pointer transition-colors duration-300 hover:opacity-90"
-          >
-            Dashboard
-          </Link>
+          {/* Dynamic Right Action */}
+          {rightAction}
         </div>
 
         <div

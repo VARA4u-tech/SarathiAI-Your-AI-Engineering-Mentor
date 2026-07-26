@@ -40,15 +40,20 @@ export function Nav() {
           items={items}
           ease="back.out(1.7)"
           className="!static !w-full !max-w-none !transform-none !top-4"
+          rightAction={
+            <div className="flex items-center gap-4 text-sm font-display pr-1">
+              <Link to="/login" className="text-foreground/80 hover:text-foreground transition-colors hidden sm:block">
+                Log in
+              </Link>
+              <Link
+                to="/signup"
+                className="inline-flex border-0 rounded-full bg-foreground text-background px-4 py-1.5 md:px-5 items-center cursor-pointer transition-all duration-300 hover:opacity-90 hover:scale-105"
+              >
+                Sign Up
+              </Link>
+            </div>
+          }
         />
-        <div className="mt-3 flex justify-end gap-3 px-4 text-xs text-muted-foreground">
-          <Link to="/login" className="hover:text-foreground transition">
-            Log in
-          </Link>
-          <Link to="/signup" className="text-fuchsia-200 hover:text-foreground transition">
-            Create account
-          </Link>
-        </div>
       </div>
     </header>
   );
