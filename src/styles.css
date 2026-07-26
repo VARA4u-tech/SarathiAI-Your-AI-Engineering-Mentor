@@ -6,8 +6,8 @@
 
 @theme inline {
   /* Recoleta and Berthold are used automatically when licensed font files are supplied. */
-  --font-display: "Recoleta", "Instrument Serif", ui-serif, Georgia, serif;
-  --font-sans: "Berthold", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Recoleta", ui-serif, Georgia, serif;
+  --font-sans: "Berthold",  ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
