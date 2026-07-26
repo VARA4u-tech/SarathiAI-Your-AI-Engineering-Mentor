@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Link } from "@tanstack/react-router";
 
 export function Footer() {
   return (
@@ -96,6 +97,14 @@ export function Footer() {
             <span className="text-sm font-medium text-white/70 uppercase tracking-widest">
               All systems operational
             </span>
+          </div>
+          <div className="flex items-center gap-4 text-sm text-white/50">
+            <Link to="/login" className="hover:text-white transition-colors">
+              Log in
+            </Link>
+            <Link to="/signup" className="hover:text-white transition-colors">
+              Create account
+            </Link>
           </div>
         </div>
 

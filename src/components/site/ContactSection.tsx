@@ -1,7 +1,16 @@
 import { motion } from "motion/react";
-import { Mail, MapPin, Send, User, MessageSquare } from "lucide-react";
+import { useState } from "react";
+import { CheckCircle2, Mail, MapPin, Send, User, MessageSquare, AlertCircle } from "lucide-react";
 
 export function ContactSection() {
+  const [state, setState] = useState<"idle" | "success" | "error">("idle");
+  const submit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const valid = Boolean(data.get("firstName") && data.get("email") && data.get("message"));
+    setState(valid ? "success" : "error");
+    if (valid) event.currentTarget.reset();
+  };
   return (
     <section id="contact" className="relative py-32 overflow-hidden">
       {/* Premium Background Glow */}
@@ -81,7 +90,7 @@ export function ContactSection() {
             {/* Subtle Form Highlight */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-b from-fuchsia-500/10 to-transparent blur-3xl pointer-events-none" />
 
-            <form className="relative space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="relative space-y-6" onSubmit={submit} noValidate>
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2 relative group/input">
                   <label
@@ -95,6 +104,7 @@ export function ContactSection() {
                     <input
                       type="text"
                       id="firstName"
+                      name="firstName"
                       placeholder="Enter Your First Name"
                       className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500/50 focus:bg-white/10 transition-all duration-300"
                     />
@@ -112,6 +122,7 @@ export function ContactSection() {
                     <input
                       type="text"
                       id="lastName"
+                      name="lastName"
                       placeholder="Enter Your Last Name"
                       className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 focus:bg-white/10 transition-all duration-300"
                     />
@@ -131,6 +142,7 @@ export function ContactSection() {
                   <input
                     type="email"
                     id="email"
+                    name="email"
                     placeholder="Enter Your Email"
                     className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 focus:bg-white/10 transition-all duration-300"
                   />
@@ -148,12 +160,31 @@ export function ContactSection() {
                   <MessageSquare className="absolute left-4 top-4 w-4 h-4 text-muted-foreground group-focus-within/input:text-fuchsia-500 transition-colors" />
                   <textarea
                     id="message"
+                    name="message"
                     rows={4}
                     placeholder="Tell us what you're building..."
                     className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-foreground placeholder:text-muted-foreground/50 hover:bg-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500/50 focus:bg-white/10 transition-all duration-300 resize-none"
                   />
                 </div>
               </div>
+
+              {state !== "idle" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  role="status"
+                  className={`flex items-center gap-2 rounded-xl px-4 py-3 text-sm ${state === "success" ? "bg-emerald-400/10 text-emerald-200 border border-emerald-300/20" : "bg-rose-400/10 text-rose-200 border border-rose-300/20"}`}
+                >
+                  {state === "success" ? (
+                    <CheckCircle2 className="size-4" />
+                  ) : (
+                    <AlertCircle className="size-4" />
+                  )}
+                  {state === "success"
+                    ? "Your note is on its way. We’ll be in touch shortly."
+                    : "Please add your name, email, and a short message."}
+                </motion.div>
+              )}
 
               <button
                 type="submit"

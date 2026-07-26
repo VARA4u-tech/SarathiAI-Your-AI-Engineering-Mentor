@@ -41,6 +41,14 @@ export function Nav() {
           ease="back.out(1.7)"
           className="!static !w-full !max-w-none !transform-none !top-4"
         />
+        <div className="mt-3 flex justify-end gap-3 px-4 text-xs text-muted-foreground">
+          <Link to="/login" className="hover:text-foreground transition">
+            Log in
+          </Link>
+          <Link to="/signup" className="text-fuchsia-200 hover:text-foreground transition">
+            Create account
+          </Link>
+        </div>
       </div>
     </header>
   );

@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Activity,
   Bot,
@@ -18,6 +18,7 @@ import {
   Sparkles,
   TestTube2,
 } from "lucide-react";
+import { isAuthenticated } from "@/lib/demo-auth";
 
 export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
@@ -57,8 +58,13 @@ const agents = [
 ];
 
 function Dashboard() {
+  const navigate = useNavigate();
   const [status, setStatus] = useState<MissionStatus>("awaiting-approval");
   const [mission, setMission] = useState("Add role-based authentication");
+
+  useEffect(() => {
+    if (!isAuthenticated()) navigate({ to: "/login" });
+  }, [navigate]);
 
   const statusCopy = {
     planning: ["Planning mission", "Agents are creating an implementation plan."],
