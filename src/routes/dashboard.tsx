@@ -1,176 +1,311 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
+import { useState } from "react";
 import {
   Activity,
-  Code2,
-  GitMerge,
-  FileText,
   Bot,
-  TerminalSquare,
-  TestTube2,
-  MessageSquare,
-  HeartPulse,
-  Plus,
+  Check,
+  ChevronRight,
+  Code2,
+  FileCode2,
+  FileText,
+  GitBranch,
   History,
-  BarChart3,
+  Network,
+  Plus,
   Settings,
-  BookOpen,
+  ShieldCheck,
+  Sparkles,
+  TestTube2,
 } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
 });
 
+type MissionStatus = "planning" | "awaiting-approval" | "implementing" | "complete";
+
+const agents = [
+  {
+    name: "Architect Agent",
+    detail: "Mapped auth boundaries and middleware",
+    icon: Network,
+    color: "text-violet-300",
+    time: "09:14",
+  },
+  {
+    name: "Repository Intelligence",
+    detail: "Found 12 guarded routes and 4 API groups",
+    icon: Sparkles,
+    color: "text-cyan-300",
+    time: "09:15",
+  },
+  {
+    name: "Builder Agent",
+    detail: "Prepared roles, policies, and migration",
+    icon: Code2,
+    color: "text-fuchsia-300",
+    time: "09:19",
+  },
+  {
+    name: "Test Agent",
+    detail: "Outlined 24 authorization test cases",
+    icon: TestTube2,
+    color: "text-emerald-300",
+    time: "09:21",
+  },
+];
+
 function Dashboard() {
+  const [status, setStatus] = useState<MissionStatus>("awaiting-approval");
+  const [mission, setMission] = useState("Add role-based authentication");
+
+  const statusCopy = {
+    planning: ["Planning mission", "Agents are creating an implementation plan."],
+    "awaiting-approval": ["Plan ready for review", "4 agents have completed their analysis."],
+    implementing: [
+      "Implementation in progress",
+      "Builder Agent is applying the approved change set.",
+    ],
+    complete: ["Mission complete", "The change set is ready for your pull request."],
+  }[status];
+
   return (
-    <main className="min-h-screen bg-background text-foreground flex overflow-hidden">
-      <div className="absolute inset-0 noise" />
+    <main className="min-h-screen bg-background text-foreground flex">
+      <div className="absolute inset-0 noise pointer-events-none" />
+      <Sidebar />
 
-      {/* Sidebar Navigation */}
-      <aside className="relative z-10 w-20 lg:w-64 border-r border-border flex flex-col justify-between p-4 glass">
-        <div>
-          <div className="flex items-center gap-2 font-display text-xl px-2 mb-10">
-            <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
-            <span className="hidden lg:inline">CodePilot AI</span>
-          </div>
-          <nav className="space-y-2">
-            <NavItem icon={Activity} label="Mission Control" active />
-            <NavItem icon={Code2} label="Repositories" />
-            <NavItem icon={Bot} label="AI Workspaces" />
-            <NavItem icon={BookOpen} label="Documentation" />
-          </nav>
-        </div>
-        <div className="space-y-2">
-          <NavItem icon={Settings} label="Settings" />
-          <div className="mt-4 p-4 glass rounded-2xl hidden lg:block border border-border">
-            <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">AI Usage</p>
-            <div className="h-1.5 w-full bg-foreground/10 rounded-full overflow-hidden">
-              <div className="h-full w-[65%] bg-gradient-to-r from-fuchsia-400 to-cyan-400" />
-            </div>
-            <p className="text-xs text-muted-foreground mt-2">65% of monthly quota</p>
-          </div>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <div className="relative z-10 flex-1 overflow-y-auto p-6 md:p-10 space-y-8">
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div className="relative z-10 flex-1 min-w-0 overflow-y-auto p-5 md:p-10">
+        <header className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8">
           <div>
-            <h1 className="font-display text-4xl mb-1">Mission Control</h1>
-            <p className="text-muted-foreground text-sm">
-              Welcome back. Your repositories are operating optimally.
+            <p className="text-xs uppercase tracking-[0.24em] text-fuchsia-300 mb-2">
+              CodePilot AI / Autonomous engineering OS
+            </p>
+            <h1 className="font-display text-4xl md:text-5xl">Mission Control</h1>
+            <p className="text-muted-foreground mt-2">
+              Give your AI engineering team a goal. Review every decision before it ships.
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <Link
-              to="/import"
-              className="rounded-full bg-foreground text-background px-5 py-2.5 text-sm font-medium hover:opacity-90 transition flex items-center gap-2"
-            >
-              <Plus className="size-4" /> Import Repository
-            </Link>
-          </div>
+          <Link
+            to="/import"
+            className="rounded-full glass px-5 py-2.5 text-sm font-medium hover:bg-white/10 transition flex items-center gap-2 w-max"
+          >
+            <Plus className="size-4" /> Import repository
+          </Link>
         </header>
 
-        {/* Quick Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCard icon={HeartPulse} label="Repo Health" value="98%" trend="+2.4%" />
-          <StatCard icon={Code2} label="Total Lines" value="1.2M" />
-          <StatCard icon={Bot} label="AI Operations" value="842" trend="+12%" />
-          <StatCard icon={TestTube2} label="Test Coverage" value="84%" />
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Dashboard Panel */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="glass rounded-3xl p-6 md:p-8">
-              <h2 className="font-display text-2xl mb-6">Pinned & Recent Projects</h2>
-              <div className="space-y-4">
-                <ProjectCard
-                  name="ecommerce-platform-v2"
-                  branch="main"
-                  status="Analyzed"
-                  time="2 hours ago"
-                />
-                <ProjectCard
-                  name="authentication-service"
-                  branch="feat/oauth"
-                  status="Analyzing..."
-                  time="Just now"
-                  active
-                />
-                <ProjectCard
-                  name="mobile-app-react-native"
-                  branch="staging"
-                  status="Analyzed"
-                  time="Yesterday"
-                />
+        <div className="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-[minmax(0,1.65fr)_minmax(290px,0.75fr)] gap-6">
+          <section className="space-y-6">
+            <div className="glass rounded-3xl p-6 md:p-8 overflow-hidden relative">
+              <div className="absolute -right-24 -top-24 size-64 rounded-full bg-fuchsia-500/15 blur-3xl pointer-events-none" />
+              <div className="relative flex flex-col gap-6">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <span className="size-2 rounded-full bg-emerald-400 animate-pulse" /> Active
+                    mission
+                  </div>
+                  <span className="rounded-full border border-fuchsia-300/20 bg-fuchsia-300/10 px-3 py-1 text-xs text-fuchsia-200">
+                    ecommerce-platform-v2 / main
+                  </span>
+                </div>
+                <div>
+                  <label htmlFor="mission" className="font-display text-2xl">
+                    What should the team build?
+                  </label>
+                  <div className="mt-3 flex flex-col sm:flex-row gap-3">
+                    <input
+                      id="mission"
+                      value={mission}
+                      onChange={(event) => setMission(event.target.value)}
+                      className="flex-1 rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60"
+                    />
+                    <button
+                      onClick={() => setStatus("planning")}
+                      className="rounded-2xl bg-foreground text-background px-5 py-4 font-medium hover:opacity-90 transition"
+                    >
+                      Run mission
+                    </button>
+                  </div>
+                </div>
+                <MissionProgress status={status} />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="glass rounded-3xl p-6">
-                <h3 className="font-display text-xl mb-4 flex items-center gap-2">
-                  <MessageSquare className="size-4 text-fuchsia-400" /> Recent Chats
-                </h3>
+                <div className="flex items-start justify-between gap-4 mb-5">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      Plan & review
+                    </p>
+                    <h2 className="font-display text-2xl mt-1">{statusCopy[0]}</h2>
+                    <p className="text-sm text-muted-foreground mt-1">{statusCopy[1]}</p>
+                  </div>
+                  <ShieldCheck className="size-6 text-cyan-300" />
+                </div>
+                <ol className="space-y-3">
+                  {[
+                    "Create roles and permission schema",
+                    "Protect API groups with policy middleware",
+                    "Add team role management UI",
+                    "Generate authorization regression tests",
+                  ].map((item, index) => (
+                    <li key={item} className="flex gap-3 text-sm">
+                      <span className="grid place-items-center shrink-0 size-5 rounded-full bg-white/10 text-xs">
+                        {index + 1}
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ol>
+                {status === "awaiting-approval" && (
+                  <button
+                    onClick={() => setStatus("implementing")}
+                    className="mt-6 w-full rounded-xl bg-fuchsia-300 text-background py-3 text-sm font-semibold hover:bg-fuchsia-200 transition"
+                  >
+                    Approve & implement
+                  </button>
+                )}
+                {status === "implementing" && (
+                  <button
+                    onClick={() => setStatus("complete")}
+                    className="mt-6 w-full rounded-xl bg-cyan-300 text-background py-3 text-sm font-semibold hover:bg-cyan-200 transition"
+                  >
+                    Mark implementation complete
+                  </button>
+                )}
+                {status === "complete" && (
+                  <div className="mt-6 rounded-xl bg-emerald-400/10 px-4 py-3 text-sm text-emerald-300 flex items-center gap-2">
+                    <Check className="size-4" /> Ready to present a pull request
+                  </div>
+                )}
+              </div>
+
+              <div className="glass rounded-3xl p-6">
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  Proposed change set
+                </p>
+                <h2 className="font-display text-2xl mt-1 mb-5">Files the agents will touch</h2>
                 <div className="space-y-3">
-                  <ActivityItem text="Explain authentication flow" time="1h ago" />
-                  <ActivityItem text="Refactor Cart component" time="3h ago" />
-                  <ActivityItem text="Debug Redis connection" time="5h ago" />
+                  <ChangeFile
+                    file="src/server/auth/policies.ts"
+                    change="New"
+                    tone="text-emerald-300"
+                  />
+                  <ChangeFile
+                    file="src/server/middleware/authorize.ts"
+                    change="Edit"
+                    tone="text-cyan-300"
+                  />
+                  <ChangeFile
+                    file="src/routes/settings/roles.tsx"
+                    change="New"
+                    tone="text-emerald-300"
+                  />
+                  <ChangeFile
+                    file="tests/auth/authorization.test.ts"
+                    change="New"
+                    tone="text-emerald-300"
+                  />
+                </div>
+                <div className="mt-6 pt-5 border-t border-border flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">+ 318 / − 12 lines</span>
+                  <button className="text-sm flex items-center gap-1 hover:text-fuchsia-200">
+                    View diff <ChevronRight className="size-4" />
+                  </button>
                 </div>
               </div>
-              <div className="glass rounded-3xl p-6">
-                <h3 className="font-display text-xl mb-4 flex items-center gap-2">
-                  <FileText className="size-4 text-cyan-400" /> Documentation
-                </h3>
-                <div className="space-y-3">
-                  <ActivityItem text="Generated API Routes Doc" time="2h ago" />
-                  <ActivityItem text="Updated DB Schema" time="Yesterday" />
-                  <ActivityItem text="Component Library PDF" time="2 days ago" />
+            </div>
+
+            <div className="glass rounded-3xl p-6">
+              <div className="flex items-center gap-3 mb-5">
+                <History className="size-5 text-fuchsia-300" />
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    Engineering memory
+                  </p>
+                  <h2 className="font-display text-2xl">Context agents retain</h2>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Right Sidebar */}
-          <div className="space-y-6">
-            <div className="glass rounded-3xl p-6">
-              <h3 className="font-display text-xl mb-4">Project Timeline</h3>
-              <div className="relative pl-4 space-y-6 before:absolute before:inset-y-2 before:left-[7px] before:w-px before:bg-border">
-                <TimelineItem
-                  title="Test Generation Complete"
-                  desc="auth-service coverage increased to 92%"
-                  time="10:42 AM"
-                />
-                <TimelineItem
-                  title="Knowledge Graph Updated"
-                  desc="ecommerce-platform-v2 re-indexed"
-                  time="09:15 AM"
-                />
-                <TimelineItem
-                  title="New Repository Imported"
-                  desc="payment-gateway connected"
-                  time="Yesterday"
-                />
+              <div className="grid sm:grid-cols-3 gap-3 text-sm">
+                <Memory label="Architecture" value="Next.js API + Postgres" />
+                <Memory label="Team convention" value="Zod at every boundary" />
+                <Memory label="Previous decision" value="JWTs expire in 15 minutes" />
               </div>
             </div>
+          </section>
 
+          <aside className="space-y-6">
             <div className="glass rounded-3xl p-6">
-              <h3 className="font-display text-xl mb-4 flex items-center gap-2">
-                <BarChart3 className="size-4" /> Repository Analytics
-              </h3>
-              <div className="space-y-4">
-                <ProgressItem label="Architecture Score" val={92} color="bg-emerald-400" />
-                <ProgressItem label="Security Score" val={88} color="bg-cyan-400" />
-                <ProgressItem label="Code Quality" val={76} color="bg-fuchsia-400" />
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    Live coordination
+                  </p>
+                  <h2 className="font-display text-2xl">Agent timeline</h2>
+                </div>
+                <Bot className="size-5 text-fuchsia-300" />
+              </div>
+              <div className="relative pl-5 space-y-6 before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-px before:bg-white/10">
+                {agents.map((agent) => (
+                  <AgentEvent key={agent.name} {...agent} />
+                ))}
               </div>
             </div>
-          </div>
+            <div className="glass rounded-3xl p-6">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Repository intelligence
+              </p>
+              <h2 className="font-display text-2xl mt-1 mb-5">Conceptual map</h2>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Authentication",
+                  "Payments",
+                  "Orders",
+                  "Products",
+                  "Notifications",
+                  "API",
+                  "Database",
+                ].map((tag) => (
+                  <span
+                    className="rounded-full bg-white/5 border border-white/10 px-3 py-1.5 text-xs"
+                    key={tag}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-6 pt-5 border-t border-border text-sm text-muted-foreground flex items-center gap-2">
+                <GitBranch className="size-4 text-cyan-300" /> 148 files indexed · 12 services
+                mapped
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
     </main>
   );
 }
 
+function Sidebar() {
+  return (
+    <aside className="relative z-10 hidden md:flex w-20 lg:w-64 border-r border-border flex-col justify-between p-4 glass">
+      <div>
+        <Link to="/" className="flex items-center gap-2 font-display text-xl px-2 mb-10">
+          <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
+          <span className="hidden lg:inline">CodePilot AI</span>
+        </Link>
+        <nav className="space-y-2">
+          <NavItem icon={Activity} label="Mission Control" active />
+          <NavItem icon={FileCode2} label="Repositories" />
+          <NavItem icon={Bot} label="Agent teams" />
+          <NavItem icon={FileText} label="Documentation" />
+        </nav>
+      </div>
+      <NavItem icon={Settings} label="Settings" />
+    </aside>
+  );
+}
 function NavItem({
   icon: Icon,
   label,
@@ -181,125 +316,72 @@ function NavItem({
   active?: boolean;
 }) {
   return (
-    <a
-      href="#"
-      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition ${active ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"}`}
+    <button
+      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left ${active ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"}`}
     >
       <Icon className="size-5" />
       <span className="text-sm font-medium hidden lg:block">{label}</span>
-    </a>
+    </button>
   );
 }
-
-function StatCard({
-  icon: Icon,
-  label,
-  value,
-  trend,
-}: {
-  icon: React.ElementType;
-  label: string;
-  value: string | number;
-  trend: string;
-}) {
+function MissionProgress({ status }: { status: MissionStatus }) {
+  const steps = ["Understand", "Plan", "Review", "Generate", "Self-check", "Present diff", "Apply"];
+  const active =
+    status === "planning"
+      ? 1
+      : status === "awaiting-approval"
+        ? 2
+        : status === "implementing"
+          ? 4
+          : 6;
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="glass rounded-2xl p-5 border border-border"
-    >
-      <div className="flex items-center justify-between mb-4">
-        <Icon className="size-5 text-muted-foreground" />
-        {trend && (
-          <span className="text-xs font-medium text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">
-            {trend}
+    <div className="flex items-center gap-1 overflow-x-auto pb-1">
+      {steps.map((step, index) => (
+        <div className="flex items-center gap-1 shrink-0" key={step}>
+          <span
+            className={`rounded-full px-2.5 py-1 text-[11px] ${index <= active ? "bg-fuchsia-300/15 text-fuchsia-100" : "bg-white/5 text-muted-foreground"}`}
+          >
+            {index < active ? "✓ " : ""}
+            {step}
           </span>
-        )}
-      </div>
-      <div className="font-display text-3xl mb-1">{value}</div>
-      <div className="text-xs text-muted-foreground uppercase tracking-widest">{label}</div>
-    </motion.div>
-  );
-}
-
-function ProjectCard({
-  name,
-  branch,
-  status,
-  time,
-  active,
-}: {
-  name: string;
-  branch: string;
-  status: string;
-  time: string;
-  active?: boolean;
-}) {
-  return (
-    <div
-      className={`flex items-center justify-between p-4 rounded-2xl transition border ${active ? "bg-foreground/5 border-foreground/20" : "bg-background/40 border-border hover:bg-foreground/5"}`}
-    >
-      <div className="flex items-center gap-4">
-        <div className="size-10 rounded-xl glass grid place-items-center">
-          <GitMerge className="size-5 text-muted-foreground" />
+          {index < steps.length - 1 && <ChevronRight className="size-3 text-muted-foreground" />}
         </div>
-        <div>
-          <h4 className="font-medium text-sm">{name}</h4>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-            <span className="flex items-center gap-1">
-              <TerminalSquare className="size-3" /> {branch}
-            </span>
-            <span>•</span>
-            <span>{time}</span>
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center gap-3">
-        <span
-          className={`text-xs px-2.5 py-1 rounded-full ${active ? "bg-cyan-400/10 text-cyan-400" : "bg-foreground/10 text-foreground"}`}
-        >
-          {active && (
-            <span className="inline-block size-1.5 rounded-full bg-cyan-400 animate-pulse mr-1.5" />
-          )}
-          {status}
-        </span>
-        <button className="text-muted-foreground hover:text-foreground">→</button>
-      </div>
+      ))}
     </div>
   );
 }
-
-function ActivityItem({ text, time }: { text: React.ReactNode; time: string }) {
+function ChangeFile({ file, change, tone }: { file: string; change: string; tone: string }) {
   return (
-    <div className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
-      <span className="text-sm">{text}</span>
-      <span className="text-xs text-muted-foreground">{time}</span>
+    <div className="rounded-xl bg-black/15 border border-white/5 p-3 flex items-center gap-3">
+      <FileCode2 className="size-4 text-muted-foreground shrink-0" />
+      <span className="font-mono text-xs flex-1 truncate">{file}</span>
+      <span className={`text-xs ${tone}`}>{change}</span>
     </div>
   );
 }
-
-function TimelineItem({ title, desc, time }: { title: string; desc: string; time: string }) {
+function Memory({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl bg-black/15 border border-white/5 p-4">
+      <p className="text-xs uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="mt-2">{value}</p>
+    </div>
+  );
+}
+function AgentEvent({ name, detail, icon: Icon, color, time }: (typeof agents)[number]) {
   return (
     <div className="relative">
-      <div className="absolute -left-[23px] top-1.5 size-2.5 rounded-full bg-fuchsia-400 shadow-[0_0_8px_oklch(0.65_0.25_320)]" />
-      <h4 className="text-sm font-medium">{title}</h4>
-      <p className="text-xs text-muted-foreground mt-1">{desc}</p>
-      <span className="text-[10px] uppercase tracking-widest text-muted-foreground mt-2 block">
-        {time}
-      </span>
-    </div>
-  );
-}
-
-function ProgressItem({ label, val, color }: { label: string; val: number; color: string }) {
-  return (
-    <div>
-      <div className="flex justify-between text-xs mb-1.5">
-        <span>{label}</span>
-        <span className="text-muted-foreground">{val}/100</span>
-      </div>
-      <div className="h-1.5 w-full bg-foreground/10 rounded-full overflow-hidden">
-        <div className={`h-full ${color}`} style={{ width: `${val}%` }} />
+      <span className="absolute -left-5 top-1.5 size-3 rounded-full bg-background border border-fuchsia-300" />
+      <div className="flex gap-3">
+        <div className={`mt-0.5 ${color}`}>
+          <Icon className="size-4" />
+        </div>
+        <div>
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-medium">{name}</p>
+            <span className="text-[10px] text-muted-foreground">{time}</span>
+          </div>
+          <p className="text-xs text-muted-foreground mt-1">✓ {detail}</p>
+        </div>
       </div>
     </div>
   );
