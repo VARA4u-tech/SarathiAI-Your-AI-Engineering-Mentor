@@ -25,6 +25,14 @@ import {
 } from "lucide-react";
 import { isAuthenticated } from "@/lib/demo-auth";
 import { Sidebar } from "@/components/Sidebar";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
@@ -262,9 +270,43 @@ function Dashboard() {
                 </div>
                 <div className="mt-6 pt-5 border-t border-border flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">+ 318 / − 12 lines</span>
-                  <button className="text-sm flex items-center gap-1 hover:text-fuchsia-200">
-                    View diff <ChevronRight className="size-4" />
-                  </button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button className="text-sm flex items-center gap-1 hover:text-fuchsia-200 transition-colors">
+                        View diff <ChevronRight className="size-4" />
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col glass !bg-background/95 !border-white/10 shadow-2xl">
+                      <DialogHeader>
+                        <DialogTitle className="font-display text-2xl flex items-center gap-2 text-foreground">
+                          <FileCode2 className="size-5 text-cyan-300" />
+                          src/server/middleware/authorize.ts
+                        </DialogTitle>
+                      </DialogHeader>
+                      <ScrollArea className="flex-1 mt-4 rounded-xl border border-white/10 bg-black/40 overflow-hidden">
+                        <div className="p-4 font-mono text-sm leading-relaxed whitespace-pre overflow-x-auto">
+                          <div className="text-muted-foreground opacity-50 mb-4">@@ -14,6 +14,21 @@</div>
+                          <div className="flex"><span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">14</span><span className="text-muted-foreground">export const requireAuth = async (req, res, next) =&gt; {'{'}</span></div>
+                          <div className="flex"><span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">15</span><span className="text-muted-foreground">  const token = req.headers.authorization?.split(" ")[1];</span></div>
+                          <div className="flex"><span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">16</span><span className="text-muted-foreground">  if (!token) return res.status(401).json({'{'} error: "Unauthorized" {'}'});</span></div>
+                          <div className="flex bg-fuchsia-500/10"><span className="w-8 text-fuchsia-300 shrink-0 select-none">-</span><span className="text-fuchsia-300 line-through decoration-fuchsia-500/50">  // TODO: Add role checking</span></div>
+                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">  const user = await verifyToken(token);</span></div>
+                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">  req.user = user;</span></div>
+                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">  next();</span></div>
+                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">{'}'};</span></div>
+                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300"></span></div>
+                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">export const requireRole = (allowedRoles: string[]) =&gt; {'{'}</span></div>
+                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">  return async (req, res, next) =&gt; {'{'}</span></div>
+                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">    if (!req.user) return res.status(401).json({'{'} error: "Unauthorized" {'}'});</span></div>
+                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">    if (!allowedRoles.includes(req.user.role)) {'{'}</span></div>
+                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">      return res.status(403).json({'{'} error: "Forbidden: Insufficient role" {'}'});</span></div>
+                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">    {'}'}</span></div>
+                          <div className="flex"><span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">17</span><span className="text-muted-foreground">  next();</span></div>
+                          <div className="flex"><span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">18</span><span className="text-muted-foreground">{'}'};</span></div>
+                        </div>
+                      </ScrollArea>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
             </div>
