@@ -43,31 +43,31 @@ type MissionStatus = "planning" | "awaiting-approval" | "implementing" | "comple
 
 const agents = [
   {
-    name: "Architect Agent",
-    detail: "Mapped auth boundaries and middleware",
+    name: "Context Scanner",
+    detail: "Mapped repository boundaries and dependencies",
     icon: Network,
     color: "text-violet-300",
     time: "09:14",
   },
   {
-    name: "Repository Intelligence",
-    detail: "Found 12 guarded routes and 4 API groups",
-    icon: Sparkles,
-    color: "text-cyan-300",
+    name: "Security Auditor",
+    detail: "Analyzed authentication and authorization flows",
+    icon: ShieldCheck,
+    color: "text-emerald-300",
     time: "09:15",
   },
   {
-    name: "Builder Agent",
-    detail: "Prepared roles, policies, and migration",
-    icon: Code2,
-    color: "text-fuchsia-300",
+    name: "Performance Profiler",
+    detail: "Evaluated database queries and caching strategies",
+    icon: Activity,
+    color: "text-yellow-300",
     time: "09:19",
   },
   {
-    name: "Test Agent",
-    detail: "Outlined 24 authorization test cases",
-    icon: TestTube2,
-    color: "text-emerald-300",
+    name: "Systems Architect",
+    detail: "Synthesizing final architectural recommendations",
+    icon: Sparkles,
+    color: "text-cyan-300",
     time: "09:21",
   },
 ];
@@ -103,9 +103,12 @@ function Dashboard() {
     setStatus("planning");
     setLlmResponse(null);
     try {
-      const data = await runMission(mission, "architect");
-      setLlmResponse(data.response);
-      setStatus("awaiting-approval");
+      const newMission = await runMission(mission, "architect");
+      if (newMission && newMission._id) {
+        navigate({ to: "/missions/$missionId", params: { missionId: newMission._id } });
+      } else {
+        throw new Error("Invalid response from server");
+      }
     } catch (error) {
       console.error(error);
       setLlmResponse("Error: Could not connect to AI engine.");
@@ -118,13 +121,13 @@ function Dashboard() {
   }, [navigate]);
 
   const statusCopy = {
-    planning: ["Planning mission", "Agents are creating an implementation plan."],
-    "awaiting-approval": ["Plan ready for review", "4 agents have completed their analysis."],
+    planning: ["Analyzing Architecture", "Agents are auditing the codebase for security and performance."],
+    "awaiting-approval": ["Audit Complete", "Insights and suggestions are ready for your review."],
     implementing: [
-      "Implementation in progress",
-      "Builder Agent is applying the approved change set.",
+      "Finalizing Audit",
+      "Systems Architect is generating the final report.",
     ],
-    complete: ["Mission complete", "The change set is ready for your pull request."],
+    complete: ["Mission complete", "The audit report has been saved."],
   }[status];
 
   return (
@@ -143,11 +146,11 @@ function Dashboard() {
               <Menu className="size-5" />
             </button>
             <p className="text-xs uppercase tracking-[0.24em] text-fuchsia-300 mb-2">
-              CodePilot AI / Autonomous engineering OS
+              CodePilot AI / Autonomous Architectural Advisor
             </p>
-            <h1 className="font-display text-4xl md:text-5xl">Mission Control</h1>
+            <h1 className="font-display text-4xl md:text-5xl">Architecture & Security Hub</h1>
             <p className="text-muted-foreground mt-2">
-              Give your AI engineering team a goal. Review every decision before it ships.
+              Request a comprehensive architectural audit or security review for your codebase.
             </p>
           </div>
           <Link
@@ -174,21 +177,27 @@ function Dashboard() {
                 </div>
                 <div>
                   <label htmlFor="mission" className="font-display text-2xl">
-                    What should the team build?
+                    What architecture should we analyze?
                   </label>
                   <div className="mt-3 flex flex-col sm:flex-row gap-3">
                     <input
                       id="mission"
                       value={mission}
                       onChange={(event) => setMission(event.target.value)}
-                      className="flex-1 rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60"
+                      placeholder="E.g., How can I improve the security of my authentication flow?"
+                      className="flex-1 rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60 placeholder:text-white/30"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && mission.trim() && status !== "planning") {
+                          handleRunMission();
+                        }
+                      }}
                     />
                     <button
                       onClick={handleRunMission}
-                      disabled={status === "planning"}
-                      className="rounded-2xl bg-foreground text-background px-5 py-4 font-medium hover:opacity-90 transition disabled:opacity-50"
+                      disabled={status === "planning" || !mission.trim()}
+                      className="rounded-2xl bg-foreground text-background px-5 py-4 font-medium hover:opacity-90 transition disabled:opacity-50 flex items-center gap-2"
                     >
-                      {status === "planning" ? "Planning..." : "Run mission"}
+                      {status === "planning" ? "Auditing..." : "Run Audit"}
                     </button>
                   </div>
                 </div>
@@ -215,10 +224,10 @@ function Dashboard() {
                 ) : (
                   <ol className="space-y-3">
                     {[
-                      "Create roles and permission schema",
-                      "Protect API groups with policy middleware",
-                      "Add team role management UI",
-                      "Generate authorization regression tests",
+                      "Scanning repository context and boundaries",
+                      "Analyzing security policies and auth flows",
+                      "Evaluating performance and database queries",
+                      "Synthesizing architectural recommendations",
                     ].map((item, index) => (
                       <li key={item} className="flex gap-3 text-sm">
                         <span className="grid place-items-center shrink-0 size-5 rounded-full bg-white/10 text-xs">
@@ -231,7 +240,7 @@ function Dashboard() {
                 )}
                 {status === "awaiting-approval" && (
                   <div className="mt-6 space-y-3 border-t border-border pt-5">
-                    <p className="text-sm font-medium">Have feedback for the Architect Agent?</p>
+                    <p className="text-sm font-medium">Have feedback for the Architecture Audit?</p>
                     <div className="flex items-center gap-2">
                       <div className="relative flex-1">
                         <MessageSquare className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
@@ -267,7 +276,7 @@ function Dashboard() {
                       onClick={() => setStatus("implementing")}
                       className="w-full rounded-xl bg-fuchsia-300 text-background py-3 text-sm font-semibold hover:bg-fuchsia-200 transition mt-2"
                     >
-                      Approve & implement
+                      Approve & Generate Report
                     </button>
                   </div>
                 )}
@@ -276,12 +285,12 @@ function Dashboard() {
                     onClick={() => setStatus("complete")}
                     className="mt-6 w-full rounded-xl bg-cyan-300 text-background py-3 text-sm font-semibold hover:bg-cyan-200 transition"
                   >
-                    Mark implementation complete
+                    Mark report complete
                   </button>
                 )}
                 {status === "complete" && (
                   <div className="mt-6 rounded-xl bg-emerald-400/10 px-4 py-3 text-sm text-emerald-300 flex items-center gap-2">
-                    <Check className="size-4" /> Ready to present a pull request
+                    <Check className="size-4" /> Ready to present final architecture report
                   </div>
                 )}
               </div>
@@ -357,9 +366,9 @@ function Dashboard() {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    Live coordination
+                    Analysis Pipeline
                   </p>
-                  <h2 className="font-display text-2xl">Agent timeline</h2>
+                  <h2 className="font-display text-2xl mt-1">Advisor Workflow</h2>
                 </div>
                 <Bot className="size-5 text-fuchsia-300" />
               </div>
@@ -405,7 +414,7 @@ function Dashboard() {
 }
 
 function MissionProgress({ status }: { status: MissionStatus }) {
-  const steps = ["Understand", "Plan", "Review", "Generate", "Self-check", "Present diff", "Apply"];
+  const steps = ["Context", "Scan", "Analyze", "Evaluate", "Architect", "Review", "Finalize"];
   const active =
     status === "planning"
       ? 1
