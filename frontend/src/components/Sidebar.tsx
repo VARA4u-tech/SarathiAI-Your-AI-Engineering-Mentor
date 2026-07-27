@@ -21,9 +21,9 @@ export function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose:
           </button>
         </div>
         <nav className="space-y-2">
-          <NavItem icon={Activity} label="Mission Control" to="/dashboard" />
-          <NavItem icon={FileCode2} label="Repositories" to="/repositories" />
-          <NavItem icon={Bot} label="Agent teams" to="/agent-teams" />
+          <NavItem icon={Activity} label="Audit Hub" to="/dashboard" />
+          <NavItem icon={FileCode2} label="Codebases" to="/repositories" />
+          <NavItem icon={Bot} label="Advisor Modules" to="/agent-teams" />
           <NavItem icon={FileText} label="Documentation" to="/documentation" />
         </nav>
       </div>
