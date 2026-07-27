@@ -24,7 +24,7 @@ import {
   X,
 } from "lucide-react";
 import { isAuthenticated } from "@/lib/demo-auth";
-import { runMission, getProjects, getMissions, Project, Mission } from "@/lib/api";
+import { runMission, getProjects, getMissions, Project, Mission, importRepository } from "@/lib/api";
 import { Sidebar } from "@/components/Sidebar";
 import {
   Dialog,
@@ -100,7 +100,17 @@ function Dashboard() {
     setStatus("planning");
     setLlmResponse(null);
     try {
-      const newMission = await runMission(mission, "architect");
+      // 1. Import Repository
+      const project = await importRepository(mission);
+      
+      // 2. Fetch projects to update local state so the rest of the app knows about it
+      const updatedProjects = await getProjects();
+      setProjects(updatedProjects);
+
+      // 3. Automatically trigger the review mission
+      const defaultPrompt = "Perform a full senior engineering review of this codebase.";
+      const newMission = await runMission(defaultPrompt, "architect", project._id);
+      
       if (newMission && newMission._id) {
         navigate({ to: "/missions/$missionId", params: { missionId: newMission._id } });
       } else {
@@ -108,8 +118,9 @@ function Dashboard() {
       }
     } catch (error) {
       console.error(error);
-      setLlmResponse("Error: Could not connect to AI engine.");
-      setStatus("awaiting-approval");
+      setLlmResponse("Error: Could not process repository.");
+      setStatus("idle");
+      alert("Failed to review repository. Make sure the URL is correct and the backend is running.");
     }
   };
 
@@ -167,14 +178,14 @@ function Dashboard() {
             <div className="glass rounded-3xl p-6 md:p-8 flex flex-col justify-between">
               <div>
                 <label className="text-sm font-medium text-fuchsia-300 mb-3 block">
-                  What project would you like to review?
+                  Enter GitHub Repository URL
                 </label>
                 <div className="relative group">
                   <input
                     type="text"
                     value={mission}
                     onChange={(e) => setMission(e.target.value)}
-                    placeholder="e.g. Please review my authentication flow and provide a roadmap."
+                    placeholder="e.g. https://github.com/expressjs/express"
                     className="w-full rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60 placeholder:text-white/30 pr-40"
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && mission.trim() && status !== "planning") {

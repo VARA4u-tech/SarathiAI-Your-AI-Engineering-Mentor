@@ -5,14 +5,20 @@ import { Mission } from "./mission.model";
 import Project, { IProject } from "../project/project.model";
 
 export const runMission = async (req: Request, res: Response) => {
-  const { prompt, agent_type } = req.body;
+  const { prompt, agent_type, projectId } = req.body;
 
   if (!prompt) {
     return res.status(400).json({ error: "Prompt is required" });
   }
 
   try {
-    const project = await Project.findOne();
+    let project;
+    if (projectId) {
+      project = await Project.findById(projectId);
+    } else {
+      project = await Project.findOne().sort({ createdAt: -1 });
+    }
+
     if (!project) {
       return res.status(400).json({ error: "No projects exist. Import a repository first." });
     }

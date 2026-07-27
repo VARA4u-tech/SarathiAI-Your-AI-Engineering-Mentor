@@ -14,6 +14,7 @@ function MissionControlCenter() {
   const [mission, setMission] = useState<Mission | null>(null);
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>("All");
 
   useEffect(() => {
     getMissionById(missionId)
@@ -130,6 +131,23 @@ function MissionControlCenter() {
         </header>
 
         <div className="max-w-5xl mx-auto space-y-8">
+          {/* Tabs */}
+          <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide border-b border-white/10">
+            {["All", "System Design & Architecture", "Full Stack Implementation", "Vulnerability & Compliance", "Testing & Validation"].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
+                  activeTab === tab
+                    ? "bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30"
+                    : "bg-white/5 text-muted-foreground hover:bg-white/10 hover:text-white border border-white/5"
+                }`}
+              >
+                {tab === "All" ? "Overview" : tab}
+              </button>
+            ))}
+          </div>
+
           <div className="glass rounded-3xl p-6 md:p-8">
             <div className="flex items-center gap-3 mb-6">
               <Lightbulb className="size-5 text-fuchsia-300" />
@@ -140,7 +158,9 @@ function MissionControlCenter() {
               <p className="text-muted-foreground text-sm">No suggestions found.</p>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {mission.suggestions?.map((suggestion, idx) => {
+                {mission.suggestions
+                  ?.filter((suggestion) => activeTab === "All" || suggestion.category === activeTab)
+                  .map((suggestion, idx) => {
                   let Icon = Lightbulb;
                   let colorClass = "text-fuchsia-300";
                   let bgClass = "bg-fuchsia-500/10";

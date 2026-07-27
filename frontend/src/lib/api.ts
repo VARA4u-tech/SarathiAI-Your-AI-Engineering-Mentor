@@ -63,7 +63,7 @@ export async function importRepository(url: string) {
   return response.json();
 }
 
-export async function runMission(prompt: string, agentType: string = "architect") {
+export async function runMission(prompt: string, agentType: string = "architect", projectId?: string) {
   const apiKey = localStorage.getItem("OPENROUTER_API_KEY");
 
   const headers: Record<string, string> = {
@@ -77,7 +77,7 @@ export async function runMission(prompt: string, agentType: string = "architect"
   const response = await fetch(`${API_BASE_URL}/api/missions`, {
     method: "POST",
     headers,
-    body: JSON.stringify({ prompt, agent_type: agentType }),
+    body: JSON.stringify({ prompt, agent_type: agentType, projectId }),
   });
 
   if (!response.ok) {
