@@ -12,11 +12,30 @@ export const runMission = async (req: Request, res: Response) => {
   }
 
   try {
+    const project = await Project.findOne();
+    if (!project) {
+      return res.status(400).json({ error: "No projects exist. Import a repository first." });
+    }
+
+    const project_context = `
+Project Name: ${project.name}
+GitHub Repository: ${project.githubUrl}
+Primary Language: ${project.language}
+Framework: ${project.framework}
+---
+Project Documentation (README):
+${project.readmeDocs || "No README available."}
+    `.trim();
+
     // Forward the request to the Python AI Engine
     const aiResponse = await fetch(`${config.aiEngineUrl}/ai/mission`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt, agent_type: agent_type || "architect" }),
+      body: JSON.stringify({ 
+        prompt, 
+        agent_type: agent_type || "architect",
+        project_context 
+      }),
     });
 
     if (!aiResponse.ok) {
@@ -42,10 +61,7 @@ export const runMission = async (req: Request, res: Response) => {
       ];
     }
 
-    const project = await Project.findOne();
-    if (!project) {
-      return res.status(400).json({ error: "No projects exist. Import a repository first." });
-    }
+
 
     const newMission = new Mission({
       projectId: project._id,

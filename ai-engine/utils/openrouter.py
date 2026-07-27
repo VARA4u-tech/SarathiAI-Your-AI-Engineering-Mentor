@@ -25,7 +25,7 @@ MODELS = {
     "coder": "openai/gpt-oss-20b:free",      
 }
 
-def call_agent(agent_type: str, prompt: str) -> str:
+def call_agent(agent_type: str, prompt: str, project_context: str = None) -> str:
     """Calls OpenRouter with the specific model for the requested agent."""
     model_id = MODELS.get(agent_type, "meta-llama/llama-3-8b-instruct:free")
     
@@ -38,6 +38,9 @@ def call_agent(agent_type: str, prompt: str) -> str:
         '{"category": "Security" | "Performance" | "Architecture" | "Best Practices", '
         '"title": "Short title", "description": "Detailed explanation and actionable advice", "impact": "High" | "Medium" | "Low"}'
     )
+
+    if project_context:
+        system_prompt += f"\n\nHere is the REPOSITORY CONTEXT for the codebase you are auditing:\n{project_context}\n\nPlease tailor your architectural and security suggestions to this specific technology stack and architecture."
 
     try:
         response = client.chat.completions.create(

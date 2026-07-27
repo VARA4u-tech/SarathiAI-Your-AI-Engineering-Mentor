@@ -224,12 +224,15 @@ function Dashboard() {
                   </div>
                 ) : (
                   <ol className="space-y-3">
-                    {[
-                      "Scanning repository context and boundaries",
-                      "Analyzing security policies and auth flows",
-                      "Evaluating performance and database queries",
-                      "Synthesizing architectural recommendations",
-                    ].map((item, index) => (
+                    {(missions.length > 0 && missions[0].suggestions?.length > 0
+                      ? missions[0].suggestions.slice(0, 4).map(s => s.title)
+                      : [
+                          "Scanning repository context and boundaries",
+                          "Analyzing security policies and auth flows",
+                          "Evaluating performance and database queries",
+                          "Synthesizing architectural recommendations",
+                        ]
+                    ).map((item, index) => (
                       <li key={item} className="flex gap-3 text-sm">
                         <span className="grid place-items-center shrink-0 size-5 rounded-full bg-white/10 text-xs">
                           {index + 1}

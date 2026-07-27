@@ -24,13 +24,16 @@ def analyze_repo(req: AnalyzeRequest):
         ]
     }
 
+from typing import Optional
+
 class MissionRequest(BaseModel):
     prompt: str
     agent_type: str = "architect"
+    project_context: Optional[str] = None
 
 @app.post("/ai/mission")
 def run_mission(req: MissionRequest):
-    result = call_agent(req.agent_type, req.prompt)
+    result = call_agent(req.agent_type, req.prompt, req.project_context)
     return {
         "status": "success",
         "agent": req.agent_type,
