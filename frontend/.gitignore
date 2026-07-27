@@ -37,4 +37,6 @@ dist-ssr
 .code-review-graph/
 coverage/
 .eslintcache
-.env
+
+# OS generated files
+Thumbs.db
