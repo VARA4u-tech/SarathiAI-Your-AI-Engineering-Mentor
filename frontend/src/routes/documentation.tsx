@@ -2,8 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { runMission, getProjects } from "@/lib/api";
-import { motion, AnimatePresence } from "motion/react";
-import { FileText, Loader2, Sparkles, BookOpen, GitBranch, ChevronRight } from "lucide-react";
+import { motion } from "motion/react";
+import { FileText, Loader2, Sparkles, BookOpen, GitBranch } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export const Route = createFileRoute("/documentation")({
   component: DocumentationPage,
@@ -117,10 +119,38 @@ function DocumentationPage() {
                   <Sparkles className="size-3" /> Regenerate
                 </button>
               </div>
-              <div className="p-8 md:p-12 prose prose-invert max-w-none">
-                <pre className="whitespace-pre-wrap font-sans text-sm text-foreground/90 leading-relaxed bg-transparent p-0 m-0 border-none">
+              <div className="p-8 md:p-12 max-w-none text-foreground/90 leading-relaxed overflow-x-auto">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    h1: ({node, ...props}) => <h1 className="text-3xl font-display font-bold mt-8 mb-6 pb-2 border-b border-border/50 text-foreground" {...props} />,
+                    h2: ({node, ...props}) => <h2 className="text-2xl font-display font-semibold mt-10 mb-4 pb-2 border-b border-border/30 text-emerald-100" {...props} />,
+                    h3: ({node, ...props}) => <h3 className="text-xl font-medium mt-8 mb-4 text-emerald-200" {...props} />,
+                    h4: ({node, ...props}) => <h4 className="text-lg font-medium mt-6 mb-3 text-white" {...props} />,
+                    p: ({node, ...props}) => <p className="mb-6 leading-7 text-muted-foreground" {...props} />,
+                    ul: ({node, ...props}) => <ul className="list-disc pl-6 mb-6 space-y-2 text-muted-foreground marker:text-emerald-500" {...props} />,
+                    ol: ({node, ...props}) => <ol className="list-decimal pl-6 mb-6 space-y-2 text-muted-foreground marker:text-emerald-500" {...props} />,
+                    li: ({node, ...props}) => <li className="pl-2" {...props} />,
+                    a: ({node, ...props}) => <a className="text-emerald-400 hover:text-emerald-300 underline underline-offset-4 decoration-emerald-500/30 transition-colors" {...props} />,
+                    strong: ({node, ...props}) => <strong className="font-semibold text-white" {...props} />,
+                    blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-emerald-500/50 pl-4 py-1 italic bg-emerald-500/5 my-6 rounded-r-lg" {...props} />,
+                    table: ({node, ...props}) => <div className="overflow-x-auto mb-8 rounded-lg border border-border/50"><table className="w-full text-left border-collapse" {...props} /></div>,
+                    thead: ({node, ...props}) => <thead className="bg-white/5 border-b border-border/50" {...props} />,
+                    th: ({node, ...props}) => <th className="p-4 font-medium text-white" {...props} />,
+                    td: ({node, ...props}) => <td className="p-4 border-b border-border/20 text-muted-foreground" {...props} />,
+                    code: ({node, inline, ...props}: any) => 
+                      inline ? (
+                        <code className="bg-white/10 text-emerald-200 px-1.5 py-0.5 rounded font-mono text-sm" {...props} />
+                      ) : (
+                        <div className="my-6 rounded-xl overflow-hidden border border-border/50 bg-[#0d1117]">
+                          <div className="flex items-center px-4 py-2 border-b border-white/5 bg-white/5 text-xs font-mono text-muted-foreground">Code Snippet</div>
+                          <pre className="p-4 overflow-x-auto text-sm font-mono text-emerald-100/90" {...props} />
+                        </div>
+                      ),
+                  }}
+                >
                   {documentation}
-                </pre>
+                </ReactMarkdown>
               </div>
             </motion.div>
           )}
