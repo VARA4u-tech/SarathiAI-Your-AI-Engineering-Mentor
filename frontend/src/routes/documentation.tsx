@@ -67,15 +67,17 @@ function DocumentationPage() {
       10. **🚀 Future Enhancements**: A checklist of upcoming features.
       
       Make it look incredibly neat, premium, and identical to top-tier open-source enterprise repositories. Use emojis for all section headers.`;
-      
+
       const res = await runMission(prompt, "architect");
       setDocumentation(res.response);
-      
+
       // Save permanently to MongoDB
       await saveReadmeDocs(currentProject._id, res.response);
     } catch (error) {
       console.error("Failed to generate docs", error);
-      setDocumentation("# Error\nFailed to generate documentation. Please check if the AI Engine is running.");
+      setDocumentation(
+        "# Error\nFailed to generate documentation. Please check if the AI Engine is running.",
+      );
     } finally {
       setIsGenerating(false);
     }
@@ -84,7 +86,7 @@ function DocumentationPage() {
   const fallbackCopyTextToClipboard = (text: string) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
-    
+
     // Avoid scrolling to bottom
     textArea.style.top = "0";
     textArea.style.left = "0";
@@ -95,13 +97,13 @@ function DocumentationPage() {
     textArea.select();
 
     try {
-      const successful = document.execCommand('copy');
+      const successful = document.execCommand("copy");
       if (successful) {
         setIsCopied(true);
         setTimeout(() => setIsCopied(false), 2000);
       }
     } catch (err) {
-      console.error('Fallback: Oops, unable to copy', err);
+      console.error("Fallback: Oops, unable to copy", err);
       alert("Failed to copy. Please manually select and copy the text.");
     }
 
@@ -111,13 +113,16 @@ function DocumentationPage() {
   const handleCopy = () => {
     if (documentation) {
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(documentation).then(() => {
-          setIsCopied(true);
-          setTimeout(() => setIsCopied(false), 2000);
-        }).catch((err) => {
-          console.error("Clipboard API failed, using fallback.", err);
-          fallbackCopyTextToClipboard(documentation);
-        });
+        navigator.clipboard
+          .writeText(documentation)
+          .then(() => {
+            setIsCopied(true);
+            setTimeout(() => setIsCopied(false), 2000);
+          })
+          .catch((err) => {
+            console.error("Clipboard API failed, using fallback.", err);
+            fallbackCopyTextToClipboard(documentation);
+          });
       } else {
         fallbackCopyTextToClipboard(documentation);
       }
@@ -137,7 +142,8 @@ function DocumentationPage() {
             </p>
             <h1 className="font-display text-4xl md:text-5xl">Documentation</h1>
             <p className="text-muted-foreground mt-2 max-w-lg">
-              Auto-generate comprehensive architecture documentation and diagrams using the Principal Architect AI.
+              Auto-generate comprehensive architecture documentation and diagrams using the
+              Principal Architect AI.
             </p>
           </div>
           {currentProject && (
@@ -156,7 +162,8 @@ function DocumentationPage() {
               </div>
               <h2 className="font-display text-2xl mb-3">No Documentation Generated</h2>
               <p className="text-muted-foreground max-w-md mb-8">
-                Click the button below to have the Principal Architect analyze the current repository and generate a complete ARCHITECTURE.md file.
+                Click the button below to have the Principal Architect analyze the current
+                repository and generate a complete ARCHITECTURE.md file.
               </p>
               <button
                 onClick={handleGenerate}
@@ -171,20 +178,24 @@ function DocumentationPage() {
 
           {isGenerating && (
             <div className="glass rounded-3xl p-10 border border-border/50 flex flex-col items-center justify-center text-center h-full">
-              <motion.div 
+              <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
                 className="size-24 rounded-full border-b-2 border-l-2 border-emerald-400 mb-8 flex items-center justify-center"
               >
                 <Loader2 className="size-8 text-emerald-400 animate-spin" />
               </motion.div>
-              <h2 className="font-display text-xl text-emerald-300">Principal Architect is writing...</h2>
-              <p className="text-sm text-muted-foreground mt-2">Analyzing repository structure and generating markdown...</p>
+              <h2 className="font-display text-xl text-emerald-300">
+                Principal Architect is writing...
+              </h2>
+              <p className="text-sm text-muted-foreground mt-2">
+                Analyzing repository structure and generating markdown...
+              </p>
             </div>
           )}
 
           {documentation && !isGenerating && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="glass rounded-3xl overflow-hidden border border-border/50 flex flex-col h-full"
@@ -199,7 +210,11 @@ function DocumentationPage() {
                     onClick={handleCopy}
                     className="text-xs text-muted-foreground hover:text-white flex items-center gap-1.5 transition-colors"
                   >
-                    {isCopied ? <CheckCircle2 className="size-3 text-emerald-400" /> : <Copy className="size-3" />}
+                    {isCopied ? (
+                      <CheckCircle2 className="size-3 text-emerald-400" />
+                    ) : (
+                      <Copy className="size-3" />
+                    )}
                     {isCopied ? "Copied!" : "Copy Markdown"}
                   </button>
                   <button
@@ -214,35 +229,97 @@ function DocumentationPage() {
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
-                    h1: ({node, ...props}) => <h1 className="text-3xl font-display font-bold mt-8 mb-6 pb-2 border-b border-border/50 text-foreground" {...props} />,
-                    h2: ({node, ...props}) => <h2 className="text-2xl font-display font-semibold mt-10 mb-4 pb-2 border-b border-border/30 text-emerald-100" {...props} />,
-                    h3: ({node, ...props}) => <h3 className="text-xl font-medium mt-8 mb-4 text-emerald-200" {...props} />,
-                    h4: ({node, ...props}) => <h4 className="text-lg font-medium mt-6 mb-3 text-white" {...props} />,
-                    p: ({node, ...props}) => <p className="mb-6 leading-7 text-muted-foreground" {...props} />,
-                    ul: ({node, ...props}) => <ul className="list-disc pl-6 mb-6 space-y-2 text-muted-foreground marker:text-emerald-500" {...props} />,
-                    ol: ({node, ...props}) => <ol className="list-decimal pl-6 mb-6 space-y-2 text-muted-foreground marker:text-emerald-500" {...props} />,
-                    li: ({node, ...props}) => <li className="pl-2" {...props} />,
-                    a: ({node, ...props}) => <a className="text-emerald-400 hover:text-emerald-300 underline underline-offset-4 decoration-emerald-500/30 transition-colors" {...props} />,
-                    strong: ({node, ...props}) => <strong className="font-semibold text-white" {...props} />,
-                    blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-emerald-500/50 pl-4 py-1 italic bg-emerald-500/5 my-6 rounded-r-lg" {...props} />,
-                    table: ({node, ...props}) => <div className="overflow-x-auto mb-8 rounded-lg border border-border/50"><table className="w-full text-left border-collapse" {...props} /></div>,
-                    thead: ({node, ...props}) => <thead className="bg-white/5 border-b border-border/50" {...props} />,
-                    th: ({node, ...props}) => <th className="p-4 font-medium text-white" {...props} />,
-                    td: ({node, ...props}) => <td className="p-4 border-b border-border/20 text-muted-foreground" {...props} />,
-                    pre: ({children}) => <>{children}</>,
-                    code: ({node, className, children, ...props}: any) => {
-                      const match = /language-(\w+)/.exec(className || '');
-                      const isInline = !match && !String(children).includes('\n');
-                      
+                    h1: ({ node, ...props }) => (
+                      <h1
+                        className="text-3xl font-display font-bold mt-8 mb-6 pb-2 border-b border-border/50 text-foreground"
+                        {...props}
+                      />
+                    ),
+                    h2: ({ node, ...props }) => (
+                      <h2
+                        className="text-2xl font-display font-semibold mt-10 mb-4 pb-2 border-b border-border/30 text-emerald-100"
+                        {...props}
+                      />
+                    ),
+                    h3: ({ node, ...props }) => (
+                      <h3 className="text-xl font-medium mt-8 mb-4 text-emerald-200" {...props} />
+                    ),
+                    h4: ({ node, ...props }) => (
+                      <h4 className="text-lg font-medium mt-6 mb-3 text-white" {...props} />
+                    ),
+                    p: ({ node, ...props }) => (
+                      <p className="mb-6 leading-7 text-muted-foreground" {...props} />
+                    ),
+                    ul: ({ node, ...props }) => (
+                      <ul
+                        className="list-disc pl-6 mb-6 space-y-2 text-muted-foreground marker:text-emerald-500"
+                        {...props}
+                      />
+                    ),
+                    ol: ({ node, ...props }) => (
+                      <ol
+                        className="list-decimal pl-6 mb-6 space-y-2 text-muted-foreground marker:text-emerald-500"
+                        {...props}
+                      />
+                    ),
+                    li: ({ node, ...props }) => <li className="pl-2" {...props} />,
+                    a: ({ node, ...props }) => (
+                      <a
+                        className="text-emerald-400 hover:text-emerald-300 underline underline-offset-4 decoration-emerald-500/30 transition-colors"
+                        {...props}
+                      />
+                    ),
+                    strong: ({ node, ...props }) => (
+                      <strong className="font-semibold text-white" {...props} />
+                    ),
+                    blockquote: ({ node, ...props }) => (
+                      <blockquote
+                        className="border-l-4 border-emerald-500/50 pl-4 py-1 italic bg-emerald-500/5 my-6 rounded-r-lg"
+                        {...props}
+                      />
+                    ),
+                    table: ({ node, ...props }) => (
+                      <div className="overflow-x-auto mb-8 rounded-lg border border-border/50">
+                        <table className="w-full text-left border-collapse" {...props} />
+                      </div>
+                    ),
+                    thead: ({ node, ...props }) => (
+                      <thead className="bg-white/5 border-b border-border/50" {...props} />
+                    ),
+                    th: ({ node, ...props }) => (
+                      <th className="p-4 font-medium text-white" {...props} />
+                    ),
+                    td: ({ node, ...props }) => (
+                      <td
+                        className="p-4 border-b border-border/20 text-muted-foreground"
+                        {...props}
+                      />
+                    ),
+                    pre: ({ children }) => <>{children}</>,
+                    code: ({ node, className, children, ...props }: any) => {
+                      const match = /language-(\w+)/.exec(className || "");
+                      const isInline = !match && !String(children).includes("\n");
+
                       if (isInline) {
-                        return <code className="bg-white/10 text-emerald-200 px-1.5 py-0.5 rounded font-mono text-sm" {...props}>{children}</code>;
+                        return (
+                          <code
+                            className="bg-white/10 text-emerald-200 px-1.5 py-0.5 rounded font-mono text-sm"
+                            {...props}
+                          >
+                            {children}
+                          </code>
+                        );
                       }
 
                       return (
                         <div className="my-6 rounded-xl overflow-hidden border border-border/50 bg-[#0d1117]">
-                          <div className="flex items-center px-4 py-2 border-b border-white/5 bg-white/5 text-xs font-mono text-muted-foreground">Code Snippet</div>
+                          <div className="flex items-center px-4 py-2 border-b border-white/5 bg-white/5 text-xs font-mono text-muted-foreground">
+                            Code Snippet
+                          </div>
                           <pre className="p-4 overflow-x-auto text-sm font-mono text-emerald-100/90">
-                            <code className={className} {...props}>{children}</code>
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
                           </pre>
                         </div>
                       );

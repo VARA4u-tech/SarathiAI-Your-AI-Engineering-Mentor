@@ -11,7 +11,7 @@ import {
   Terminal,
   Activity,
   Zap,
-  Sparkles
+  Sparkles,
 } from "lucide-react";
 
 export const Route = createFileRoute("/agent-teams")({
@@ -30,7 +30,7 @@ const agents = [
     bg: "bg-fuchsia-500/10",
     border: "border-fuchsia-500/20",
     specialties: ["Microservices", "Cloud Infrastructure", "Database Schema", "API Design"],
-    tasksCompleted: 142
+    tasksCompleted: 142,
   },
   {
     id: "developer",
@@ -43,7 +43,7 @@ const agents = [
     bg: "bg-cyan-500/10",
     border: "border-cyan-500/20",
     specialties: ["React / Next.js", "Node.js", "TypeScript", "Performance Tuning"],
-    tasksCompleted: 856
+    tasksCompleted: 856,
   },
   {
     id: "security",
@@ -56,7 +56,7 @@ const agents = [
     bg: "bg-emerald-500/10",
     border: "border-emerald-500/20",
     specialties: ["OWASP Top 10", "Dependency Scanning", "Auth Audits"],
-    tasksCompleted: 89
+    tasksCompleted: 89,
   },
   {
     id: "qa",
@@ -69,8 +69,8 @@ const agents = [
     bg: "bg-amber-500/10",
     border: "border-amber-500/20",
     specialties: ["Unit Tests", "E2E Testing", "Edge Case Discovery"],
-    tasksCompleted: 312
-  }
+    tasksCompleted: 312,
+  },
 ];
 
 function AgentTeamsPage() {
@@ -96,7 +96,8 @@ function AgentTeamsPage() {
             </p>
             <h1 className="font-display text-4xl md:text-5xl">Agent Teams</h1>
             <p className="text-muted-foreground mt-2 max-w-lg">
-              Manage your specialized AI personas. Each agent is powered by an industry-leading OpenRouter model tailored to its specific domain.
+              Manage your specialized AI personas. Each agent is powered by an industry-leading
+              OpenRouter model tailored to its specific domain.
             </p>
           </div>
           <div className="rounded-full glass px-5 py-2.5 text-sm flex items-center gap-2 border border-white/10">
@@ -120,7 +121,9 @@ function AgentTeamsPage() {
 
               <div className="flex items-start justify-between mb-6 relative z-10">
                 <div className="flex items-center gap-4">
-                  <div className={`size-14 rounded-2xl flex items-center justify-center border ${agent.bg} ${agent.border}`}>
+                  <div
+                    className={`size-14 rounded-2xl flex items-center justify-center border ${agent.bg} ${agent.border}`}
+                  >
                     <agent.icon className={`size-7 ${agent.color}`} />
                   </div>
                   <div>
@@ -128,8 +131,10 @@ function AgentTeamsPage() {
                     <p className="text-sm text-muted-foreground">{agent.role}</p>
                   </div>
                 </div>
-                
-                <div className={`px-3 py-1 flex items-center gap-1.5 rounded-full text-xs font-medium border ${agent.status === "Working" ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-300" : "bg-white/5 border-white/10 text-muted-foreground"}`}>
+
+                <div
+                  className={`px-3 py-1 flex items-center gap-1.5 rounded-full text-xs font-medium border ${agent.status === "Working" ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-300" : "bg-white/5 border-white/10 text-muted-foreground"}`}
+                >
                   {agent.status === "Working" && <Zap className="size-3 fill-cyan-300" />}
                   {agent.status}
                 </div>
@@ -150,8 +155,11 @@ function AgentTeamsPage() {
                     Core Specialties
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {agent.specialties.map(spec => (
-                      <span key={spec} className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs text-muted-foreground">
+                    {agent.specialties.map((spec) => (
+                      <span
+                        key={spec}
+                        className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs text-muted-foreground"
+                      >
                         {spec}
                       </span>
                     ))}
@@ -161,7 +169,9 @@ function AgentTeamsPage() {
 
               <div className="mt-6 pt-5 border-t border-border/50 flex items-center justify-between relative z-10">
                 <div className="text-sm text-muted-foreground">
-                  <span className="text-foreground font-display text-lg mr-1.5">{agent.tasksCompleted}</span> 
+                  <span className="text-foreground font-display text-lg mr-1.5">
+                    {agent.tasksCompleted}
+                  </span>
                   tasks completed
                 </div>
                 <button className="text-xs font-medium text-foreground hover:text-cyan-300 transition-colors">
