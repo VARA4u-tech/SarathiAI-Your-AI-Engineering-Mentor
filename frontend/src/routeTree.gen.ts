@@ -11,13 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AgentTeamsRouteImport } from './routes/agent-teams'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DocumentationRouteImport } from './routes/documentation'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ImportRouteImport } from './routes/import'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ProcessingRouteImport } from './routes/processing'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as RepositoriesRouteImport } from './routes/repositories'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SignupRouteImport } from './routes/signup'
@@ -40,6 +43,11 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgentTeamsRoute = AgentTeamsRouteImport.update({
+  id: '/agent-teams',
+  path: '/agent-teams',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
@@ -48,6 +56,11 @@ const AnalyticsRoute = AnalyticsRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentationRoute = DocumentationRouteImport.update({
+  id: '/documentation',
+  path: '/documentation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
@@ -73,6 +86,11 @@ const ProcessingRoute = ProcessingRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RepositoriesRoute = RepositoriesRouteImport.update({
+  id: '/repositories',
+  path: '/repositories',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -134,13 +152,16 @@ const WorkspaceRepoIdTestingRoute = WorkspaceRepoIdTestingRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/agent-teams': typeof AgentTeamsRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
+  '/documentation': typeof DocumentationRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/import': typeof ImportRoute
   '/login': typeof LoginRoute
   '/processing': typeof ProcessingRoute
   '/profile': typeof ProfileRoute
+  '/repositories': typeof RepositoriesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
@@ -156,13 +177,16 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/agent-teams': typeof AgentTeamsRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
+  '/documentation': typeof DocumentationRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/import': typeof ImportRoute
   '/login': typeof LoginRoute
   '/processing': typeof ProcessingRoute
   '/profile': typeof ProfileRoute
+  '/repositories': typeof RepositoriesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
@@ -179,13 +203,16 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/agent-teams': typeof AgentTeamsRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
+  '/documentation': typeof DocumentationRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/import': typeof ImportRoute
   '/login': typeof LoginRoute
   '/processing': typeof ProcessingRoute
   '/profile': typeof ProfileRoute
+  '/repositories': typeof RepositoriesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
@@ -203,13 +230,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/agent-teams'
     | '/analytics'
     | '/dashboard'
+    | '/documentation'
     | '/forgot-password'
     | '/import'
     | '/login'
     | '/processing'
     | '/profile'
+    | '/repositories'
     | '/reset-password'
     | '/settings'
     | '/signup'
@@ -225,13 +255,16 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/agent-teams'
     | '/analytics'
     | '/dashboard'
+    | '/documentation'
     | '/forgot-password'
     | '/import'
     | '/login'
     | '/processing'
     | '/profile'
+    | '/repositories'
     | '/reset-password'
     | '/settings'
     | '/signup'
@@ -247,13 +280,16 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/agent-teams'
     | '/analytics'
     | '/dashboard'
+    | '/documentation'
     | '/forgot-password'
     | '/import'
     | '/login'
     | '/processing'
     | '/profile'
+    | '/repositories'
     | '/reset-password'
     | '/settings'
     | '/signup'
@@ -270,13 +306,16 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  AgentTeamsRoute: typeof AgentTeamsRoute
   AnalyticsRoute: typeof AnalyticsRoute
   DashboardRoute: typeof DashboardRoute
+  DocumentationRoute: typeof DocumentationRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   ImportRoute: typeof ImportRoute
   LoginRoute: typeof LoginRoute
   ProcessingRoute: typeof ProcessingRoute
   ProfileRoute: typeof ProfileRoute
+  RepositoriesRoute: typeof RepositoriesRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SettingsRoute: typeof SettingsRoute
   SignupRoute: typeof SignupRoute
@@ -302,6 +341,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agent-teams': {
+      id: '/agent-teams'
+      path: '/agent-teams'
+      fullPath: '/agent-teams'
+      preLoaderRoute: typeof AgentTeamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/analytics': {
       id: '/analytics'
       path: '/analytics'
@@ -314,6 +360,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documentation': {
+      id: '/documentation'
+      path: '/documentation'
+      fullPath: '/documentation'
+      preLoaderRoute: typeof DocumentationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forgot-password': {
@@ -349,6 +402,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/repositories': {
+      id: '/repositories'
+      path: '/repositories'
+      fullPath: '/repositories'
+      preLoaderRoute: typeof RepositoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -452,13 +512,16 @@ const WorkspaceRepoIdRouteWithChildren = WorkspaceRepoIdRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  AgentTeamsRoute: AgentTeamsRoute,
   AnalyticsRoute: AnalyticsRoute,
   DashboardRoute: DashboardRoute,
+  DocumentationRoute: DocumentationRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   ImportRoute: ImportRoute,
   LoginRoute: LoginRoute,
   ProcessingRoute: ProcessingRoute,
   ProfileRoute: ProfileRoute,
+  RepositoriesRoute: RepositoriesRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SettingsRoute: SettingsRoute,
   SignupRoute: SignupRoute,
