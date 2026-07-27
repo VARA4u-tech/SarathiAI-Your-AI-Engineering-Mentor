@@ -24,7 +24,7 @@ import {
   X,
 } from "lucide-react";
 import { isAuthenticated } from "@/lib/demo-auth";
-import { runMission, getProjects, Project } from "@/lib/api";
+import { runMission, getProjects, getMissions, Project, Mission } from "@/lib/api";
 import { Sidebar } from "@/components/Sidebar";
 import {
   Dialog,
@@ -81,12 +81,21 @@ function Dashboard() {
   const [isTweaking, setIsTweaking] = useState(false);
   const [llmResponse, setLlmResponse] = useState<string | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [missions, setMissions] = useState<Mission[]>([]);
 
   useEffect(() => {
     getProjects()
       .then((data) => setProjects(data))
       .catch((err) => console.error("Failed to load projects", err));
   }, []);
+
+  useEffect(() => {
+    if (projects.length > 0) {
+      getMissions(projects[0]._id)
+        .then((data) => setMissions(data))
+        .catch(console.error);
+    }
+  }, [projects]);
 
   const currentProjectName = projects.length > 0 ? projects[0].name : "ecommerce-platform-v2";
 
@@ -278,165 +287,49 @@ function Dashboard() {
               </div>
 
               <div className="glass rounded-3xl p-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                  Proposed change set
-                </p>
-                <h2 className="font-display text-2xl mt-1 mb-5">Files the agents will touch</h2>
-                <div className="space-y-3">
-                  <ChangeFile
-                    file="src/server/auth/policies.ts"
-                    change="New"
-                    tone="text-emerald-300"
-                  />
-                  <ChangeFile
-                    file="src/server/middleware/authorize.ts"
-                    change="Edit"
-                    tone="text-cyan-300"
-                  />
-                  <ChangeFile
-                    file="src/routes/settings/roles.tsx"
-                    change="New"
-                    tone="text-emerald-300"
-                  />
-                  <ChangeFile
-                    file="tests/auth/authorization.test.ts"
-                    change="New"
-                    tone="text-emerald-300"
-                  />
+                <div className="flex items-center justify-between mb-5">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      Mission Control
+                    </p>
+                    <h2 className="font-display text-2xl mt-1">Active Missions</h2>
+                  </div>
                 </div>
-                <div className="mt-6 pt-5 border-t border-border flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">+ 318 / − 12 lines</span>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <button className="text-sm flex items-center gap-1 hover:text-fuchsia-200 transition-colors">
-                        View diff <ChevronRight className="size-4" />
-                      </button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col glass !bg-background/95 !border-white/10 shadow-2xl">
-                      <DialogHeader>
-                        <DialogTitle className="font-display text-2xl flex items-center gap-2 text-foreground">
-                          <FileCode2 className="size-5 text-cyan-300" />
-                          src/server/middleware/authorize.ts
-                        </DialogTitle>
-                      </DialogHeader>
-                      <ScrollArea className="flex-1 mt-4 rounded-xl border border-white/10 bg-black/40 overflow-hidden">
-                        <div className="p-4 font-mono text-sm leading-relaxed whitespace-pre overflow-x-auto">
-                          <div className="text-muted-foreground opacity-50 mb-4">
-                            @@ -14,6 +14,21 @@
-                          </div>
-                          <div className="flex">
-                            <span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">
-                              14
+
+                <div className="space-y-4">
+                  {missions.length === 0 ? (
+                    <div className="p-6 text-center text-sm text-muted-foreground border border-white/5 rounded-xl bg-white/5">
+                      No active missions. Import a repository and create a mock mission via API to see them here!
+                    </div>
+                  ) : (
+                    missions.map((m) => (
+                      <div key={m._id} className="rounded-xl bg-black/20 border border-white/10 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition hover:bg-black/40">
+                        <div>
+                          <h3 className="font-semibold text-white">{m.title}</h3>
+                          <div className="flex items-center gap-3 mt-2">
+                            <span className="text-xs text-muted-foreground">
+                              {m.changes.length} file{m.changes.length !== 1 ? 's' : ''} changed
                             </span>
-                            <span className="text-muted-foreground">
-                              export const requireAuth = async (req, res, next) =&gt; {"{"}
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider ${
+                              m.status === 'review_required' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' : 
+                              m.status === 'approved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                              m.status === 'rejected' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
+                              'bg-white/10 text-white/70 border border-white/20'
+                            }`}>
+                              {m.status.replace('_', ' ')}
                             </span>
-                          </div>
-                          <div className="flex">
-                            <span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">
-                              15
-                            </span>
-                            <span className="text-muted-foreground">
-                              {" "}
-                              const token = req.headers.authorization?.split(" ")[1];
-                            </span>
-                          </div>
-                          <div className="flex">
-                            <span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">
-                              16
-                            </span>
-                            <span className="text-muted-foreground">
-                              {" "}
-                              if (!token) return res.status(401).json({"{"} error: "Unauthorized"{" "}
-                              {"}"});
-                            </span>
-                          </div>
-                          <div className="flex bg-fuchsia-500/10">
-                            <span className="w-8 text-fuchsia-300 shrink-0 select-none">-</span>
-                            <span className="text-fuchsia-300 line-through decoration-fuchsia-500/50">
-                              {" "}
-                              // TODO: Add role checking
-                            </span>
-                          </div>
-                          <div className="flex bg-emerald-500/10">
-                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
-                            <span className="text-emerald-300">
-                              {" "}
-                              const user = await verifyToken(token);
-                            </span>
-                          </div>
-                          <div className="flex bg-emerald-500/10">
-                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
-                            <span className="text-emerald-300"> req.user = user;</span>
-                          </div>
-                          <div className="flex bg-emerald-500/10">
-                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
-                            <span className="text-emerald-300"> next();</span>
-                          </div>
-                          <div className="flex bg-emerald-500/10">
-                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
-                            <span className="text-emerald-300">{"}"};</span>
-                          </div>
-                          <div className="flex bg-emerald-500/10">
-                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
-                            <span className="text-emerald-300"></span>
-                          </div>
-                          <div className="flex bg-emerald-500/10">
-                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
-                            <span className="text-emerald-300">
-                              export const requireRole = (allowedRoles: string[]) =&gt; {"{"}
-                            </span>
-                          </div>
-                          <div className="flex bg-emerald-500/10">
-                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
-                            <span className="text-emerald-300">
-                              {" "}
-                              return async (req, res, next) =&gt; {"{"}
-                            </span>
-                          </div>
-                          <div className="flex bg-emerald-500/10">
-                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
-                            <span className="text-emerald-300">
-                              {" "}
-                              if (!req.user) return res.status(401).json({"{"} error: "Unauthorized"{" "}
-                              {"}"});
-                            </span>
-                          </div>
-                          <div className="flex bg-emerald-500/10">
-                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
-                            <span className="text-emerald-300">
-                              {" "}
-                              if (!allowedRoles.includes(req.user.role)) {"{"}
-                            </span>
-                          </div>
-                          <div className="flex bg-emerald-500/10">
-                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
-                            <span className="text-emerald-300">
-                              {" "}
-                              return res.status(403).json({"{"} error: "Forbidden: Insufficient
-                              role" {"}"});
-                            </span>
-                          </div>
-                          <div className="flex bg-emerald-500/10">
-                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
-                            <span className="text-emerald-300"> {"}"}</span>
-                          </div>
-                          <div className="flex">
-                            <span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">
-                              17
-                            </span>
-                            <span className="text-muted-foreground"> next();</span>
-                          </div>
-                          <div className="flex">
-                            <span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">
-                              18
-                            </span>
-                            <span className="text-muted-foreground">{"}"};</span>
                           </div>
                         </div>
-                      </ScrollArea>
-                    </DialogContent>
-                  </Dialog>
+                        <Link 
+                          to="/missions/$missionId"
+                          params={{ missionId: m._id }}
+                          className="shrink-0 text-sm flex items-center gap-1 hover:text-fuchsia-300 transition-colors bg-white/5 px-4 py-2 rounded-lg hover:bg-white/10"
+                        >
+                          View details <ChevronRight className="size-4" />
+                        </Link>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>

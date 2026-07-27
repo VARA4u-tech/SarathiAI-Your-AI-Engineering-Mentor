@@ -10,6 +10,24 @@ export interface Project {
   status?: string;
 }
 
+export interface MissionChange {
+  file: string;
+  diff: string;
+  additions: number;
+  deletions: number;
+}
+
+export interface Mission {
+  _id: string;
+  projectId: string | Project;
+  title: string;
+  description: string;
+  status: "pending" | "in_progress" | "review_required" | "approved" | "rejected" | "completed";
+  changes: MissionChange[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export async function importRepository(url: string) {
   const response = await fetch(`${API_BASE_URL}/api/import`, {
     method: "POST",
@@ -89,5 +107,36 @@ export async function createProject(githubUrl: string, name?: string) {
     throw new Error("Failed to create project");
   }
 
+  return response.json();
+}
+
+export async function getMissions(projectId?: string): Promise<Mission[]> {
+  const url = projectId ? `${API_BASE_URL}/api/missions?projectId=${projectId}` : `${API_BASE_URL}/api/missions`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("Failed to fetch missions");
+  return response.json();
+}
+
+export async function getMissionById(missionId: string): Promise<Mission> {
+  const response = await fetch(`${API_BASE_URL}/api/missions/${missionId}`);
+  if (!response.ok) throw new Error("Failed to fetch mission details");
+  return response.json();
+}
+
+export async function updateMissionStatus(missionId: string, status: Mission["status"]): Promise<Mission> {
+  const response = await fetch(`${API_BASE_URL}/api/missions/${missionId}/status`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+  if (!response.ok) throw new Error("Failed to update mission status");
+  return response.json();
+}
+
+export async function createMockMission(): Promise<Mission> {
+  const response = await fetch(`${API_BASE_URL}/api/missions/mock`, {
+    method: "POST",
+  });
+  if (!response.ok) throw new Error("Failed to create mock mission");
   return response.json();
 }

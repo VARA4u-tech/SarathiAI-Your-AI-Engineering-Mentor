@@ -27,6 +27,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as AuthForgotRouteImport } from './routes/auth/forgot'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
+import { Route as MissionsMissionIdRouteImport } from './routes/missions/$missionId'
 import { Route as WorkspaceRepoIdRouteImport } from './routes/workspace/$repoId'
 import { Route as WorkspaceRepoIdDebugRouteImport } from './routes/workspace/$repoId/debug'
 import { Route as WorkspaceRepoIdDocsRouteImport } from './routes/workspace/$repoId/docs'
@@ -123,6 +124,11 @@ const AuthRegisterRoute = AuthRegisterRouteImport.update({
   path: '/auth/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MissionsMissionIdRoute = MissionsMissionIdRouteImport.update({
+  id: '/missions/$missionId',
+  path: '/missions/$missionId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WorkspaceRepoIdRoute = WorkspaceRepoIdRouteImport.update({
   id: '/workspace/$repoId',
   path: '/workspace/$repoId',
@@ -168,6 +174,7 @@ export interface FileRoutesByFullPath {
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/missions/$missionId': typeof MissionsMissionIdRoute
   '/workspace/$repoId': typeof WorkspaceRepoIdRouteWithChildren
   '/workspace/$repoId/debug': typeof WorkspaceRepoIdDebugRoute
   '/workspace/$repoId/docs': typeof WorkspaceRepoIdDocsRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByTo {
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/missions/$missionId': typeof MissionsMissionIdRoute
   '/workspace/$repoId': typeof WorkspaceRepoIdRouteWithChildren
   '/workspace/$repoId/debug': typeof WorkspaceRepoIdDebugRoute
   '/workspace/$repoId/docs': typeof WorkspaceRepoIdDocsRoute
@@ -219,6 +227,7 @@ export interface FileRoutesById {
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/missions/$missionId': typeof MissionsMissionIdRoute
   '/workspace/$repoId': typeof WorkspaceRepoIdRouteWithChildren
   '/workspace/$repoId/debug': typeof WorkspaceRepoIdDebugRoute
   '/workspace/$repoId/docs': typeof WorkspaceRepoIdDocsRoute
@@ -246,6 +255,7 @@ export interface FileRouteTypes {
     | '/auth/forgot'
     | '/auth/login'
     | '/auth/register'
+    | '/missions/$missionId'
     | '/workspace/$repoId'
     | '/workspace/$repoId/debug'
     | '/workspace/$repoId/docs'
@@ -271,6 +281,7 @@ export interface FileRouteTypes {
     | '/auth/forgot'
     | '/auth/login'
     | '/auth/register'
+    | '/missions/$missionId'
     | '/workspace/$repoId'
     | '/workspace/$repoId/debug'
     | '/workspace/$repoId/docs'
@@ -296,6 +307,7 @@ export interface FileRouteTypes {
     | '/auth/forgot'
     | '/auth/login'
     | '/auth/register'
+    | '/missions/$missionId'
     | '/workspace/$repoId'
     | '/workspace/$repoId/debug'
     | '/workspace/$repoId/docs'
@@ -322,6 +334,7 @@ export interface RootRouteChildren {
   AuthForgotRoute: typeof AuthForgotRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  MissionsMissionIdRoute: typeof MissionsMissionIdRoute
   WorkspaceRepoIdRoute: typeof WorkspaceRepoIdRouteWithChildren
 }
 
@@ -453,6 +466,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/missions/$missionId': {
+      id: '/missions/$missionId'
+      path: '/missions/$missionId'
+      fullPath: '/missions/$missionId'
+      preLoaderRoute: typeof MissionsMissionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/workspace/$repoId': {
       id: '/workspace/$repoId'
       path: '/workspace/$repoId'
@@ -528,6 +548,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthForgotRoute: AuthForgotRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  MissionsMissionIdRoute: MissionsMissionIdRoute,
   WorkspaceRepoIdRoute: WorkspaceRepoIdRouteWithChildren,
 }
 export const routeTree = rootRouteImport
