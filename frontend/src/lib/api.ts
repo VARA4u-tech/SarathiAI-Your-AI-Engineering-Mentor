@@ -11,10 +11,14 @@ export interface Project {
 }
 
 export interface MissionSuggestion {
-  category: "Security" | "Performance" | "Architecture" | "Best Practices";
+  category: "System Design & Architecture" | "Full Stack Implementation" | "Vulnerability & Compliance" | "Testing & Validation";
   title: string;
   description: string;
   impact: "High" | "Medium" | "Low";
+  why?: string;
+  recommendation?: string;
+  difficulty?: "Easy" | "Medium" | "Hard";
+  estimatedTime?: string;
 }
 
 export interface Mission {
@@ -23,7 +27,22 @@ export interface Mission {
   title: string;
   description: string;
   status: "pending" | "in_progress" | "review_required" | "approved" | "rejected" | "completed";
+  score: number;
+  categoryScores: {
+    Architecture: number;
+    Security: number;
+    Performance: number;
+    Documentation: number;
+    Testing: number;
+    Scalability: number;
+    Maintainability: number;
+  };
   suggestions: MissionSuggestion[];
+  roadmap: {
+    week: string;
+    title: string;
+    description: string;
+  }[];
   createdAt: string;
   updatedAt: string;
 }

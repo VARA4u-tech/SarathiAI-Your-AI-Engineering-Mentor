@@ -44,11 +44,20 @@ ${project.readmeDocs || "No README available."}
 
     const data = await aiResponse.json();
     let suggestions = [];
+    let score = 0;
+    let categoryScores = {
+      Architecture: 0, Security: 0, Performance: 0, Documentation: 0, Testing: 0, Scalability: 0, Maintainability: 0
+    };
+    let roadmap = [];
     
-    // The python engine returns { "status": "success", "agent": "...", "response": "{...json string...}" }
     try {
       const parsedResponse = JSON.parse(data.response);
       suggestions = parsedResponse.suggestions || [];
+      score = parsedResponse.score || 0;
+      if (parsedResponse.categoryScores) {
+        categoryScores = { ...categoryScores, ...parsedResponse.categoryScores };
+      }
+      roadmap = parsedResponse.roadmap || [];
     } catch (parseError) {
       logger.error("Failed to parse AI response as JSON", data.response);
       suggestions = [
@@ -66,8 +75,11 @@ ${project.readmeDocs || "No README available."}
     const newMission = new Mission({
       projectId: project._id,
       title: prompt,
-      description: "AI Architectural Audit based on user prompt.",
+      description: "AI Engineering Mentor Project Review.",
       status: "review_required",
+      score,
+      categoryScores,
+      roadmap,
       suggestions
     });
 

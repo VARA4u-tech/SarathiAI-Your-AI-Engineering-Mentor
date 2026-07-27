@@ -39,43 +39,39 @@ export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
 });
 
-type MissionStatus = "planning" | "awaiting-approval" | "implementing" | "complete";
+type MissionStatus = "idle" | "planning" | "awaiting-approval" | "implementing" | "complete";
 
 const agents = [
   {
     name: "Context Scanner",
-    detail: "Mapped repository boundaries and dependencies",
+    detail: "Reads repository boundaries and dependencies",
     icon: Network,
     color: "text-violet-300",
-    time: "09:14",
   },
   {
     name: "Security Auditor",
-    detail: "Analyzed authentication and authorization flows",
+    detail: "Analyzes authentication and authorization flows",
     icon: ShieldCheck,
     color: "text-emerald-300",
-    time: "09:15",
   },
   {
     name: "Performance Profiler",
-    detail: "Evaluated database queries and caching strategies",
+    detail: "Evaluates database queries and caching strategies",
     icon: Activity,
     color: "text-yellow-300",
-    time: "09:19",
   },
   {
     name: "Systems Architect",
-    detail: "Synthesizing final architectural recommendations",
+    detail: "Synthesizes final architectural recommendations",
     icon: Sparkles,
     color: "text-cyan-300",
-    time: "09:21",
   },
 ];
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [status, setStatus] = useState<MissionStatus>("awaiting-approval");
-  const [mission, setMission] = useState("Add role-based authentication");
+  const [status, setStatus] = useState<MissionStatus>("idle");
+  const [mission, setMission] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [isTweaking, setIsTweaking] = useState(false);
@@ -122,14 +118,15 @@ function Dashboard() {
   }, [navigate]);
 
   const statusCopy = {
-    planning: ["Analyzing Architecture", "Agents are auditing the codebase for security and performance."],
-    "awaiting-approval": ["Audit Complete", "Insights and suggestions are ready for your review."],
+    idle: ["Ready", "Upload your repository and get a Senior Engineer's review in minutes."],
+    planning: ["Analyzing Architecture", "Your AI Mentor is reviewing the codebase for missing features, security, and performance."],
+    "awaiting-approval": ["Review Complete", "Your Project Review Report and Roadmap are ready."],
     implementing: [
-      "Finalizing Audit",
-      "Systems Architect is generating the final report.",
+      "Finalizing Roadmap",
+      "Mentor is generating the learning roadmap.",
     ],
-    complete: ["Mission complete", "The audit report has been saved."],
-  }[status];
+    complete: ["Mission complete", "The review report has been saved."],
+  }[status] || ["Ready", "Upload your repository and get a Senior Engineer's review in minutes."];
 
   return (
     <main className="min-h-screen bg-background text-foreground flex">
@@ -147,11 +144,14 @@ function Dashboard() {
               <Menu className="size-5" />
             </button>
             <p className="text-xs uppercase tracking-[0.24em] text-fuchsia-300 mb-2">
-              CodePilot AI / Autonomous Architectural Advisor
+              CodePilot AI / Engineering Mentor
             </p>
-            <h1 className="font-display text-4xl md:text-5xl">Architecture & Security Hub</h1>
-            <p className="text-muted-foreground mt-2">
-              Request a comprehensive architectural audit or security review for your codebase.
+            <h1 className="font-display text-4xl md:text-5xl mt-2 mb-4">
+              From student project to production-ready.
+            </h1>
+            <p className="text-muted-foreground text-lg max-w-xl">
+              Get an instant Senior Engineer review of your repository. Discover missing features, 
+              security vulnerabilities, and get a week-by-week implementation roadmap.
             </p>
           </div>
           <Link
@@ -162,47 +162,38 @@ function Dashboard() {
           </Link>
         </header>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-[minmax(0,1.65fr)_minmax(290px,0.75fr)] gap-6">
-          <section className="space-y-6">
-            <div className="glass rounded-3xl p-6 md:p-8 overflow-hidden relative">
-              <div className="absolute -right-24 -top-24 size-64 rounded-full bg-fuchsia-500/15 blur-3xl pointer-events-none" />
-              <div className="relative flex flex-col gap-6">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span className="size-2 rounded-full bg-emerald-400 animate-pulse" /> Active
-                    mission
-                  </div>
-                  <span className="rounded-full border border-fuchsia-300/20 bg-fuchsia-300/10 px-3 py-1 text-xs text-fuchsia-200">
-                    {currentProjectName} / main
-                  </span>
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_320px] gap-8">
+          <section className="space-y-8">
+            <div className="glass rounded-3xl p-6 md:p-8 flex flex-col justify-between">
+              <div>
+                <label className="text-sm font-medium text-fuchsia-300 mb-3 block">
+                  What project would you like to review?
+                </label>
+                <div className="relative group">
+                  <input
+                    type="text"
+                    value={mission}
+                    onChange={(e) => setMission(e.target.value)}
+                    placeholder="e.g. Please review my authentication flow and provide a roadmap."
+                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60 placeholder:text-white/30 pr-40"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && mission.trim() && status !== "planning") {
+                        handleRunMission();
+                      }
+                    }}
+                  />
+                  <button
+                    onClick={handleRunMission}
+                    disabled={status === "planning" || !mission}
+                    className="absolute right-2 top-2 bottom-2 bg-foreground text-background px-4 md:px-6 rounded-xl font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors disabled:opacity-50"
+                  >
+                    {status === "planning" ? <Loader2 className="animate-spin size-4" /> : "Review My Project"}
+                    {status !== "planning" && <ArrowRight className="size-4" />}
+                  </button>
                 </div>
-                <div>
-                  <label htmlFor="mission" className="font-display text-2xl">
-                    What architecture should we analyze?
-                  </label>
-                  <div className="mt-3 flex flex-col sm:flex-row gap-3">
-                    <input
-                      id="mission"
-                      value={mission}
-                      onChange={(event) => setMission(event.target.value)}
-                      placeholder="E.g., How can I improve the security of my authentication flow?"
-                      className="flex-1 rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60 placeholder:text-white/30"
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && mission.trim() && status !== "planning") {
-                          handleRunMission();
-                        }
-                      }}
-                    />
-                    <button
-                      onClick={handleRunMission}
-                      disabled={status === "planning" || !mission.trim()}
-                      className="rounded-2xl bg-foreground text-background px-5 py-4 font-medium hover:opacity-90 transition disabled:opacity-50 flex items-center gap-2"
-                    >
-                      {status === "planning" ? "Auditing..." : "Run Audit"}
-                    </button>
-                  </div>
+                <div className="mt-6">
+                  <MissionProgress status={status} />
                 </div>
-                <MissionProgress status={status} />
               </div>
             </div>
 
@@ -242,10 +233,15 @@ function Dashboard() {
                     ))}
                   </ol>
                 )}
+                {status === "idle" && (
+                  <div className="mt-8 text-center text-sm text-muted-foreground p-6 rounded-xl border border-white/5 bg-white/5">
+                    Start a project review to see your repository score, missing features, and learning roadmap here.
+                  </div>
+                )}
                 {status === "awaiting-approval" && (
                   <div className="mt-6 space-y-3 border-t border-border pt-5">
-                    <p className="text-sm font-medium">Have feedback for the Architecture Audit?</p>
-                    <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium">Have feedback for the Review?</p>
+                    <div className="flex gap-2">
                       <div className="relative flex-1">
                         <MessageSquare className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                         <input
@@ -346,23 +342,6 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-
-            <div className="glass rounded-3xl p-6">
-              <div className="flex items-center gap-3 mb-5">
-                <History className="size-5 text-fuchsia-300" />
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    Engineering memory
-                  </p>
-                  <h2 className="font-display text-2xl">Context agents retain</h2>
-                </div>
-              </div>
-              <div className="grid sm:grid-cols-3 gap-3 text-sm">
-                <Memory label="Primary Language" value={currentProject?.language || "TypeScript"} />
-                <Memory label="Framework" value={currentProject?.framework || "React / Node"} />
-                <Memory label="Repository" value={currentProject?.githubUrl || "Local"} />
-              </div>
-            </div>
           </section>
 
           <aside className="space-y-6">
@@ -372,7 +351,7 @@ function Dashboard() {
                   <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                     Analysis Pipeline
                   </p>
-                  <h2 className="font-display text-2xl mt-1">Advisor Workflow</h2>
+                  <h2 className="font-display text-2xl mt-1 mb-5">Mentorship Capabilities</h2>
                 </div>
                 <Bot className="size-5 text-fuchsia-300" />
               </div>
@@ -451,7 +430,7 @@ function Memory({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
-function AgentEvent({ name, detail, icon: Icon, color, time }: (typeof agents)[number]) {
+function AgentEvent({ name, detail, icon: Icon, color }: (typeof agents)[number]) {
   return (
     <div className="relative">
       <span className="absolute -left-5 top-1.5 size-3 rounded-full bg-background border border-fuchsia-300" />
@@ -462,7 +441,6 @@ function AgentEvent({ name, detail, icon: Icon, color, time }: (typeof agents)[n
         <div>
           <div className="flex items-center gap-2">
             <p className="text-sm font-medium">{name}</p>
-            <span className="text-[10px] text-muted-foreground">{time}</span>
           </div>
           <p className="text-xs text-muted-foreground mt-1">✓ {detail}</p>
         </div>
