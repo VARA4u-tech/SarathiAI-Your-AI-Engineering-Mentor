@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Sidebar } from "@/components/Sidebar";
-import { runMission, getProjects } from "@/lib/api";
+import { runMission, getProjects, saveReadmeDocs } from "@/lib/api";
 import { motion } from "motion/react";
 import { FileText, Loader2, Sparkles, BookOpen, GitBranch, Copy, CheckCircle2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
@@ -26,12 +26,11 @@ function DocumentationPage() {
 
   const currentProject = projects.length > 0 ? projects[0] : null;
 
-  // Load documentation from localStorage when project changes
+  // Load documentation from MongoDB when project changes
   useEffect(() => {
     if (currentProject) {
-      const savedDocs = localStorage.getItem(`codepilot_docs_${currentProject.githubUrl}`);
-      if (savedDocs) {
-        setDocumentation(savedDocs);
+      if (currentProject.readmeDocs) {
+        setDocumentation(currentProject.readmeDocs);
       } else {
         setDocumentation(null);
       }
@@ -44,10 +43,12 @@ function DocumentationPage() {
     setDocumentation(null);
 
     try {
-      const prompt = `Generate a comprehensive ARCHITECTURE.md file for the repository: ${currentProject.githubUrl}. Include sections for Overview, Tech Stack, Architecture Diagram (mermaid), and Core Components.`;
+      const prompt = `Generate a comprehensive, professional README.md file for the repository: ${currentProject.githubUrl}. Include a high-quality Overview, Tech Stack, installation instructions, usage workflow, Architecture Diagram (using Mermaid), and Core Components.`;
       const res = await runMission(prompt, "architect");
       setDocumentation(res.response);
-      localStorage.setItem(`codepilot_docs_${currentProject.githubUrl}`, res.response);
+      
+      // Save permanently to MongoDB
+      await saveReadmeDocs(currentProject._id, res.response);
     } catch (error) {
       console.error("Failed to generate docs", error);
       setDocumentation("# Error\nFailed to generate documentation. Please check if the AI Engine is running.");
@@ -56,11 +57,46 @@ function DocumentationPage() {
     }
   };
 
+  const fallbackCopyTextToClipboard = (text: string) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      }
+    } catch (err) {
+      console.error('Fallback: Oops, unable to copy', err);
+      alert("Failed to copy. Please manually select and copy the text.");
+    }
+
+    document.body.removeChild(textArea);
+  };
+
   const handleCopy = () => {
     if (documentation) {
-      navigator.clipboard.writeText(documentation);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(documentation).then(() => {
+          setIsCopied(true);
+          setTimeout(() => setIsCopied(false), 2000);
+        }).catch((err) => {
+          console.error("Clipboard API failed, using fallback.", err);
+          fallbackCopyTextToClipboard(documentation);
+        });
+      } else {
+        fallbackCopyTextToClipboard(documentation);
+      }
     }
   };
 
@@ -132,7 +168,7 @@ function DocumentationPage() {
               <div className="bg-black/40 border-b border-border/50 p-4 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm font-mono text-muted-foreground">
                   <FileText className="size-4" />
-                  ARCHITECTURE.md
+                  README.md
                 </div>
                 <div className="flex items-center gap-4">
                   <button

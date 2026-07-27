@@ -6,6 +6,7 @@ export interface IProject extends Document {
   language: string;
   framework: string;
   status: "indexing" | "ready" | "failed";
+  readmeDocs?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,6 +22,7 @@ const ProjectSchema: Schema = new Schema(
       enum: ["indexing", "ready", "failed"], 
       default: "indexing" 
     },
+    readmeDocs: { type: String, default: null },
   },
   { timestamps: true }
 );
