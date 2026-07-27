@@ -213,3 +213,20 @@
 .animate-marquee-full {
   animation: marquee-full 30s linear infinite;
 }
+
+/* Custom sleek scrollbar for documentation */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgb(255 255 255 / 2%);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(255 255 255 / 15%);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(255 255 255 / 25%);
+}

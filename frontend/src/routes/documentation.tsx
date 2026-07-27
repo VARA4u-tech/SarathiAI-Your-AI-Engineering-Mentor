@@ -129,8 +129,8 @@ function DocumentationPage() {
       <div className="absolute inset-0 noise pointer-events-none" />
       <Sidebar mobileOpen={menuOpen} onClose={() => setMenuOpen(false)} />
 
-      <div className="relative z-10 flex-1 min-w-0 overflow-y-auto p-5 md:p-10">
-        <header className="max-w-5xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-5 mb-10">
+      <div className="relative z-10 flex-1 min-w-0 h-screen flex flex-col p-5 md:p-10 overflow-hidden">
+        <header className="max-w-5xl w-full mx-auto flex flex-col md:flex-row md:items-end justify-between gap-5 mb-6 shrink-0">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-emerald-300 mb-2 flex items-center gap-2">
               <BookOpen className="size-3" /> Knowledge Base
@@ -148,9 +148,9 @@ function DocumentationPage() {
           )}
         </header>
 
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl w-full mx-auto flex-1 overflow-hidden flex flex-col pb-2">
           {!documentation && !isGenerating && (
-            <div className="glass rounded-3xl p-10 border border-border/50 flex flex-col items-center justify-center text-center min-h-[400px]">
+            <div className="glass rounded-3xl p-10 border border-border/50 flex flex-col items-center justify-center text-center h-full">
               <div className="size-20 rounded-full bg-emerald-500/10 flex items-center justify-center mb-6">
                 <FileText className="size-10 text-emerald-400" />
               </div>
@@ -170,7 +170,7 @@ function DocumentationPage() {
           )}
 
           {isGenerating && (
-            <div className="glass rounded-3xl p-10 border border-border/50 flex flex-col items-center justify-center text-center min-h-[400px]">
+            <div className="glass rounded-3xl p-10 border border-border/50 flex flex-col items-center justify-center text-center h-full">
               <motion.div 
                 animate={{ rotate: 360 }}
                 transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
@@ -187,9 +187,9 @@ function DocumentationPage() {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass rounded-3xl overflow-hidden border border-border/50"
+              className="glass rounded-3xl overflow-hidden border border-border/50 flex flex-col h-full"
             >
-              <div className="bg-black/40 border-b border-border/50 p-4 flex items-center justify-between">
+              <div className="bg-black/40 border-b border-border/50 p-4 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-2 text-sm font-mono text-muted-foreground">
                   <FileText className="size-4" />
                   README.md
@@ -210,7 +210,7 @@ function DocumentationPage() {
                   </button>
                 </div>
               </div>
-              <div className="p-8 md:p-12 max-w-none text-foreground/90 leading-relaxed overflow-x-auto">
+              <div className="p-8 md:p-12 max-w-none text-foreground/90 leading-relaxed overflow-y-auto overflow-x-hidden flex-1 custom-scrollbar">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
