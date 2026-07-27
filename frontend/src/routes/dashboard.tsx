@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import {
   Activity,
+  ArrowRight,
   Bot,
   Check,
   ChevronRight,
@@ -11,7 +12,9 @@ import {
   FileText,
   GitBranch,
   History,
+  Loader2,
   Menu,
+  MessageSquare,
   Network,
   Plus,
   Settings,
@@ -65,6 +68,8 @@ function Dashboard() {
   const [status, setStatus] = useState<MissionStatus>("awaiting-approval");
   const [mission, setMission] = useState("Add role-based authentication");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [feedback, setFeedback] = useState("");
+  const [isTweaking, setIsTweaking] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated()) navigate({ to: "/login" });
@@ -176,12 +181,42 @@ function Dashboard() {
                   ))}
                 </ol>
                 {status === "awaiting-approval" && (
-                  <button
-                    onClick={() => setStatus("implementing")}
-                    className="mt-6 w-full rounded-xl bg-fuchsia-300 text-background py-3 text-sm font-semibold hover:bg-fuchsia-200 transition"
-                  >
-                    Approve & implement
-                  </button>
+                  <div className="mt-6 space-y-3 border-t border-border pt-5">
+                    <p className="text-sm font-medium">Have feedback for the Architect Agent?</p>
+                    <div className="flex items-center gap-2">
+                      <div className="relative flex-1">
+                        <MessageSquare className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                        <input
+                          value={feedback}
+                          onChange={(e) => setFeedback(e.target.value)}
+                          placeholder="e.g. Use Postgres instead of Redis"
+                          className="w-full rounded-xl border border-white/10 bg-black/20 py-2.5 pl-9 pr-4 text-sm outline-none focus:border-fuchsia-300/60 transition-colors"
+                          disabled={isTweaking}
+                        />
+                      </div>
+                      <button
+                        onClick={() => {
+                          if (!feedback) return;
+                          setIsTweaking(true);
+                          setTimeout(() => {
+                            setIsTweaking(false);
+                            setFeedback("");
+                          }, 1500);
+                        }}
+                        disabled={!feedback || isTweaking}
+                        className="grid size-10 place-items-center rounded-xl bg-white/5 hover:bg-white/10 transition-colors disabled:opacity-50"
+                      >
+                        {isTweaking ? <Loader2 className="size-4 animate-spin" /> : <ArrowRight className="size-4" />}
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={() => setStatus("implementing")}
+                      className="w-full rounded-xl bg-fuchsia-300 text-background py-3 text-sm font-semibold hover:bg-fuchsia-200 transition mt-2"
+                    >
+                      Approve & implement
+                    </button>
+                  </div>
                 )}
                 {status === "implementing" && (
                   <button
