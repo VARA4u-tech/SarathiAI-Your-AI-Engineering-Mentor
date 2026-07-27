@@ -1,7 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "motion/react";
-import { useState } from "react";
-import { Github, UploadCloud, FolderGit2, CheckCircle2 } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect } from "react";
+import { Github, UploadCloud, FolderGit2, CheckCircle2, Search, Bot, Database, Activity, FileCode2, Loader2, Check } from "lucide-react";
 import orb2 from "@/assets/orb-2.jpg";
 
 export const Route = createFileRoute("/import")({
@@ -9,6 +9,7 @@ export const Route = createFileRoute("/import")({
 });
 
 function ImportRepo() {
+  const navigate = useNavigate();
   const [url, setUrl] = useState("");
   const [isValidating, setIsValidating] = useState(false);
   const [stats, setStats] = useState<{
@@ -18,6 +19,33 @@ function ImportRepo() {
     files: number | string;
     time: string;
   } | null>(null);
+
+  const [indexingState, setIndexingState] = useState<"idle" | "indexing" | "complete">("idle");
+  const [activeAgentIndex, setActiveAgentIndex] = useState(0);
+
+  const agents = [
+    { name: "Search Agent", icon: Search, desc: "Cloning repository..." },
+    { name: "Repository Intelligence", icon: Database, desc: "Building AST and dependency graph..." },
+    { name: "Architect Agent", icon: Bot, desc: "Analyzing system architecture..." },
+    { name: "Documentation Agent", icon: FileCode2, desc: "Extracting inline docstrings..." },
+    { name: "Test Agent", icon: Activity, desc: "Mapping test coverage..." },
+  ];
+
+  useEffect(() => {
+    if (indexingState === "indexing") {
+      if (activeAgentIndex < agents.length) {
+        const timer = setTimeout(() => {
+          setActiveAgentIndex(prev => prev + 1);
+        }, 1200); // 1.2s per agent
+        return () => clearTimeout(timer);
+      } else {
+        setIndexingState("complete");
+        setTimeout(() => {
+          navigate({ to: "/dashboard" });
+        }, 1500);
+      }
+    }
+  }, [indexingState, activeAgentIndex, navigate, agents.length]);
 
   const handleValidate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,7 +128,54 @@ function ImportRepo() {
 
         {/* Right Side - Validation & Stats */}
         <div className="h-full pt-12 md:pt-28">
-          {stats ? (
+          {indexingState !== "idle" ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="glass rounded-3xl p-8 border border-border"
+            >
+              <div className="mb-6 pb-6 border-b border-border">
+                <h3 className="font-display text-2xl">Initializing Autonomous OS...</h3>
+                <p className="text-muted-foreground mt-2 text-sm">Deploying agent workforce to analyze repository structure.</p>
+              </div>
+
+              <div className="space-y-4">
+                {agents.map((agent, idx) => {
+                  const isActive = idx === activeAgentIndex;
+                  const isDone = idx < activeAgentIndex;
+                  
+                  return (
+                    <motion.div 
+                      key={agent.name}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: isActive || isDone ? 1 : 0.4, y: 0 }}
+                      className={`flex items-start gap-4 p-4 rounded-xl border transition-colors ${isActive ? 'bg-fuchsia-500/10 border-fuchsia-500/30' : isDone ? 'bg-white/5 border-white/10' : 'border-transparent'}`}
+                    >
+                      <div className={`mt-0.5 size-8 shrink-0 rounded-lg flex items-center justify-center ${isActive ? 'bg-fuchsia-500/20 text-fuchsia-300' : isDone ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-muted-foreground'}`}>
+                        {isDone ? <Check className="size-4" /> : isActive ? <Loader2 className="size-4 animate-spin" /> : <agent.icon className="size-4" />}
+                      </div>
+                      <div>
+                        <h4 className={`text-sm font-medium ${isActive ? 'text-fuchsia-300' : isDone ? 'text-foreground' : 'text-muted-foreground'}`}>{agent.name}</h4>
+                        <p className="text-xs text-muted-foreground mt-1">{isActive ? agent.desc : isDone ? "Complete" : "Waiting in queue..."}</p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+              
+              <AnimatePresence>
+                {indexingState === "complete" && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-8 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center gap-2 text-sm font-medium"
+                  >
+                    <CheckCircle2 className="size-5" /> Knowledge Graph Constructed! Redirecting...
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ) : stats ? (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -127,12 +202,12 @@ function ImportRepo() {
                 <StatRow label="Estimated Analysis Time" val={stats.time} highlight />
               </div>
 
-              <Link
-                to="/processing"
+              <button
+                onClick={() => setIndexingState("indexing")}
                 className="block w-full text-center rounded-full bg-foreground text-background px-6 py-4 text-sm font-medium hover:opacity-90 transition"
               >
                 Start Analysis Pipeline →
-              </Link>
+              </button>
             </motion.div>
           ) : (
             <div className="h-full border border-border border-dashed rounded-3xl flex items-center justify-center p-8 opacity-50">
