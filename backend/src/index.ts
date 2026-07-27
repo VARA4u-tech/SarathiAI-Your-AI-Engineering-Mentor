@@ -1,10 +1,11 @@
 import express from "express";
 import cors from "cors";
-import { importRepository } from "./modules/repository/repository.controller";
 import { getProjects, createProject } from "./modules/project/project.controller";
+import { importRepository } from "./modules/repository/repository.controller";
 import { runMission } from "./modules/mission/mission.controller";
 import { logger } from "./shared/utils/logger";
 import { config } from "./config";
+import { connectDB } from "./config/db";
 
 const app = express();
 
@@ -28,6 +29,9 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", service: "api-gateway" });
 });
 
-app.listen(config.port, () => {
-  logger.info(`API Gateway running on http://localhost:${config.port}`);
+// Start server
+connectDB().then(() => {
+  app.listen(config.port, () => {
+    logger.info(`API Gateway running on http://localhost:${config.port}`);
+  });
 });
