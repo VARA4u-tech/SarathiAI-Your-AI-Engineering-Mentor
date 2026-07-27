@@ -15,7 +15,7 @@ import {
   Check,
 } from "lucide-react";
 import orb2 from "@/assets/orb-2.jpg";
-import { importRepository } from "@/lib/api";
+import { importRepository, createProject } from "@/lib/api";
 
 export const Route = createFileRoute("/import")({
   component: ImportRepo,
@@ -57,12 +57,22 @@ function ImportRepo() {
         return () => clearTimeout(timer);
       } else {
         setIndexingState("complete");
-        setTimeout(() => {
-          navigate({ to: "/dashboard" });
-        }, 1500);
+        // Save to Database
+        createProject(url)
+          .then(() => {
+            setTimeout(() => {
+              navigate({ to: "/dashboard" });
+            }, 1000);
+          })
+          .catch((err) => {
+            console.error("Failed to save project", err);
+            setTimeout(() => {
+              navigate({ to: "/dashboard" });
+            }, 1000);
+          });
       }
     }
-  }, [indexingState, activeAgentIndex, navigate, agents.length]);
+  }, [indexingState, activeAgentIndex, navigate, agents.length, url]);
 
   const handleValidate = async (e: React.FormEvent) => {
     e.preventDefault();

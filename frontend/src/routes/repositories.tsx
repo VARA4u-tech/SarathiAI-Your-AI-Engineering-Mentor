@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getProjects } from "@/lib/api";
 import {
   Menu,
   Database,
@@ -114,6 +115,15 @@ const concepts = [
 
 function RepositoriesPage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [projects, setProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    getProjects()
+      .then((data) => setProjects(data))
+      .catch((err) => console.error("Failed to load projects", err));
+  }, []);
+
+  const currentProjectName = projects.length > 0 ? projects[0].name : "ecommerce-platform-v2";
 
   return (
     <main className="min-h-screen bg-background text-foreground flex">
@@ -140,7 +150,7 @@ function RepositoriesPage() {
           </div>
           <div className="rounded-full glass px-5 py-2.5 text-sm flex items-center gap-2 border border-white/10">
             <GitBranch className="size-4 text-cyan-300" />
-            ecommerce-platform-v2 / main
+            {currentProjectName} / main
           </div>
         </header>
 

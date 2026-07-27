@@ -24,7 +24,7 @@ import {
   X,
 } from "lucide-react";
 import { isAuthenticated } from "@/lib/demo-auth";
-import { runMission } from "@/lib/api";
+import { runMission, getProjects } from "@/lib/api";
 import { Sidebar } from "@/components/Sidebar";
 import {
   Dialog,
@@ -80,6 +80,15 @@ function Dashboard() {
   const [feedback, setFeedback] = useState("");
   const [isTweaking, setIsTweaking] = useState(false);
   const [llmResponse, setLlmResponse] = useState<string | null>(null);
+  const [projects, setProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    getProjects()
+      .then((data) => setProjects(data))
+      .catch((err) => console.error("Failed to load projects", err));
+  }, []);
+
+  const currentProjectName = projects.length > 0 ? projects[0].name : "ecommerce-platform-v2";
 
   const handleRunMission = async () => {
     setStatus("planning");
@@ -151,7 +160,7 @@ function Dashboard() {
                     mission
                   </div>
                   <span className="rounded-full border border-fuchsia-300/20 bg-fuchsia-300/10 px-3 py-1 text-xs text-fuchsia-200">
-                    ecommerce-platform-v2 / main
+                    {currentProjectName} / main
                   </span>
                 </div>
                 <div>
