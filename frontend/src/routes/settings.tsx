@@ -153,8 +153,8 @@ function TabButton({
   icon: React.ElementType;
   label: string;
   id: string;
-  active: boolean;
-  onClick: () => void;
+  active: string;
+  onClick: (id: string) => void;
 }) {
   const isActive = active === id;
   return (
