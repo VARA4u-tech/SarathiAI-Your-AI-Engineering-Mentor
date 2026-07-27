@@ -43,7 +43,31 @@ function DocumentationPage() {
     setDocumentation(null);
 
     try {
-      const prompt = `Generate a comprehensive, professional README.md file for the repository: ${currentProject.githubUrl}. Include a high-quality Overview, Tech Stack, installation instructions, usage workflow, Architecture Diagram (using Mermaid), and Core Components.`;
+      const prompt = `Generate a world-class, highly detailed README.md file for the repository: ${currentProject.githubUrl}. 
+      
+      You MUST strictly follow this professional structure and formatting:
+      1. **Header**: Title with a rocket emoji (🚀) and a catchy subtitle. 
+         CRITICAL BADGE RULES:
+         - You MUST include a set of dynamic GitHub metrics badges using Shields.io with the \`?style=for-the-badge\` query parameter.
+         - Extract the username and repo from the URL and generate badges for: Last Commit, Repo Size, Issues, Stars, and License (e.g., \`![Stars](https://img.shields.io/github/stars/USER/REPO?style=for-the-badge)\`).
+         - Below the metrics badges, include Tech Stack badges (e.g. React, Node, Tailwind) also using \`?style=for-the-badge\`.
+      2. **📌 Project Overview**: Problem statement, solution, and business value.
+      3. **🏗 System Architecture**: Detailed explanation and a MUST-HAVE Mermaid graph (flowchart TD). 
+         CRITICAL MERMAID RULES: 
+         - Subgraphs CANNOT have shape definitions. NEVER use \`subgraph ID[(Title)]\`. You MUST use exactly \`subgraph ID ["Title"]\`.
+         - You MUST wrap ALL node labels AND subgraph titles in double quotes if they contain spaces, special characters, or emojis. 
+         - Correct: \`NodeID["Node Label (Info)"]\` or \`subgraph ID ["🌐 Subgraph Title"]\`
+         - Incorrect: \`NodeID[Node Label]\` or \`subgraph ID[🌐 Title]\`
+      4. **⚙️ Development Methodology**: Agile workflow and engineering challenges.
+      5. **✨ Features Breakdown**: A markdown TABLE containing Feature, Description, and Implementation Detail.
+      6. **🔄 Application Workflow**: Step-by-step user journey, including a Mermaid sequenceDiagram.
+      7. **🛠 Tech Stack**: Grouped into Frontend, Backend/API, and Deployment.
+      8. **📂 Folder Structure**: A code block showing the directory tree.
+      9. **📊 Engineering Decisions**: Bullet points explaining architectural choices.
+      10. **🚀 Future Enhancements**: A checklist of upcoming features.
+      
+      Make it look incredibly neat, premium, and identical to top-tier open-source enterprise repositories. Use emojis for all section headers.`;
+      
       const res = await runMission(prompt, "architect");
       setDocumentation(res.response);
       
