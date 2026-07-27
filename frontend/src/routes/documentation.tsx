@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Sidebar } from "@/components/Sidebar";
-import { runMission, getProjects, saveReadmeDocs } from "@/lib/api";
+import { runMission, getProjects, saveReadmeDocs, Project } from "@/lib/api";
 import { motion } from "motion/react";
 import { FileText, Loader2, Sparkles, BookOpen, GitBranch, Copy, CheckCircle2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/documentation")({
 
 function DocumentationPage() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [documentation, setDocumentation] = useState<string | null>(null);
   const [isCopied, setIsCopied] = useState(false);
@@ -296,7 +296,12 @@ function DocumentationPage() {
                       />
                     ),
                     pre: ({ children }) => <>{children}</>,
-                    code: ({ node, className, children, ...props }: any) => {
+                    code: ({
+                      node,
+                      className,
+                      children,
+                      ...props
+                    }: React.HTMLAttributes<HTMLElement> & { node?: unknown }) => {
                       const match = /language-(\w+)/.exec(className || "");
                       const isInline = !match && !String(children).includes("\n");
 
