@@ -1,35 +1,29 @@
 import express from "express";
 import cors from "cors";
+import { importRepository } from "./modules/repository/repository.controller";
+import { getProjects, createProject } from "./modules/project/project.controller";
+import { logger } from "./shared/utils/logger";
+import { config } from "./config";
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
 
-// --- Mock Endpoints for Demo UI ---
+// --- Routes ---
 
-// Simulate Repository Indexing
-app.post("/api/import", (req, res) => {
-  const { url } = req.body;
-  if (!url) {
-    return res.status(400).json({ error: "Repository URL is required" });
-  }
-  
-  // Return mock stats
-  res.json({
-    name: url.split("/").pop() || "repository",
-    lang: "TypeScript",
-    framework: "React / Vite",
-    files: 432,
-    time: "~2 minutes",
-  });
-});
+// Repository Module
+app.post("/api/import", importRepository);
 
+// Project Module
+app.get("/api/projects", getProjects);
+app.post("/api/projects", createProject);
+
+// Health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", service: "api-gateway" });
 });
 
-app.listen(PORT, () => {
-  console.log(`[Backend] API Gateway running on http://localhost:${PORT}`);
+app.listen(config.port, () => {
+  logger.info(`API Gateway running on http://localhost:${config.port}`);
 });

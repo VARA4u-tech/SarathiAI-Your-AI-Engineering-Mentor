@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from utils.openrouter import call_agent
 
 app = FastAPI(title="CodePilot AI Engine", description="AI Orchestration layer")
 
@@ -21,4 +22,17 @@ def analyze_repo(req: AnalyzeRequest):
             "Found React frontend in /frontend",
             "Authentication relies on JWT in headers"
         ]
+    }
+
+class MissionRequest(BaseModel):
+    prompt: str
+    agent_type: str = "architect"
+
+@app.post("/ai/mission")
+def run_mission(req: MissionRequest):
+    result = call_agent(req.agent_type, req.prompt)
+    return {
+        "status": "success",
+        "agent": req.agent_type,
+        "response": result
     }
