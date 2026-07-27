@@ -1,6 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, Database, Shield, CreditCard, ShoppingCart, Bell, GitBranch, Activity, Layers, Code2, Sparkles } from "lucide-react";
+import {
+  Menu,
+  Database,
+  Shield,
+  CreditCard,
+  ShoppingCart,
+  Bell,
+  GitBranch,
+  Activity,
+  Layers,
+  Code2,
+  Sparkles,
+} from "lucide-react";
 import { Sidebar } from "@/components/Sidebar";
 
 export const Route = createFileRoute("/repositories")({
@@ -18,10 +30,10 @@ const concepts = [
     stats: {
       files: 14,
       apis: 4,
-      models: 2
+      models: 2,
     },
     status: "Healthy",
-    recent: "Added role-based middleware"
+    recent: "Added role-based middleware",
   },
   {
     id: "payments",
@@ -33,10 +45,10 @@ const concepts = [
     stats: {
       files: 8,
       apis: 2,
-      models: 1
+      models: 1,
     },
     status: "Healthy",
-    recent: "Updated Stripe webhook logic"
+    recent: "Updated Stripe webhook logic",
   },
   {
     id: "orders",
@@ -48,10 +60,10 @@ const concepts = [
     stats: {
       files: 22,
       apis: 6,
-      models: 4
+      models: 4,
     },
     status: "Needs Review",
-    recent: "Detected dead code in legacy router"
+    recent: "Detected dead code in legacy router",
   },
   {
     id: "notifications",
@@ -63,10 +75,10 @@ const concepts = [
     stats: {
       files: 11,
       apis: 3,
-      models: 2
+      models: 2,
     },
     status: "Healthy",
-    recent: "Indexed new email templates"
+    recent: "Indexed new email templates",
   },
   {
     id: "core",
@@ -78,10 +90,10 @@ const concepts = [
     stats: {
       files: 45,
       apis: 12,
-      models: 8
+      models: 8,
     },
     status: "Healthy",
-    recent: "Dependency graph updated"
+    recent: "Dependency graph updated",
   },
   {
     id: "database",
@@ -93,11 +105,11 @@ const concepts = [
     stats: {
       files: 18,
       apis: 0,
-      models: 17
+      models: 17,
     },
     status: "Healthy",
-    recent: "Schema validation completed"
-  }
+    recent: "Schema validation completed",
+  },
 ];
 
 function RepositoriesPage() {
@@ -134,20 +146,29 @@ function RepositoriesPage() {
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {concepts.map((concept) => (
-            <div key={concept.id} className="glass rounded-3xl p-6 group hover:bg-white/5 transition-colors cursor-pointer">
+            <div
+              key={concept.id}
+              className="glass rounded-3xl p-6 group hover:bg-white/5 transition-colors cursor-pointer"
+            >
               <div className="flex items-center justify-between mb-6">
-                <div className={`size-12 rounded-2xl flex items-center justify-center border ${concept.bg} ${concept.border}`}>
+                <div
+                  className={`size-12 rounded-2xl flex items-center justify-center border ${concept.bg} ${concept.border}`}
+                >
                   <concept.icon className={`size-6 ${concept.color}`} />
                 </div>
-                <div className={`px-2.5 py-1 flex items-center gap-1.5 rounded-full text-xs border ${concept.status === 'Healthy' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-300' : 'bg-fuchsia-500/10 border-fuchsia-500/20 text-fuchsia-300'}`}>
-                  <span className={`size-1.5 rounded-full ${concept.status === 'Healthy' ? 'bg-emerald-400' : 'bg-fuchsia-400'}`} />
+                <div
+                  className={`px-2.5 py-1 flex items-center gap-1.5 rounded-full text-xs border ${concept.status === "Healthy" ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-300" : "bg-fuchsia-500/10 border-fuchsia-500/20 text-fuchsia-300"}`}
+                >
+                  <span
+                    className={`size-1.5 rounded-full ${concept.status === "Healthy" ? "bg-emerald-400" : "bg-fuchsia-400"}`}
+                  />
                   {concept.status}
                 </div>
               </div>
-              
+
               <h2 className="font-display text-2xl mb-1">{concept.name}</h2>
               <p className="text-sm text-muted-foreground mb-6">Last indexed: Just now</p>
-              
+
               <div className="grid grid-cols-3 gap-2 mb-6 border-y border-border py-4">
                 <div className="text-center">
                   <div className="text-xl font-display">{concept.stats.files}</div>

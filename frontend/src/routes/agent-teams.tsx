@@ -1,6 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, Network, Code2, Bug, BookOpen, TestTube2, Sparkles, Settings2, Activity } from "lucide-react";
+import {
+  Menu,
+  Network,
+  Code2,
+  Bug,
+  BookOpen,
+  TestTube2,
+  Sparkles,
+  Settings2,
+  Activity,
+} from "lucide-react";
 import { Sidebar } from "@/components/Sidebar";
 
 export const Route = createFileRoute("/agent-teams")({
@@ -21,8 +31,8 @@ const teamAgents = [
       "Understand repository architecture",
       "Explain architecture and flows",
       "Create dependency maps",
-      "Generate UML & ER diagrams"
-    ]
+      "Generate UML & ER diagrams",
+    ],
   },
   {
     id: "builder",
@@ -37,8 +47,8 @@ const teamAgents = [
       "Generate features & APIs",
       "Modify components",
       "Update database schemas",
-      "Generate migrations"
-    ]
+      "Generate migrations",
+    ],
   },
   {
     id: "debug",
@@ -53,8 +63,8 @@ const teamAgents = [
       "Analyze logs & stack traces",
       "Detect root causes",
       "Suggest code fixes",
-      "Patch broken code"
-    ]
+      "Patch broken code",
+    ],
   },
   {
     id: "docs",
@@ -69,8 +79,8 @@ const teamAgents = [
       "Generate READMEs",
       "Write API documentation",
       "Document architecture",
-      "Maintain changelogs"
-    ]
+      "Maintain changelogs",
+    ],
   },
   {
     id: "test",
@@ -85,8 +95,8 @@ const teamAgents = [
       "Generate unit tests",
       "Generate integration tests",
       "Identify edge cases",
-      "Estimate coverage"
-    ]
+      "Estimate coverage",
+    ],
   },
   {
     id: "intelligence",
@@ -101,9 +111,9 @@ const teamAgents = [
       "Perform semantic search",
       "Detect duplicate/dead code",
       "Identify unused APIs",
-      "Explain dependency trees"
-    ]
-  }
+      "Explain dependency trees",
+    ],
+  },
 ];
 
 function AgentTeamsPage() {
@@ -136,16 +146,25 @@ function AgentTeamsPage() {
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {teamAgents.map((agent) => (
-            <div key={agent.id} className="glass rounded-3xl p-6 relative overflow-hidden group hover:border-white/20 transition-colors">
-              <div className={`absolute -right-12 -top-12 size-32 rounded-full blur-3xl opacity-20 pointer-events-none transition-opacity group-hover:opacity-40 ${agent.bg}`} />
-              
+            <div
+              key={agent.id}
+              className="glass rounded-3xl p-6 relative overflow-hidden group hover:border-white/20 transition-colors"
+            >
+              <div
+                className={`absolute -right-12 -top-12 size-32 rounded-full blur-3xl opacity-20 pointer-events-none transition-opacity group-hover:opacity-40 ${agent.bg}`}
+              />
+
               <div className="flex items-start justify-between mb-5">
-                <div className={`size-12 rounded-2xl flex items-center justify-center border ${agent.bg} ${agent.border}`}>
+                <div
+                  className={`size-12 rounded-2xl flex items-center justify-center border ${agent.bg} ${agent.border}`}
+                >
                   <agent.icon className={`size-6 ${agent.color}`} />
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/20 border border-white/5 text-xs">
-                    <span className={`size-1.5 rounded-full ${agent.status !== 'Idle' ? 'bg-emerald-400 animate-pulse' : 'bg-muted-foreground'}`} />
+                    <span
+                      className={`size-1.5 rounded-full ${agent.status !== "Idle" ? "bg-emerald-400 animate-pulse" : "bg-muted-foreground"}`}
+                    />
                     {agent.status}
                   </div>
                   <button className="size-8 flex items-center justify-center rounded-full hover:bg-white/10 transition text-muted-foreground hover:text-foreground">
@@ -156,7 +175,9 @@ function AgentTeamsPage() {
 
               <div className="mb-6">
                 <h2 className="font-display text-2xl">{agent.name}</h2>
-                <p className="text-sm text-muted-foreground uppercase tracking-wider mt-1">{agent.role}</p>
+                <p className="text-sm text-muted-foreground uppercase tracking-wider mt-1">
+                  {agent.role}
+                </p>
               </div>
 
               <div className="space-y-2 mb-8">

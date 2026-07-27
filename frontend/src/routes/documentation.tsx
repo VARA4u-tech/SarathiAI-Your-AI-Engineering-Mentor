@@ -35,7 +35,7 @@ const endpoints = [
     desc: "Revokes a specific active session.",
     color: "text-fuchsia-400",
     bg: "bg-fuchsia-500/10",
-  }
+  },
 ];
 
 function DocumentationPage() {
@@ -67,7 +67,8 @@ function DocumentationPage() {
             </p>
             <h1 className="font-display text-4xl md:text-5xl">API Reference</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              Always up-to-date documentation generated directly from your codebase's AST and inline comments.
+              Always up-to-date documentation generated directly from your codebase's AST and inline
+              comments.
             </p>
           </div>
         </header>
@@ -75,32 +76,57 @@ function DocumentationPage() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             {endpoints.map((ep, idx) => (
-              <div key={idx} className="glass rounded-3xl p-6 border border-white/10 hover:bg-white/5 transition-colors">
+              <div
+                key={idx}
+                className="glass rounded-3xl p-6 border border-white/10 hover:bg-white/5 transition-colors"
+              >
                 <div className="flex items-center gap-4 mb-4">
-                  <span className={`font-mono text-sm font-bold px-3 py-1 rounded-full ${ep.bg} ${ep.color}`}>
+                  <span
+                    className={`font-mono text-sm font-bold px-3 py-1 rounded-full ${ep.bg} ${ep.color}`}
+                  >
                     {ep.method}
                   </span>
                   <span className="font-mono text-lg">{ep.path}</span>
                 </div>
                 <p className="text-muted-foreground">{ep.desc}</p>
-                
+
                 {idx === 0 && (
                   <div className="mt-6 rounded-xl border border-white/10 bg-black/40 overflow-hidden">
                     <div className="flex items-center justify-between px-4 py-2 bg-white/5 border-b border-white/10">
-                      <span className="text-xs font-mono text-muted-foreground">Response Example (200 OK)</span>
-                      <button onClick={copyCode} className="text-muted-foreground hover:text-foreground transition-colors">
-                        {copied ? <Check className="size-4 text-emerald-400" /> : <Copy className="size-4" />}
+                      <span className="text-xs font-mono text-muted-foreground">
+                        Response Example (200 OK)
+                      </span>
+                      <button
+                        onClick={copyCode}
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {copied ? (
+                          <Check className="size-4 text-emerald-400" />
+                        ) : (
+                          <Copy className="size-4" />
+                        )}
                       </button>
                     </div>
                     <div className="p-4 overflow-x-auto">
                       <pre className="text-sm font-mono leading-relaxed">
-                        <span className="text-fuchsia-300">{"{"}</span>{"\n"}
-                        <span className="text-cyan-300">  "token"</span>: <span className="text-emerald-300">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>,{"\n"}
-                        <span className="text-cyan-300">  "user"</span>: {"{"}{"\n"}
-                        <span className="text-cyan-300">    "id"</span>: <span className="text-emerald-300">"usr_12345"</span>,{"\n"}
-                        <span className="text-cyan-300">    "email"</span>: <span className="text-emerald-300">"demo@example.com"</span>,{"\n"}
-                        <span className="text-cyan-300">    "role"</span>: <span className="text-emerald-300">"admin"</span>{"\n"}
-                        <span className="text-fuchsia-300">  {"}"}</span>{"\n"}
+                        <span className="text-fuchsia-300">{"{"}</span>
+                        {"\n"}
+                        <span className="text-cyan-300"> "token"</span>:{" "}
+                        <span className="text-emerald-300">
+                          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                        </span>
+                        ,{"\n"}
+                        <span className="text-cyan-300"> "user"</span>: {"{"}
+                        {"\n"}
+                        <span className="text-cyan-300"> "id"</span>:{" "}
+                        <span className="text-emerald-300">"usr_12345"</span>,{"\n"}
+                        <span className="text-cyan-300"> "email"</span>:{" "}
+                        <span className="text-emerald-300">"demo@example.com"</span>,{"\n"}
+                        <span className="text-cyan-300"> "role"</span>:{" "}
+                        <span className="text-emerald-300">"admin"</span>
+                        {"\n"}
+                        <span className="text-fuchsia-300"> {"}"}</span>
+                        {"\n"}
                         <span className="text-fuchsia-300">{"}"}</span>
                       </pre>
                     </div>

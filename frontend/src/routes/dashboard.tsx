@@ -237,7 +237,11 @@ function Dashboard() {
                         disabled={!feedback || isTweaking}
                         className="grid size-10 place-items-center rounded-xl bg-white/5 hover:bg-white/10 transition-colors disabled:opacity-50"
                       >
-                        {isTweaking ? <Loader2 className="size-4 animate-spin" /> : <ArrowRight className="size-4" />}
+                        {isTweaking ? (
+                          <Loader2 className="size-4 animate-spin" />
+                        ) : (
+                          <ArrowRight className="size-4" />
+                        )}
                       </button>
                     </div>
 
@@ -308,24 +312,118 @@ function Dashboard() {
                       </DialogHeader>
                       <ScrollArea className="flex-1 mt-4 rounded-xl border border-white/10 bg-black/40 overflow-hidden">
                         <div className="p-4 font-mono text-sm leading-relaxed whitespace-pre overflow-x-auto">
-                          <div className="text-muted-foreground opacity-50 mb-4">@@ -14,6 +14,21 @@</div>
-                          <div className="flex"><span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">14</span><span className="text-muted-foreground">export const requireAuth = async (req, res, next) =&gt; {'{'}</span></div>
-                          <div className="flex"><span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">15</span><span className="text-muted-foreground">  const token = req.headers.authorization?.split(" ")[1];</span></div>
-                          <div className="flex"><span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">16</span><span className="text-muted-foreground">  if (!token) return res.status(401).json({'{'} error: "Unauthorized" {'}'});</span></div>
-                          <div className="flex bg-fuchsia-500/10"><span className="w-8 text-fuchsia-300 shrink-0 select-none">-</span><span className="text-fuchsia-300 line-through decoration-fuchsia-500/50">  // TODO: Add role checking</span></div>
-                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">  const user = await verifyToken(token);</span></div>
-                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">  req.user = user;</span></div>
-                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">  next();</span></div>
-                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">{'}'};</span></div>
-                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300"></span></div>
-                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">export const requireRole = (allowedRoles: string[]) =&gt; {'{'}</span></div>
-                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">  return async (req, res, next) =&gt; {'{'}</span></div>
-                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">    if (!req.user) return res.status(401).json({'{'} error: "Unauthorized" {'}'});</span></div>
-                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">    if (!allowedRoles.includes(req.user.role)) {'{'}</span></div>
-                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">      return res.status(403).json({'{'} error: "Forbidden: Insufficient role" {'}'});</span></div>
-                          <div className="flex bg-emerald-500/10"><span className="w-8 text-emerald-400 shrink-0 select-none">+</span><span className="text-emerald-300">    {'}'}</span></div>
-                          <div className="flex"><span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">17</span><span className="text-muted-foreground">  next();</span></div>
-                          <div className="flex"><span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">18</span><span className="text-muted-foreground">{'}'};</span></div>
+                          <div className="text-muted-foreground opacity-50 mb-4">
+                            @@ -14,6 +14,21 @@
+                          </div>
+                          <div className="flex">
+                            <span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">
+                              14
+                            </span>
+                            <span className="text-muted-foreground">
+                              export const requireAuth = async (req, res, next) =&gt; {"{"}
+                            </span>
+                          </div>
+                          <div className="flex">
+                            <span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">
+                              15
+                            </span>
+                            <span className="text-muted-foreground">
+                              {" "}
+                              const token = req.headers.authorization?.split(" ")[1];
+                            </span>
+                          </div>
+                          <div className="flex">
+                            <span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">
+                              16
+                            </span>
+                            <span className="text-muted-foreground">
+                              {" "}
+                              if (!token) return res.status(401).json({"{"} error: "Unauthorized"{" "}
+                              {"}"});
+                            </span>
+                          </div>
+                          <div className="flex bg-fuchsia-500/10">
+                            <span className="w-8 text-fuchsia-300 shrink-0 select-none">-</span>
+                            <span className="text-fuchsia-300 line-through decoration-fuchsia-500/50">
+                              {" "}
+                              // TODO: Add role checking
+                            </span>
+                          </div>
+                          <div className="flex bg-emerald-500/10">
+                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
+                            <span className="text-emerald-300">
+                              {" "}
+                              const user = await verifyToken(token);
+                            </span>
+                          </div>
+                          <div className="flex bg-emerald-500/10">
+                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
+                            <span className="text-emerald-300"> req.user = user;</span>
+                          </div>
+                          <div className="flex bg-emerald-500/10">
+                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
+                            <span className="text-emerald-300"> next();</span>
+                          </div>
+                          <div className="flex bg-emerald-500/10">
+                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
+                            <span className="text-emerald-300">{"}"};</span>
+                          </div>
+                          <div className="flex bg-emerald-500/10">
+                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
+                            <span className="text-emerald-300"></span>
+                          </div>
+                          <div className="flex bg-emerald-500/10">
+                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
+                            <span className="text-emerald-300">
+                              export const requireRole = (allowedRoles: string[]) =&gt; {"{"}
+                            </span>
+                          </div>
+                          <div className="flex bg-emerald-500/10">
+                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
+                            <span className="text-emerald-300">
+                              {" "}
+                              return async (req, res, next) =&gt; {"{"}
+                            </span>
+                          </div>
+                          <div className="flex bg-emerald-500/10">
+                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
+                            <span className="text-emerald-300">
+                              {" "}
+                              if (!req.user) return res.status(401).json({"{"} error: "Unauthorized"{" "}
+                              {"}"});
+                            </span>
+                          </div>
+                          <div className="flex bg-emerald-500/10">
+                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
+                            <span className="text-emerald-300">
+                              {" "}
+                              if (!allowedRoles.includes(req.user.role)) {"{"}
+                            </span>
+                          </div>
+                          <div className="flex bg-emerald-500/10">
+                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
+                            <span className="text-emerald-300">
+                              {" "}
+                              return res.status(403).json({"{"} error: "Forbidden: Insufficient
+                              role" {"}"});
+                            </span>
+                          </div>
+                          <div className="flex bg-emerald-500/10">
+                            <span className="w-8 text-emerald-400 shrink-0 select-none">+</span>
+                            <span className="text-emerald-300"> {"}"}</span>
+                          </div>
+                          <div className="flex">
+                            <span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">
+                              17
+                            </span>
+                            <span className="text-muted-foreground"> next();</span>
+                          </div>
+                          <div className="flex">
+                            <span className="w-8 text-muted-foreground shrink-0 select-none opacity-50">
+                              18
+                            </span>
+                            <span className="text-muted-foreground">{"}"};</span>
+                          </div>
                         </div>
                       </ScrollArea>
                     </DialogContent>

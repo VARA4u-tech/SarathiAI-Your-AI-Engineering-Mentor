@@ -42,7 +42,10 @@ export function Nav() {
           className="!static !w-full !max-w-none !transform-none !top-4"
           rightAction={
             <div className="flex items-center gap-4 text-sm font-display pr-1">
-              <Link to="/login" className="text-foreground/80 hover:text-foreground transition-colors hidden sm:block">
+              <Link
+                to="/login"
+                className="text-foreground/80 hover:text-foreground transition-colors hidden sm:block"
+              >
                 Log in
               </Link>
               <Link
