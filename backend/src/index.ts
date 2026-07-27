@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { importRepository } from "./modules/repository/repository.controller";
 import { getProjects, createProject } from "./modules/project/project.controller";
+import { runMission } from "./modules/mission/mission.controller";
 import { logger } from "./shared/utils/logger";
 import { config } from "./config";
 
@@ -18,6 +19,9 @@ app.post("/api/import", importRepository);
 // Project Module
 app.get("/api/projects", getProjects);
 app.post("/api/projects", createProject);
+
+// AI Mission Module
+app.post("/api/missions", runMission);
 
 // Health check
 app.get("/api/health", (req, res) => {

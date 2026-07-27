@@ -24,6 +24,7 @@ import {
   X,
 } from "lucide-react";
 import { isAuthenticated } from "@/lib/demo-auth";
+import { runMission } from "@/lib/api";
 import { Sidebar } from "@/components/Sidebar";
 import {
   Dialog,
@@ -78,6 +79,21 @@ function Dashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [isTweaking, setIsTweaking] = useState(false);
+  const [llmResponse, setLlmResponse] = useState<string | null>(null);
+
+  const handleRunMission = async () => {
+    setStatus("planning");
+    setLlmResponse(null);
+    try {
+      const data = await runMission(mission, "architect");
+      setLlmResponse(data.response);
+      setStatus("awaiting-approval");
+    } catch (error) {
+      console.error(error);
+      setLlmResponse("Error: Could not connect to AI engine.");
+      setStatus("awaiting-approval");
+    }
+  };
 
   useEffect(() => {
     if (!isAuthenticated()) navigate({ to: "/login" });
@@ -150,10 +166,11 @@ function Dashboard() {
                       className="flex-1 rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60"
                     />
                     <button
-                      onClick={() => setStatus("planning")}
-                      className="rounded-2xl bg-foreground text-background px-5 py-4 font-medium hover:opacity-90 transition"
+                      onClick={handleRunMission}
+                      disabled={status === "planning"}
+                      className="rounded-2xl bg-foreground text-background px-5 py-4 font-medium hover:opacity-90 transition disabled:opacity-50"
                     >
-                      Run mission
+                      {status === "planning" ? "Planning..." : "Run mission"}
                     </button>
                   </div>
                 </div>
@@ -173,21 +190,27 @@ function Dashboard() {
                   </div>
                   <ShieldCheck className="size-6 text-cyan-300" />
                 </div>
-                <ol className="space-y-3">
-                  {[
-                    "Create roles and permission schema",
-                    "Protect API groups with policy middleware",
-                    "Add team role management UI",
-                    "Generate authorization regression tests",
-                  ].map((item, index) => (
-                    <li key={item} className="flex gap-3 text-sm">
-                      <span className="grid place-items-center shrink-0 size-5 rounded-full bg-white/10 text-xs">
-                        {index + 1}
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ol>
+                {llmResponse ? (
+                  <div className="mt-4 p-4 rounded-xl bg-white/5 border border-white/10 text-sm whitespace-pre-wrap leading-relaxed max-h-[300px] overflow-y-auto">
+                    {llmResponse}
+                  </div>
+                ) : (
+                  <ol className="space-y-3">
+                    {[
+                      "Create roles and permission schema",
+                      "Protect API groups with policy middleware",
+                      "Add team role management UI",
+                      "Generate authorization regression tests",
+                    ].map((item, index) => (
+                      <li key={item} className="flex gap-3 text-sm">
+                        <span className="grid place-items-center shrink-0 size-5 rounded-full bg-white/10 text-xs">
+                          {index + 1}
+                        </span>
+                        {item}
+                      </li>
+                    ))}
+                  </ol>
+                )}
                 {status === "awaiting-approval" && (
                   <div className="mt-6 space-y-3 border-t border-border pt-5">
                     <p className="text-sm font-medium">Have feedback for the Architect Agent?</p>
