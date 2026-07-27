@@ -5,32 +5,32 @@ import { Zap, BrainCircuit, Wrench, Rocket } from "lucide-react";
 const steps = [
   {
     n: "01",
-    t: "Accelerate",
-    d: "Offload boilerplate, refactoring, and documentation to AI so you can focus on hard problems.",
+    t: "Analyze",
+    d: "Upload your project and let the AI scan your entire repository architecture.",
     color: "from-blue-500/10 to-purple-500/10",
     glow: "bg-blue-500",
-    icon: Zap,
-  },
-  {
-    n: "02",
-    t: "Understand",
-    d: "Get instant answers about your architecture without digging through thousands of files.",
-    color: "from-purple-500/10 to-pink-500/10",
-    glow: "bg-purple-500",
     icon: BrainCircuit,
   },
   {
+    n: "02",
+    t: "Discover",
+    d: "Find missing features like Rate Limiting, Redis caching, and Authentication flaws.",
+    color: "from-purple-500/10 to-pink-500/10",
+    glow: "bg-purple-500",
+    icon: Zap,
+  },
+  {
     n: "03",
-    t: "Refactor",
-    d: "Automatically identify and fix anti-patterns before they become systemic issues.",
+    t: "Learn",
+    d: "Understand WHY these features are important and exactly how to implement them.",
     color: "from-pink-500/10 to-orange-500/10",
     glow: "bg-pink-500",
     icon: Wrench,
   },
   {
     n: "04",
-    t: "Ship",
-    d: "Generate edge-case tests and review your code instantly before merging.",
+    t: "Grow",
+    d: "Follow a personalized week-by-week learning roadmap to master production architecture.",
     color: "from-orange-500/10 to-red-500/10",
     glow: "bg-orange-500",
     icon: Rocket,
@@ -54,7 +54,7 @@ export function Process() {
             — Benefits
           </p>
           <h2 className="font-display text-5xl md:text-7xl text-gradient max-w-3xl leading-[1]">
-            Build better software, <span className="italic text-iridescent">faster</span>.
+            Become a Senior Engineer, <span className="italic text-iridescent">faster</span>.
           </h2>
         </div>
 

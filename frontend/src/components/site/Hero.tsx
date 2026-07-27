@@ -30,7 +30,7 @@ export function Hero() {
           className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs text-muted-foreground mb-8"
         >
           <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          CodePilot AI v2.0 is live
+          CodePilot AI
         </motion.div>
 
         <motion.h1
@@ -42,7 +42,7 @@ export function Hero() {
           <span className="text-gradient">Your AI</span>
           <br />
           <span className="text-iridescent italic">engineering</span>
-          <span className="text-gradient"> team.</span>
+          <span className="text-gradient"> mentor.</span>
         </motion.h1>
 
         <motion.p
@@ -51,9 +51,8 @@ export function Hero() {
           transition={{ duration: 1, delay: 0.4 }}
           className="mt-8 max-w-xl mx-auto text-base md:text-lg text-muted-foreground"
         >
-          An AI-powered Engineering Operating System that understands entire repositories, explains
-          architecture, finds code, generates documentation, plans features, debugs applications,
-          and helps developers build software faster.
+          Upload your GitHub repository and get a Senior Engineer's review in minutes. Discover missing features, 
+          security vulnerabilities, and get a week-by-week roadmap to build production-ready software.
         </motion.p>
 
         <motion.div
@@ -66,7 +65,7 @@ export function Hero() {
             href="/dashboard"
             className="rounded-full bg-foreground text-background px-6 py-3 text-sm font-medium hover:opacity-90 transition"
           >
-            Start engineering
+            Review My Project
           </a>
           <a
             href="#features"

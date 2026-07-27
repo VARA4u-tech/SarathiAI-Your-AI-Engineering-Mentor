@@ -8,56 +8,56 @@ import CardSwap, { Card } from "../ui/CardSwap";
 const features = [
   {
     n: "01",
-    t: "Repository Intelligence",
-    d: "Understands your entire codebase, dependencies, and architecture instantly.",
+    t: "Repository Review",
+    d: "Understands your entire codebase, architecture, and tech stack instantly.",
     icon: Brain,
   },
   {
     n: "02",
-    t: "Feature Planner",
-    d: "Automatically break down features into actionable steps and risk analysis.",
-    icon: Map,
+    t: "Security & Compliance",
+    d: "Finds vulnerabilities, missing auth, rate limiting issues, and poor practices.",
+    icon: Zap,
   },
   {
     n: "03",
-    t: "Debug & Test Center",
-    d: "Paste errors and get instant root cause analysis with suggested fixes.",
+    t: "Architecture Flaws",
+    d: "Detects bad patterns like un-cached DB calls and missing validations.",
     icon: Bug,
   },
   {
     n: "04",
-    t: "AI Code Generation",
-    d: "Generate boilerplate, API routes, and components that match your existing design system.",
-    icon: Zap,
+    t: "Implementation Roadmap",
+    d: "Generates a week-by-week personalized plan to make your project production-ready.",
+    icon: Map,
   },
 ];
 
 const cards = [
   {
     step: "Step 01",
-    title: "Knowledge Graph",
-    sub: "Repository Intelligence",
+    title: "Project Upload",
+    sub: "Repository Analysis",
     img: hero,
     grad: "from-fuchsia-900/70 to-violet-900/70",
   },
   {
     step: "Step 02",
-    title: "Feature Planner",
-    sub: "Planning & Architecture",
+    title: "Scoring",
+    sub: "Architecture & Security",
     img: orb1,
     grad: "from-cyan-900/70 to-blue-900/70",
   },
   {
     step: "Step 03",
-    title: "Debug Center",
-    sub: "Error Analysis & Fixes",
+    title: "Missing Features",
+    sub: "Why & How",
     img: orb2,
     grad: "from-emerald-900/70 to-teal-900/70",
   },
   {
     step: "Step 04",
-    title: "AI Generation",
-    sub: "Code & Documentation",
+    title: "Learning Roadmap",
+    sub: "Week-by-week guide",
     img: hero,
     grad: "from-orange-900/70 to-rose-900/70",
   },
@@ -74,12 +74,12 @@ export function Services() {
               — Features
             </p>
             <h2 className="font-display text-5xl md:text-7xl text-gradient max-w-2xl leading-[1]">
-              Everything you need to <span className="italic text-iridescent">ship faster.</span>
+              Everything you need to <span className="italic text-iridescent">build production-ready.</span>
             </h2>
           </div>
           <p className="max-w-sm text-muted-foreground">
-            CodePilot AI is your central hub for repository intelligence, planning, debugging, and
-            code generation.
+            CodePilot AI is your central hub for repository review, security audits, architecture
+            analysis, and step-by-step guidance.
           </p>
         </div>
 
