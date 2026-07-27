@@ -26,6 +26,18 @@ function DocumentationPage() {
 
   const currentProject = projects.length > 0 ? projects[0] : null;
 
+  // Load documentation from localStorage when project changes
+  useEffect(() => {
+    if (currentProject) {
+      const savedDocs = localStorage.getItem(`codepilot_docs_${currentProject.githubUrl}`);
+      if (savedDocs) {
+        setDocumentation(savedDocs);
+      } else {
+        setDocumentation(null);
+      }
+    }
+  }, [currentProject]);
+
   const handleGenerate = async () => {
     if (!currentProject) return;
     setIsGenerating(true);
@@ -35,6 +47,7 @@ function DocumentationPage() {
       const prompt = `Generate a comprehensive ARCHITECTURE.md file for the repository: ${currentProject.githubUrl}. Include sections for Overview, Tech Stack, Architecture Diagram (mermaid), and Core Components.`;
       const res = await runMission(prompt, "architect");
       setDocumentation(res.response);
+      localStorage.setItem(`codepilot_docs_${currentProject.githubUrl}`, res.response);
     } catch (error) {
       console.error("Failed to generate docs", error);
       setDocumentation("# Error\nFailed to generate documentation. Please check if the AI Engine is running.");
