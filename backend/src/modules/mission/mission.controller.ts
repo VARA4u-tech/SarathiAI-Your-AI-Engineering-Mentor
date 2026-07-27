@@ -24,7 +24,39 @@ export const runMission = async (req: Request, res: Response) => {
     }
 
     const data = await aiResponse.json();
-    return res.json(data);
+    let suggestions = [];
+    
+    // The python engine returns { "status": "success", "agent": "...", "response": "{...json string...}" }
+    try {
+      const parsedResponse = JSON.parse(data.response);
+      suggestions = parsedResponse.suggestions || [];
+    } catch (parseError) {
+      logger.error("Failed to parse AI response as JSON", data.response);
+      suggestions = [
+        {
+          category: "Architecture",
+          title: "Raw Analysis",
+          description: data.response || "No response generated.",
+          impact: "Medium"
+        }
+      ];
+    }
+
+    const project = await Project.findOne();
+    if (!project) {
+      return res.status(400).json({ error: "No projects exist. Import a repository first." });
+    }
+
+    const newMission = new Mission({
+      projectId: project._id,
+      title: prompt,
+      description: "AI Architectural Audit based on user prompt.",
+      status: "review_required",
+      suggestions
+    });
+
+    await newMission.save();
+    return res.json(newMission);
   } catch (error: any) {
     logger.error("Error communicating with AI Engine:", error.message);
     return res.status(500).json({ error: "Failed to connect to AI Engine", details: error.message });
@@ -89,50 +121,30 @@ export const createMockMission = async (req: Request, res: Response) => {
       title: "Add role-based authentication",
       description: "Implemented a robust role-based access control (RBAC) system. The AI has modified the user model and added middleware to protect API routes.",
       status: "review_required",
-      changes: [
+      suggestions: [
         {
-          file: "backend/src/models/user.ts",
-          additions: 12,
-          deletions: 2,
-          diff: `@@ -10,6 +10,14 @@
- export interface IUser extends Document {
-   email: string;
-   passwordHash: string;
-+  role: "admin" | "user" | "viewer";
- }
- 
- const UserSchema: Schema = new Schema({
-   email: { type: String, required: true, unique: true },
-   passwordHash: { type: String, required: true },
-+  role: {
-+    type: String,
-+    enum: ["admin", "user", "viewer"],
-+    default: "user"
-+  }
- });`
+          category: "Performance",
+          title: "Implement Redis Caching",
+          description: "Database queries for user roles are frequent. Implement a Redis caching layer to store role permissions, reducing DB load by up to 40%.",
+          impact: "High"
         },
         {
-          file: "backend/src/middleware/auth.ts",
-          additions: 25,
-          deletions: 0,
-          diff: `@@ -0,0 +1,25 @@
-+import { Request, Response, NextFunction } from "express";
-+
-+export const requireRole = (roles: string[]) => {
-+  return (req: Request, res: Response, next: NextFunction) => {
-+    const user = (req as any).user;
-+    
-+    if (!user) {
-+      return res.status(401).json({ error: "Unauthorized" });
-+    }
-+    
-+    if (!roles.includes(user.role)) {
-+      return res.status(403).json({ error: "Forbidden: insufficient permissions" });
-+    }
-+    
-+    next();
-+  };
-+};`
+          category: "Security",
+          title: "Add API Rate Limiting",
+          description: "The authentication endpoints currently lack rate limiting. Add 'express-rate-limit' to prevent brute-force login attempts.",
+          impact: "High"
+        },
+        {
+          category: "Architecture",
+          title: "Standardize Error Handling",
+          description: "Error responses across API routes are inconsistent. Introduce a global error handling middleware to ensure consistent JSON formats for client consumption.",
+          impact: "Medium"
+        },
+        {
+          category: "Security",
+          title: "Configure Strict CORS policy",
+          description: "Current CORS setup allows all origins in development. Restrict the origins to explicitly authorized frontend domains before deploying to production.",
+          impact: "High"
         }
       ]
     });

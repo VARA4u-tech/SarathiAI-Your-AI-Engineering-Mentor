@@ -29,13 +29,24 @@ def call_agent(agent_type: str, prompt: str) -> str:
     """Calls OpenRouter with the specific model for the requested agent."""
     model_id = MODELS.get(agent_type, "meta-llama/llama-3-8b-instruct:free")
     
+    system_prompt = (
+        "You are a Principal Systems Architect & Security Auditor for CodePilot AI. "
+        "Analyze the provided code or request and provide high-level, actionable suggestions "
+        "(e.g., adding Redis, CORS, rate limiting, logging, etc.). "
+        "You must respond ONLY with a strict JSON object containing a 'suggestions' array. "
+        "Each object in the array must match this schema: "
+        '{"category": "Security" | "Performance" | "Architecture" | "Best Practices", '
+        '"title": "Short title", "description": "Detailed explanation and actionable advice", "impact": "High" | "Medium" | "Low"}'
+    )
+
     try:
         response = client.chat.completions.create(
             model=model_id,
             messages=[
-                {"role": "system", "content": f"You are the {agent_type} agent for CodePilot AI."},
+                {"role": "system", "content": system_prompt},
                 {"role": "user", "content": prompt}
             ],
+            response_format={"type": "json_object"},
             extra_headers={
                 "HTTP-Referer": "http://localhost:3000",
                 "X-Title": "CodePilot AI",
@@ -43,4 +54,4 @@ def call_agent(agent_type: str, prompt: str) -> str:
         )
         return response.choices[0].message.content
     except Exception as e:
-        return f"Error communicating with AI: {str(e)}"
+        return f'{{"error": "Error communicating with AI: {str(e)}"}}'

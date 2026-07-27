@@ -308,7 +308,7 @@ function Dashboard() {
                           <h3 className="font-semibold text-white leading-snug">{m.title}</h3>
                           <div className="flex flex-wrap items-center gap-2 mt-3">
                             <span className="text-xs text-muted-foreground whitespace-nowrap">
-                              {m.changes.length} file{m.changes.length !== 1 ? 's' : ''} changed
+                              {m.suggestions.length} architectural suggestion{m.suggestions.length !== 1 ? 's' : ''}
                             </span>
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider whitespace-nowrap ${
                               m.status === 'review_required' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' : 

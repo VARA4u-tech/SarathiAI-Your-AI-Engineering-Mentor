@@ -5,11 +5,11 @@ export interface IMission extends Document {
   title: string;
   description: string;
   status: "pending" | "in_progress" | "review_required" | "approved" | "rejected" | "completed";
-  changes: {
-    file: string;
-    diff: string;
-    additions: number;
-    deletions: number;
+  suggestions: {
+    category: "Security" | "Performance" | "Architecture" | "Best Practices";
+    title: string;
+    description: string;
+    impact: "High" | "Medium" | "Low";
   }[];
   createdAt: Date;
   updatedAt: Date;
@@ -25,12 +25,12 @@ const MissionSchema: Schema = new Schema(
       enum: ["pending", "in_progress", "review_required", "approved", "rejected", "completed"],
       default: "pending",
     },
-    changes: [
+    suggestions: [
       {
-        file: { type: String, required: true },
-        diff: { type: String, required: true },
-        additions: { type: Number, default: 0 },
-        deletions: { type: Number, default: 0 },
+        category: { type: String, required: true },
+        title: { type: String, required: true },
+        description: { type: String, required: true },
+        impact: { type: String, enum: ["High", "Medium", "Low"], default: "Medium" },
       },
     ],
   },

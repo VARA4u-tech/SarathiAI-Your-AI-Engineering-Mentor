@@ -10,11 +10,11 @@ export interface Project {
   status?: string;
 }
 
-export interface MissionChange {
-  file: string;
-  diff: string;
-  additions: number;
-  deletions: number;
+export interface MissionSuggestion {
+  category: "Security" | "Performance" | "Architecture" | "Best Practices";
+  title: string;
+  description: string;
+  impact: "High" | "Medium" | "Low";
 }
 
 export interface Mission {
@@ -23,7 +23,7 @@ export interface Mission {
   title: string;
   description: string;
   status: "pending" | "in_progress" | "review_required" | "approved" | "rejected" | "completed";
-  changes: MissionChange[];
+  suggestions: MissionSuggestion[];
   createdAt: string;
   updatedAt: string;
 }

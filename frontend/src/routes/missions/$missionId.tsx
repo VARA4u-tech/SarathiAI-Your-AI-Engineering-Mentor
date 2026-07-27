@@ -2,16 +2,7 @@ import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-r
 import { useEffect, useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { getMissionById, updateMissionStatus, Mission } from "@/lib/api";
-import { 
-  ArrowLeft, 
-  CheckCircle2, 
-  XCircle, 
-  FileCode2,
-  GitBranch,
-  ShieldCheck,
-  Check,
-  X
-} from "lucide-react";
+import { ArrowLeft, CheckCircle2, XCircle, ShieldCheck, Zap, Layers, Lightbulb, Check, X } from "lucide-react";
 
 export const Route = createFileRoute("/missions/$missionId")({
   component: MissionControlCenter,
@@ -135,58 +126,66 @@ function MissionControlCenter() {
         <div className="max-w-5xl mx-auto space-y-8">
           <div className="glass rounded-3xl p-6 md:p-8">
             <div className="flex items-center gap-3 mb-6">
-              <GitBranch className="size-5 text-fuchsia-300" />
-              <h2 className="font-display text-2xl">Proposed Changes</h2>
+              <Lightbulb className="size-5 text-fuchsia-300" />
+              <h2 className="font-display text-2xl">Engineering Insights & Suggestions</h2>
             </div>
             
-            {mission.changes.length === 0 ? (
-              <p className="text-muted-foreground text-sm">No file changes proposed.</p>
+            {mission.suggestions?.length === 0 ? (
+              <p className="text-muted-foreground text-sm">No suggestions found.</p>
             ) : (
-              <div className="space-y-6">
-                {mission.changes.map((change, idx) => (
-                  <div key={idx} className="rounded-2xl border border-white/10 overflow-hidden bg-black/20">
-                    <div className="bg-white/5 border-b border-white/5 px-4 py-3 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <FileCode2 className="size-4 text-cyan-300" />
-                        <span className="font-mono text-sm text-foreground/90">{change.file}</span>
-                      </div>
-                      <div className="text-xs font-mono">
-                        <span className="text-emerald-400">+{change.additions}</span>
-                        {" / "}
-                        <span className="text-red-400">-{change.deletions}</span>
-                      </div>
-                    </div>
-                    <div className="p-4 overflow-x-auto custom-scrollbar">
-                      <pre className="text-sm font-mono leading-relaxed">
-                        {change.diff.split('\n').map((line, lineIdx) => {
-                          let colorClass = "text-muted-foreground";
-                          let bgClass = "";
-                          
-                          if (line.startsWith('+')) {
-                            colorClass = "text-emerald-300";
-                            bgClass = "bg-emerald-500/10";
-                          } else if (line.startsWith('-')) {
-                            colorClass = "text-red-300 line-through decoration-red-500/50";
-                            bgClass = "bg-red-500/10";
-                          } else if (line.startsWith('@@')) {
-                            colorClass = "text-cyan-400 opacity-70";
-                          }
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {mission.suggestions?.map((suggestion, idx) => {
+                  let Icon = Lightbulb;
+                  let colorClass = "text-fuchsia-300";
+                  let bgClass = "bg-fuchsia-500/10";
+                  let borderClass = "border-fuchsia-500/20";
+                  
+                  if (suggestion.category === "Security") {
+                    Icon = ShieldCheck;
+                    colorClass = "text-emerald-400";
+                    bgClass = "bg-emerald-500/10";
+                    borderClass = "border-emerald-500/20";
+                  } else if (suggestion.category === "Performance") {
+                    Icon = Zap;
+                    colorClass = "text-yellow-400";
+                    bgClass = "bg-yellow-500/10";
+                    borderClass = "border-yellow-500/20";
+                  } else if (suggestion.category === "Architecture") {
+                    Icon = Layers;
+                    colorClass = "text-cyan-400";
+                    bgClass = "bg-cyan-500/10";
+                    borderClass = "border-cyan-500/20";
+                  }
 
-                          return (
-                            <div key={lineIdx} className={`px-2 py-0.5 rounded flex ${bgClass}`}>
-                              <span className={`w-8 shrink-0 select-none opacity-40 font-mono text-xs pt-0.5 ${colorClass}`}>
-                                {lineIdx + 1}
-                              </span>
-                              <span className={`${colorClass} whitespace-pre`}>
-                                {line}
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </pre>
+                  let impactColor = "text-blue-400 bg-blue-500/10 border-blue-500/20";
+                  if (suggestion.impact === "High") impactColor = "text-red-400 bg-red-500/10 border-red-500/20";
+                  if (suggestion.impact === "Medium") impactColor = "text-yellow-400 bg-yellow-500/10 border-yellow-500/20";
+                  if (suggestion.impact === "Low") impactColor = "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
+
+                  return (
+                    <div key={idx} className="rounded-2xl border border-white/10 overflow-hidden bg-black/20 p-6 flex flex-col hover:bg-black/40 transition-colors">
+                      <div className="flex items-start justify-between gap-4 mb-4">
+                        <div className={`p-3 rounded-xl border ${bgClass} ${borderClass} ${colorClass}`}>
+                          <Icon className="size-6" />
+                        </div>
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${impactColor}`}>
+                          {suggestion.impact} IMPACT
+                        </span>
+                      </div>
+                      
+                      <h3 className="font-semibold text-lg text-white mb-2">{suggestion.title}</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                        {suggestion.description}
+                      </p>
+                      
+                      <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-2">
+                         <span className={`text-xs font-medium px-2 py-1 rounded bg-white/5 ${colorClass}`}>
+                           {suggestion.category}
+                         </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
