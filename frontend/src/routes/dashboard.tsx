@@ -97,7 +97,8 @@ function Dashboard() {
     }
   }, [projects]);
 
-  const currentProjectName = projects.length > 0 ? projects[0].name : "ecommerce-platform-v2";
+  const currentProject = projects.length > 0 ? projects[0] : null;
+  const currentProjectName = currentProject ? currentProject.name : "No Project Selected";
 
   const handleRunMission = async () => {
     setStatus("planning");
@@ -354,9 +355,9 @@ function Dashboard() {
                 </div>
               </div>
               <div className="grid sm:grid-cols-3 gap-3 text-sm">
-                <Memory label="Architecture" value="Next.js API + Postgres" />
-                <Memory label="Team convention" value="Zod at every boundary" />
-                <Memory label="Previous decision" value="JWTs expire in 15 minutes" />
+                <Memory label="Primary Language" value={currentProject?.language || "TypeScript"} />
+                <Memory label="Framework" value={currentProject?.framework || "React / Node"} />
+                <Memory label="Repository" value={currentProject?.githubUrl || "Local"} />
               </div>
             </div>
           </section>
@@ -384,15 +385,7 @@ function Dashboard() {
               </p>
               <h2 className="font-display text-2xl mt-1 mb-5">Conceptual map</h2>
               <div className="flex flex-wrap gap-2">
-                {[
-                  "Authentication",
-                  "Payments",
-                  "Orders",
-                  "Products",
-                  "Notifications",
-                  "API",
-                  "Database",
-                ].map((tag) => (
+                {(currentProject ? [currentProject.language || "TypeScript", currentProject.framework || "Node.js", "API", "Database"] : ["Authentication", "Payments", "Orders"]).map((tag) => (
                   <span
                     className="rounded-full bg-white/5 border border-white/10 px-3 py-1.5 text-xs"
                     key={tag}
@@ -402,8 +395,7 @@ function Dashboard() {
                 ))}
               </div>
               <div className="mt-6 pt-5 border-t border-border text-sm text-muted-foreground flex items-center gap-2">
-                <GitBranch className="size-4 text-cyan-300" /> 148 files indexed · 12 services
-                mapped
+                <GitBranch className="size-4 text-cyan-300" /> {currentProject ? `Project ID: ${currentProject._id}` : "No project active"}
               </div>
             </div>
           </aside>
