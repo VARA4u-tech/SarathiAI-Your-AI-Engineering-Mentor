@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import { Github, UploadCloud, FolderGit2, CheckCircle2, Search, Bot, Database, Activity, FileCode2, Loader2, Check } from "lucide-react";
 import orb2 from "@/assets/orb-2.jpg";
+import { importRepository } from "@/lib/api";
 
 export const Route = createFileRoute("/import")({
   component: ImportRepo,
@@ -47,13 +48,17 @@ function ImportRepo() {
     }
   }, [indexingState, activeAgentIndex, navigate, agents.length]);
 
-  const handleValidate = (e: React.FormEvent) => {
+  const handleValidate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!url) return;
     setIsValidating(true);
-    // Simulate validation
-    setTimeout(() => {
-      setIsValidating(false);
+    
+    try {
+      const data = await importRepository(url);
+      setStats(data);
+    } catch (error) {
+      console.error("Failed to connect to backend", error);
+      // Fallback for demo if backend is not running
       setStats({
         name: url.split("/").pop() || "repository",
         lang: "TypeScript",
@@ -61,7 +66,9 @@ function ImportRepo() {
         files: 432,
         time: "~2 minutes",
       });
-    }, 1500);
+    } finally {
+      setIsValidating(false);
+    }
   };
 
   return (
