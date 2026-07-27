@@ -303,14 +303,14 @@ function Dashboard() {
                     </div>
                   ) : (
                     missions.map((m) => (
-                      <div key={m._id} className="rounded-xl bg-black/20 border border-white/10 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition hover:bg-black/40">
+                      <div key={m._id} className="rounded-xl bg-black/20 border border-white/10 p-5 flex flex-col gap-4 transition hover:bg-black/40">
                         <div>
-                          <h3 className="font-semibold text-white">{m.title}</h3>
-                          <div className="flex items-center gap-3 mt-2">
-                            <span className="text-xs text-muted-foreground">
+                          <h3 className="font-semibold text-white leading-snug">{m.title}</h3>
+                          <div className="flex flex-wrap items-center gap-2 mt-3">
+                            <span className="text-xs text-muted-foreground whitespace-nowrap">
                               {m.changes.length} file{m.changes.length !== 1 ? 's' : ''} changed
                             </span>
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider ${
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider whitespace-nowrap ${
                               m.status === 'review_required' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' : 
                               m.status === 'approved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
                               m.status === 'rejected' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
@@ -323,7 +323,7 @@ function Dashboard() {
                         <Link 
                           to="/missions/$missionId"
                           params={{ missionId: m._id }}
-                          className="shrink-0 text-sm flex items-center gap-1 hover:text-fuchsia-300 transition-colors bg-white/5 px-4 py-2 rounded-lg hover:bg-white/10"
+                          className="w-full sm:w-max text-sm flex items-center justify-center gap-1 hover:text-fuchsia-300 transition-colors bg-white/5 px-4 py-2.5 rounded-lg hover:bg-white/10"
                         >
                           View details <ChevronRight className="size-4" />
                         </Link>
