@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { getProjects } from "@/lib/api";
+import { getProjects, Project } from "@/lib/api";
 import {
   Menu,
   Database,
@@ -115,7 +115,7 @@ const concepts = [
 
 function RepositoriesPage() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
     getProjects()

@@ -24,7 +24,7 @@ import {
   X,
 } from "lucide-react";
 import { isAuthenticated } from "@/lib/demo-auth";
-import { runMission, getProjects } from "@/lib/api";
+import { runMission, getProjects, Project } from "@/lib/api";
 import { Sidebar } from "@/components/Sidebar";
 import {
   Dialog,
@@ -80,7 +80,7 @@ function Dashboard() {
   const [feedback, setFeedback] = useState("");
   const [isTweaking, setIsTweaking] = useState(false);
   const [llmResponse, setLlmResponse] = useState<string | null>(null);
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
     getProjects()

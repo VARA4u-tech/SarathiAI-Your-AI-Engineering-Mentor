@@ -1,5 +1,15 @@
 const API_BASE_URL = "http://localhost:3001";
 
+export interface Project {
+  _id: string;
+  name: string;
+  githubUrl: string;
+  readmeDocs?: string;
+  language?: string;
+  framework?: string;
+  status?: string;
+}
+
 export async function importRepository(url: string) {
   const response = await fetch(`${API_BASE_URL}/api/import`, {
     method: "POST",
