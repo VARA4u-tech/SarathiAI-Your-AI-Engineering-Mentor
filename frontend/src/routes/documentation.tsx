@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { runMission, getProjects } from "@/lib/api";
 import { motion } from "motion/react";
-import { FileText, Loader2, Sparkles, BookOpen, GitBranch } from "lucide-react";
+import { FileText, Loader2, Sparkles, BookOpen, GitBranch, Copy, CheckCircle2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -16,6 +16,7 @@ function DocumentationPage() {
   const [projects, setProjects] = useState<any[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [documentation, setDocumentation] = useState<string | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     getProjects()
@@ -39,6 +40,14 @@ function DocumentationPage() {
       setDocumentation("# Error\nFailed to generate documentation. Please check if the AI Engine is running.");
     } finally {
       setIsGenerating(false);
+    }
+  };
+
+  const handleCopy = () => {
+    if (documentation) {
+      navigator.clipboard.writeText(documentation);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
     }
   };
 
@@ -112,12 +121,21 @@ function DocumentationPage() {
                   <FileText className="size-4" />
                   ARCHITECTURE.md
                 </div>
-                <button
-                  onClick={handleGenerate}
-                  className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition-colors"
-                >
-                  <Sparkles className="size-3" /> Regenerate
-                </button>
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={handleCopy}
+                    className="text-xs text-muted-foreground hover:text-white flex items-center gap-1.5 transition-colors"
+                  >
+                    {isCopied ? <CheckCircle2 className="size-3 text-emerald-400" /> : <Copy className="size-3" />}
+                    {isCopied ? "Copied!" : "Copy Markdown"}
+                  </button>
+                  <button
+                    onClick={handleGenerate}
+                    className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition-colors"
+                  >
+                    <Sparkles className="size-3" /> Regenerate
+                  </button>
+                </div>
               </div>
               <div className="p-8 md:p-12 max-w-none text-foreground/90 leading-relaxed overflow-x-auto">
                 <ReactMarkdown
