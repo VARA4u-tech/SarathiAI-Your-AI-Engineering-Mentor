@@ -229,15 +229,24 @@ function DocumentationPage() {
                     thead: ({node, ...props}) => <thead className="bg-white/5 border-b border-border/50" {...props} />,
                     th: ({node, ...props}) => <th className="p-4 font-medium text-white" {...props} />,
                     td: ({node, ...props}) => <td className="p-4 border-b border-border/20 text-muted-foreground" {...props} />,
-                    code: ({node, inline, ...props}: any) => 
-                      inline ? (
-                        <code className="bg-white/10 text-emerald-200 px-1.5 py-0.5 rounded font-mono text-sm" {...props} />
-                      ) : (
+                    pre: ({children}) => <>{children}</>,
+                    code: ({node, className, children, ...props}: any) => {
+                      const match = /language-(\w+)/.exec(className || '');
+                      const isInline = !match && !String(children).includes('\n');
+                      
+                      if (isInline) {
+                        return <code className="bg-white/10 text-emerald-200 px-1.5 py-0.5 rounded font-mono text-sm" {...props}>{children}</code>;
+                      }
+
+                      return (
                         <div className="my-6 rounded-xl overflow-hidden border border-border/50 bg-[#0d1117]">
                           <div className="flex items-center px-4 py-2 border-b border-white/5 bg-white/5 text-xs font-mono text-muted-foreground">Code Snippet</div>
-                          <pre className="p-4 overflow-x-auto text-sm font-mono text-emerald-100/90" {...props} />
+                          <pre className="p-4 overflow-x-auto text-sm font-mono text-emerald-100/90">
+                            <code className={className} {...props}>{children}</code>
+                          </pre>
                         </div>
-                      ),
+                      );
+                    },
                   }}
                 >
                   {documentation}
