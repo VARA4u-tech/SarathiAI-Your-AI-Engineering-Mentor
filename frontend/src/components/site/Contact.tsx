@@ -188,14 +188,16 @@ export function Footer() {
             <div className="hidden md:flex flex-1">
               <p>© {new Date().getFullYear()} Sarathi.ai</p>
             </div>
-            
+
             <p className="flex-1 flex justify-center items-center gap-2 text-sm lg:text-base font-medium transition-all hover:scale-105 group cursor-default">
-              <span className="italic font-display text-white/40 group-hover:text-white/60 transition-colors">served and cooked by</span>
+              <span className="italic font-display text-white/40 group-hover:text-white/60 transition-colors">
+                served and cooked by
+              </span>
               <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-purple-400 to-cyan-400 drop-shadow-[0_0_12px_rgba(217,70,239,0.5)] tracking-[0.2em] text-lg lg:text-xl">
                 VARA
               </span>
             </p>
-            
+
             <div className="flex flex-1 md:justify-end gap-6">
               <Link to="/privacy" className="hover:text-white transition-colors">
                 Privacy
