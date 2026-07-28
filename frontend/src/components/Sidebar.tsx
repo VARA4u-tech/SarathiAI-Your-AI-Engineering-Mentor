@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Activity, Bot, FileCode2, FileText, Settings, X } from "lucide-react";
+import { Activity, FileCode2, FileText, Settings, X } from "lucide-react";
 
 export function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose: () => void }) {
   return (
@@ -23,7 +23,7 @@ export function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose:
         <nav className="space-y-2">
           <NavItem icon={Activity} label="Audit Hub" to="/dashboard" />
           <NavItem icon={FileCode2} label="Codebases" to="/repositories" />
-          <NavItem icon={Bot} label="Advisor Modules" to="/agent-teams" />
+
           <NavItem icon={FileText} label="Documentation" to="/documentation" />
         </nav>
       </div>

@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
-import { Route as AgentTeamsRouteImport } from './routes/agent-teams'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DocumentationRouteImport } from './routes/documentation'
@@ -42,11 +41,6 @@ const IndexRoute = IndexRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AgentTeamsRoute = AgentTeamsRouteImport.update({
-  id: '/agent-teams',
-  path: '/agent-teams',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
@@ -158,7 +152,6 @@ const WorkspaceRepoIdTestingRoute = WorkspaceRepoIdTestingRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/agent-teams': typeof AgentTeamsRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
   '/documentation': typeof DocumentationRoute
@@ -184,7 +177,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/agent-teams': typeof AgentTeamsRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
   '/documentation': typeof DocumentationRoute
@@ -211,7 +203,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/agent-teams': typeof AgentTeamsRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
   '/documentation': typeof DocumentationRoute
@@ -239,7 +230,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
-    | '/agent-teams'
     | '/analytics'
     | '/dashboard'
     | '/documentation'
@@ -265,7 +255,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
-    | '/agent-teams'
     | '/analytics'
     | '/dashboard'
     | '/documentation'
@@ -291,7 +280,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
-    | '/agent-teams'
     | '/analytics'
     | '/dashboard'
     | '/documentation'
@@ -318,7 +306,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
-  AgentTeamsRoute: typeof AgentTeamsRoute
   AnalyticsRoute: typeof AnalyticsRoute
   DashboardRoute: typeof DashboardRoute
   DocumentationRoute: typeof DocumentationRoute
@@ -352,13 +339,6 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/agent-teams': {
-      id: '/agent-teams'
-      path: '/agent-teams'
-      fullPath: '/agent-teams'
-      preLoaderRoute: typeof AgentTeamsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analytics': {
@@ -532,7 +512,6 @@ const WorkspaceRepoIdRouteWithChildren = WorkspaceRepoIdRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
-  AgentTeamsRoute: AgentTeamsRoute,
   AnalyticsRoute: AnalyticsRoute,
   DashboardRoute: DashboardRoute,
   DocumentationRoute: DocumentationRoute,

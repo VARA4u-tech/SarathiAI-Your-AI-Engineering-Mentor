@@ -1,18 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { getProjects, Project } from "@/lib/api";
+import { getProjects, getMissions, Project, Mission } from "@/lib/api";
 import {
   Menu,
-  Database,
-  Shield,
-  CreditCard,
-  ShoppingCart,
-  Bell,
   GitBranch,
-  Activity,
-  Layers,
-  Code2,
-  Sparkles,
+  FolderGit2,
+  Loader2,
+  Plus,
+  ChevronRight,
+  CheckCircle2,
+  AlertCircle,
+  Clock,
 } from "lucide-react";
 import { Sidebar } from "@/components/Sidebar";
 
@@ -20,110 +18,33 @@ export const Route = createFileRoute("/repositories")({
   component: RepositoriesPage,
 });
 
-const concepts = [
-  {
-    id: "auth",
-    name: "Authentication",
-    icon: Shield,
-    color: "text-violet-300",
-    bg: "bg-violet-500/10",
-    border: "border-violet-500/20",
-    stats: {
-      files: 14,
-      apis: 4,
-      models: 2,
-    },
-    status: "Healthy",
-    recent: "Added role-based middleware",
-  },
-  {
-    id: "payments",
-    name: "Payments",
-    icon: CreditCard,
-    color: "text-emerald-300",
-    bg: "bg-emerald-500/10",
-    border: "border-emerald-500/20",
-    stats: {
-      files: 8,
-      apis: 2,
-      models: 1,
-    },
-    status: "Healthy",
-    recent: "Updated Stripe webhook logic",
-  },
-  {
-    id: "orders",
-    name: "Orders",
-    icon: ShoppingCart,
-    color: "text-fuchsia-300",
-    bg: "bg-fuchsia-500/10",
-    border: "border-fuchsia-500/20",
-    stats: {
-      files: 22,
-      apis: 6,
-      models: 4,
-    },
-    status: "Needs Review",
-    recent: "Detected dead code in legacy router",
-  },
-  {
-    id: "notifications",
-    name: "Notifications",
-    icon: Bell,
-    color: "text-cyan-300",
-    bg: "bg-cyan-500/10",
-    border: "border-cyan-500/20",
-    stats: {
-      files: 11,
-      apis: 3,
-      models: 2,
-    },
-    status: "Healthy",
-    recent: "Indexed new email templates",
-  },
-  {
-    id: "core",
-    name: "Core Services",
-    icon: Layers,
-    color: "text-amber-300",
-    bg: "bg-amber-500/10",
-    border: "border-amber-500/20",
-    stats: {
-      files: 45,
-      apis: 12,
-      models: 8,
-    },
-    status: "Healthy",
-    recent: "Dependency graph updated",
-  },
-  {
-    id: "database",
-    name: "Data Layer",
-    icon: Database,
-    color: "text-blue-300",
-    bg: "bg-blue-500/10",
-    border: "border-blue-500/20",
-    stats: {
-      files: 18,
-      apis: 0,
-      models: 17,
-    },
-    status: "Healthy",
-    recent: "Schema validation completed",
-  },
-];
-
 function RepositoriesPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [missionsByProject, setMissionsByProject] = useState<Record<string, Mission[]>>({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getProjects()
-      .then((data) => setProjects(data))
-      .catch((err) => console.error("Failed to load projects", err));
+      .then(async (data) => {
+        setProjects(data);
+        // Load missions for each project
+        const map: Record<string, Mission[]> = {};
+        await Promise.all(
+          data.map(async (p: Project) => {
+            try {
+              const m = await getMissions(p._id);
+              map[p._id] = m;
+            } catch {
+              map[p._id] = [];
+            }
+          })
+        );
+        setMissionsByProject(map);
+      })
+      .catch((err) => console.error("Failed to load projects", err))
+      .finally(() => setLoading(false));
   }, []);
-
-  const currentProjectName = projects.length > 0 ? projects[0].name : "ecommerce-platform-v2";
 
   return (
     <main className="min-h-screen bg-background text-foreground flex">
@@ -143,71 +64,154 @@ function RepositoriesPage() {
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-300 mb-2">
               Repository Intelligence
             </p>
-            <h1 className="font-display text-4xl md:text-5xl">Conceptual Map</h1>
+            <h1 className="font-display text-4xl md:text-5xl">Codebases</h1>
             <p className="text-muted-foreground mt-2">
-              Your codebase understood by domains and concepts, not just folders.
+              All imported repositories and their review history.
             </p>
           </div>
-          <div className="rounded-full glass px-5 py-2.5 text-sm flex items-center gap-2 border border-white/10">
-            <GitBranch className="size-4 text-cyan-300" />
-            {currentProjectName} / main
-          </div>
+          <Link
+            to="/import"
+            className="rounded-full glass px-5 py-2.5 text-sm font-medium hover:bg-white/10 transition flex items-center gap-2 w-max border border-white/10"
+          >
+            <Plus className="size-4" /> Import repository
+          </Link>
         </header>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {concepts.map((concept) => (
-            <div
-              key={concept.id}
-              className="glass rounded-3xl p-6 group hover:bg-white/5 transition-colors cursor-pointer"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <div
-                  className={`size-12 rounded-2xl flex items-center justify-center border ${concept.bg} ${concept.border}`}
-                >
-                  <concept.icon className={`size-6 ${concept.color}`} />
-                </div>
-                <div
-                  className={`px-2.5 py-1 flex items-center gap-1.5 rounded-full text-xs border ${concept.status === "Healthy" ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-300" : "bg-fuchsia-500/10 border-fuchsia-500/20 text-fuchsia-300"}`}
-                >
-                  <span
-                    className={`size-1.5 rounded-full ${concept.status === "Healthy" ? "bg-emerald-400" : "bg-fuchsia-400"}`}
-                  />
-                  {concept.status}
-                </div>
-              </div>
-
-              <h2 className="font-display text-2xl mb-1">{concept.name}</h2>
-              <p className="text-sm text-muted-foreground mb-6">Last indexed: Just now</p>
-
-              <div className="grid grid-cols-3 gap-2 mb-6 border-y border-border py-4">
-                <div className="text-center">
-                  <div className="text-xl font-display">{concept.stats.files}</div>
-                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1 flex items-center justify-center gap-1">
-                    <Code2 className="size-3" /> Files
-                  </div>
-                </div>
-                <div className="text-center border-x border-border">
-                  <div className="text-xl font-display">{concept.stats.apis}</div>
-                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1 flex items-center justify-center gap-1">
-                    <Activity className="size-3" /> APIs
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xl font-display">{concept.stats.models}</div>
-                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1 flex items-center justify-center gap-1">
-                    <Database className="size-3" /> Models
-                  </div>
-                </div>
-              </div>
-
-              <div className="text-sm text-muted-foreground flex items-start gap-2">
-                <Sparkles className="size-4 shrink-0 mt-0.5 text-cyan-300" />
-                <span className="line-clamp-2">Agent Insight: {concept.recent}</span>
-              </div>
+        <div className="max-w-7xl mx-auto">
+          {loading ? (
+            <div className="flex items-center justify-center py-24">
+              <Loader2 className="size-6 animate-spin text-muted-foreground" />
             </div>
-          ))}
+          ) : projects.length === 0 ? (
+            <EmptyState />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {projects.map((project) => {
+                const missions = missionsByProject[project._id] ?? [];
+                const latestMission = missions[0] ?? null;
+                const score = latestMission?.score ?? null;
+
+                return (
+                  <div
+                    key={project._id}
+                    className="glass rounded-3xl p-6 group hover:bg-white/5 transition-colors flex flex-col"
+                  >
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="size-12 rounded-2xl flex items-center justify-center bg-fuchsia-500/10 border border-fuchsia-500/20">
+                        <FolderGit2 className="size-6 text-fuchsia-300" />
+                      </div>
+                      {score !== null ? (
+                        <span
+                          className="px-3 py-1 rounded-full text-sm font-bold"
+                          style={{
+                            background: "var(--grad-iridescent)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                          }}
+                        >
+                          {score}/100
+                        </span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground px-2 py-1 rounded-full bg-white/5 border border-white/10">
+                          Not reviewed
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Name */}
+                    <h2 className="font-display text-xl mb-1 truncate">{project.name}</h2>
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-cyan-400 hover:text-cyan-300 truncate flex items-center gap-1 mb-4"
+                    >
+                      <GitBranch className="size-3 shrink-0" />
+                      {project.githubUrl.replace("https://github.com/", "")}
+                    </a>
+
+                    {/* Stack tags */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.language && (
+                        <span className="text-xs px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-white/70">
+                          {project.language}
+                        </span>
+                      )}
+                      {project.framework && (
+                        <span className="text-xs px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-white/70">
+                          {project.framework}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Mission stats */}
+                    <div className="border-t border-white/10 pt-4 mt-auto space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Reviews</span>
+                        <span className="font-medium">{missions.length}</span>
+                      </div>
+                      {latestMission && (
+                        <div className="flex items-center gap-2 text-xs">
+                          {latestMission.status === "approved" ? (
+                            <CheckCircle2 className="size-3 text-emerald-400 shrink-0" />
+                          ) : latestMission.status === "rejected" ? (
+                            <AlertCircle className="size-3 text-red-400 shrink-0" />
+                          ) : (
+                            <Clock className="size-3 text-yellow-400 shrink-0" />
+                          )}
+                          <span className="text-muted-foreground truncate">
+                            Latest: {latestMission.title}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* CTA */}
+                    {latestMission ? (
+                      <Link
+                        to="/missions/$missionId"
+                        params={{ missionId: latestMission._id }}
+                        className="mt-4 w-full flex items-center justify-center gap-1 text-sm py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-muted-foreground hover:text-white"
+                      >
+                        View latest report <ChevronRight className="size-4" />
+                      </Link>
+                    ) : (
+                      <Link
+                        to="/dashboard"
+                        className="mt-4 w-full flex items-center justify-center gap-1 text-sm py-2.5 rounded-xl border border-dashed border-white/10 hover:border-fuchsia-500/30 transition-colors text-muted-foreground hover:text-fuchsia-300"
+                      >
+                        <Plus className="size-4" /> Run first review
+                      </Link>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </main>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="flex flex-col items-center justify-center py-32 text-center">
+      <div className="size-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+        <FolderGit2 className="size-10 text-muted-foreground" />
+      </div>
+      <h2 className="font-display text-2xl mb-2">No repositories yet</h2>
+      <p className="text-muted-foreground text-sm max-w-xs mb-8">
+        Import a GitHub repository to get your first AI Engineering Mentor review.
+      </p>
+      <Link
+        to="/import"
+        className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium text-white transition hover:opacity-90"
+        style={{ background: "var(--grad-iridescent)" }}
+      >
+        <Plus className="size-4" /> Import your first repo
+      </Link>
+    </div>
   );
 }
