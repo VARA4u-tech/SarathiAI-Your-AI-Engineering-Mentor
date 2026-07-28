@@ -15,6 +15,7 @@ export function Hero() {
           <span className="orb-ring orb-ring-1" />
           <span className="orb-ring orb-ring-2" />
           <span className="orb-ring orb-ring-3" />
+          <span className="orb-ring orb-ring-4" />
         </div>
 
         <div className="absolute top-[5vh] md:top-[8vh] left-0 w-full h-full z-0">
