@@ -1,8 +1,8 @@
 import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
-import { getMissionById, updateMissionStatus, Mission } from "@/lib/api";
-import { ArrowLeft, ShieldCheck, Layers, Lightbulb, Check, X, Code2, TestTube2, Clock, GitPullRequest, Timer, Zap, BookOpen, TrendingUp, Wrench } from "lucide-react";
+import { getMissionById, updateMissionStatus, deleteMission, Mission } from "@/lib/api";
+import { ArrowLeft, ShieldCheck, Layers, Lightbulb, Check, X, Code2, TestTube2, Clock, GitPullRequest, Timer, Zap, BookOpen, TrendingUp, Wrench, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/missions/$missionId")({
   component: MissionControlCenter,
@@ -48,6 +48,17 @@ function MissionControlCenter() {
     }
   };
 
+  const handleDelete = async () => {
+    if (!mission) return;
+    if (!window.confirm("Delete this review permanently?")) return;
+    try {
+      await deleteMission(mission._id);
+      navigate({ to: "/dashboard" });
+    } catch (err) {
+      console.error("Failed to delete mission:", err);
+    }
+  };
+
   if (loading) {
     return (
       <main className="min-h-screen bg-background text-foreground flex items-center justify-center">
@@ -74,12 +85,21 @@ function MissionControlCenter() {
 
       <div className="relative z-10 flex-1 min-w-0 overflow-y-auto p-5 md:p-10">
         <header className="max-w-5xl mx-auto mb-8">
-          <Link
-            to="/dashboard"
-            className="text-muted-foreground hover:text-foreground transition flex items-center gap-2 text-sm font-medium mb-8 w-max"
-          >
-            <ArrowLeft className="size-4" /> Back to Dashboard
-          </Link>
+          <div className="flex items-center justify-between mb-8">
+            <Link
+              to="/dashboard"
+              className="text-muted-foreground hover:text-foreground transition flex items-center gap-2 text-sm font-medium w-max"
+            >
+              <ArrowLeft className="size-4" /> Back to Dashboard
+            </Link>
+            <button
+              onClick={handleDelete}
+              className="flex items-center gap-1.5 text-xs text-red-400/60 hover:text-red-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-500/10 border border-transparent hover:border-red-500/20"
+              title="Delete this review"
+            >
+              <Trash2 className="size-3.5" /> Delete review
+            </button>
+          </div>
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
             <div>
               <p className="text-xs uppercase tracking-[0.24em] text-fuchsia-300 mb-2">

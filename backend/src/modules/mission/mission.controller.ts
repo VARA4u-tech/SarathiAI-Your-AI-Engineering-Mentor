@@ -158,25 +158,25 @@ export const createMockMission = async (req: Request, res: Response) => {
       status: "review_required",
       suggestions: [
         {
-          category: "Performance",
+          category: "Vulnerability & Compliance",
           title: "Implement Redis Caching",
           description: "Database queries for user roles are frequent. Implement a Redis caching layer to store role permissions, reducing DB load by up to 40%.",
           impact: "High"
         },
         {
-          category: "Security",
+          category: "Vulnerability & Compliance",
           title: "Add API Rate Limiting",
           description: "The authentication endpoints currently lack rate limiting. Add 'express-rate-limit' to prevent brute-force login attempts.",
           impact: "High"
         },
         {
-          category: "Architecture",
+          category: "System Design & Architecture",
           title: "Standardize Error Handling",
           description: "Error responses across API routes are inconsistent. Introduce a global error handling middleware to ensure consistent JSON formats for client consumption.",
           impact: "Medium"
         },
         {
-          category: "Security",
+          category: "Vulnerability & Compliance",
           title: "Configure Strict CORS policy",
           description: "Current CORS setup allows all origins in development. Restrict the origins to explicitly authorized frontend domains before deploying to production.",
           impact: "High"
@@ -189,5 +189,19 @@ export const createMockMission = async (req: Request, res: Response) => {
   } catch (error: any) {
     logger.error("Error creating mock mission:", error.message);
     return res.status(500).json({ error: "Failed to create mock mission" });
+  }
+};
+
+export const deleteMission = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const mission = await Mission.findByIdAndDelete(id);
+    if (!mission) {
+      return res.status(404).json({ error: "Mission not found" });
+    }
+    return res.json({ success: true, message: "Mission deleted" });
+  } catch (error: any) {
+    logger.error("Error deleting mission:", error.message);
+    return res.status(500).json({ error: "Failed to delete mission" });
   }
 };

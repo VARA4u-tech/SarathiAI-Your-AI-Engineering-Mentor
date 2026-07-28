@@ -1,4 +1,6 @@
 import os
+import re
+import json
 # pyrefly: ignore [missing-import]
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -25,35 +27,100 @@ MODELS = {
     "coder": "openai/gpt-oss-20b:free",      
 }
 
+def extract_json(text: str) -> str:
+    """Extract JSON from a response that may contain markdown fences or extra text."""
+    # Try parsing as-is first
+    try:
+        json.loads(text)
+        return text
+    except Exception:
+        pass
+    
+    # Strip ```json ... ``` or ``` ... ``` markdown fences
+    fenced = re.search(r"```(?:json)?\s*(\{[\s\S]*?\})\s*```", text)
+    if fenced:
+        candidate = fenced.group(1)
+        try:
+            json.loads(candidate)
+            return candidate
+        except Exception:
+            pass
+    
+    # Find the first { ... } block in the text
+    brace_match = re.search(r"(\{[\s\S]*\})", text)
+    if brace_match:
+        candidate = brace_match.group(1)
+        try:
+            json.loads(candidate)
+            return candidate
+        except Exception:
+            pass
+    
+    # Couldn't extract — return original for upstream error handling
+    return text
+
+
 def call_agent(agent_type: str, prompt: str, project_context: str = None) -> str:
     """Calls OpenRouter with the specific model for the requested agent."""
     model_id = MODELS.get(agent_type, "meta-llama/llama-3-8b-instruct:free")
     
-    system_prompt = (
-        "You are a Senior AI Engineering Mentor for CodePilot AI. "
-        "Your job is to review student or junior developer projects and provide a comprehensive 'Production-Ready Review'. "
-        "You do not write code for them; you guide them on Architecture, Security, Performance, and Best Practices. "
-        "CRITICAL INSTRUCTION: Even if you feel you do not have enough code context, YOU MUST NOT COMPLAIN OR REFUSE. "
-        "Make educated guesses based on the project name, framework, or standard best practices. "
-        "You must respond ONLY with a strict JSON object containing the following keys:\n"
-        "1. 'score': An integer from 0 to 100 representing the overall repository score.\n"
-        "2. 'categoryScores': An object with integer scores (1-10) for 'Architecture', 'Security', 'Performance', 'Documentation', 'Testing', 'Scalability', 'Maintainability'.\n"
-        "3. 'suggestions': An array of missing features or improvements. Each object must have: "
-        "'category' (Strictly one of: 'System Design & Architecture', 'Full Stack Implementation', 'Vulnerability & Compliance', 'Testing & Validation'), "
-        "'title' (e.g. 'Add Redis Cache'), 'description' (Detailed explanation), 'impact' ('High'|'Medium'|'Low'), "
-        "'why' (Why is this important?), 'recommendation' (How to fix it), 'difficulty' ('Easy'|'Medium'|'Hard'), 'estimatedTime' (e.g. '20 Minutes').\n"
-        "4. 'roadmap': An array representing a week-by-week learning/implementation plan. Each object must have: 'week' (e.g. 'Week 1'), 'title' (e.g. 'Authentication'), 'description' (What to do that week)."
-    )
+    system_prompt = """You are a Senior AI Engineering Mentor for CodePilot AI.
+Your ONLY job is to output a single valid JSON object — nothing else. No explanations, no markdown, no code fences.
+
+CRITICAL: Your ENTIRE response must be ONLY the JSON object below. If you write anything outside the JSON, the system will break.
+
+Required JSON format:
+{
+  "score": 72,
+  "categoryScores": {
+    "Architecture": 7,
+    "Security": 3,
+    "Performance": 5,
+    "Documentation": 2,
+    "Testing": 1,
+    "Scalability": 5,
+    "Maintainability": 7
+  },
+  "suggestions": [
+    {
+      "category": "Vulnerability & Compliance",
+      "title": "Add JWT Authentication",
+      "description": "No authentication system is present. Any user can call all API routes.",
+      "impact": "High",
+      "why": "Without authentication, anyone on the internet can access, modify, or delete all data.",
+      "recommendation": "Implement JWT with jsonwebtoken. Add an auth middleware that validates Bearer tokens on protected routes.",
+      "difficulty": "Medium",
+      "estimatedTime": "3 Hours"
+    }
+  ],
+  "roadmap": [
+    {
+      "week": "Week 1",
+      "title": "Authentication",
+      "description": "Implement JWT-based authentication. Add login, register, and token refresh endpoints."
+    }
+  ]
+}
+
+Rules:
+- category must be exactly one of: "System Design & Architecture", "Full Stack Implementation", "Vulnerability & Compliance", "Testing & Validation"
+- impact must be: "High", "Medium", or "Low"
+- difficulty must be: "Easy", "Medium", or "Hard"
+- score is 0-100
+- categoryScores are 1-10
+- Always include at least 5 suggestions and at least 6 roadmap weeks
+- If you don't have enough context, make educated guesses based on the framework and common best practices
+- DO NOT ask for more information. Just produce the JSON."""
 
     if project_context:
-        system_prompt += f"\n\nHere is the REPOSITORY CONTEXT for the codebase you are auditing:\n{project_context}\n\nPlease tailor your architectural and security suggestions to this specific technology stack and architecture."
+        system_prompt += f"\n\nREPOSITORY CONTEXT:\n{project_context}\n\nTailor all suggestions to this specific stack."
 
     try:
         response = client.chat.completions.create(
             model=model_id,
             messages=[
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": prompt}
+                {"role": "user", "content": f"Review this project and return the JSON: {prompt}"}
             ],
             response_format={"type": "json_object"},
             extra_headers={
@@ -61,6 +128,7 @@ def call_agent(agent_type: str, prompt: str, project_context: str = None) -> str
                 "X-Title": "CodePilot AI",
             }
         )
-        return response.choices[0].message.content
+        raw = response.choices[0].message.content
+        return extract_json(raw)
     except Exception as e:
         return f'{{"error": "Error communicating with AI: {str(e)}"}}'

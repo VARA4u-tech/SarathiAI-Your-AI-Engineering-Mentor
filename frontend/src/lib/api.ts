@@ -159,3 +159,10 @@ export async function createMockMission(): Promise<Mission> {
   if (!response.ok) throw new Error("Failed to create mock mission");
   return response.json();
 }
+
+export async function deleteMission(missionId: string): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/api/missions/${missionId}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) throw new Error("Failed to delete mission");
+}

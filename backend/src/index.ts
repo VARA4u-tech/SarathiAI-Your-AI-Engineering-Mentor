@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { getProjects, createProject, updateReadmeDocs } from "./modules/project/project.controller";
 import { importRepository } from "./modules/repository/repository.controller";
-import { runMission, getMissions, getMissionById, updateMissionStatus, createMockMission } from "./modules/mission/mission.controller";
+import { runMission, getMissions, getMissionById, updateMissionStatus, createMockMission, deleteMission } from "./modules/mission/mission.controller";
 import { logger } from "./shared/utils/logger";
 import { config } from "./config";
 import { connectDB } from "./config/db";
@@ -27,6 +27,7 @@ app.get("/api/missions", getMissions);
 app.post("/api/missions/mock", createMockMission);
 app.get("/api/missions/:id", getMissionById);
 app.put("/api/missions/:id/status", updateMissionStatus);
+app.delete("/api/missions/:id", deleteMission);
 app.post("/api/missions", runMission);
 
 // Health check
