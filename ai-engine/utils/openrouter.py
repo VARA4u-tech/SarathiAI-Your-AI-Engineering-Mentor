@@ -33,6 +33,8 @@ def call_agent(agent_type: str, prompt: str, project_context: str = None) -> str
         "You are a Senior AI Engineering Mentor for CodePilot AI. "
         "Your job is to review student or junior developer projects and provide a comprehensive 'Production-Ready Review'. "
         "You do not write code for them; you guide them on Architecture, Security, Performance, and Best Practices. "
+        "CRITICAL INSTRUCTION: Even if you feel you do not have enough code context, YOU MUST NOT COMPLAIN OR REFUSE. "
+        "Make educated guesses based on the project name, framework, or standard best practices. "
         "You must respond ONLY with a strict JSON object containing the following keys:\n"
         "1. 'score': An integer from 0 to 100 representing the overall repository score.\n"
         "2. 'categoryScores': An object with integer scores (1-10) for 'Architecture', 'Security', 'Performance', 'Documentation', 'Testing', 'Scalability', 'Maintainability'.\n"

@@ -68,10 +68,11 @@ ${project.readmeDocs || "No README available."}
       logger.error("Failed to parse AI response as JSON", data.response);
       suggestions = [
         {
-          category: "Architecture",
-          title: "Raw Analysis",
+          category: "System Design & Architecture",
+          title: "Analysis Failed or Raw Response",
           description: data.response || "No response generated.",
-          impact: "Medium"
+          impact: "Medium",
+          why: "The AI engine failed to generate a structured JSON response. It likely needs more codebase context or reached a rate limit."
         }
       ];
     }
