@@ -2,7 +2,7 @@ import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-r
 import { useEffect, useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { getMissionById, updateMissionStatus, Mission } from "@/lib/api";
-import { ArrowLeft, CheckCircle2, XCircle, ShieldCheck, Zap, Layers, Lightbulb, Check, X, Code2, TestTube2, Clock, GitPullRequest, Timer } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Layers, Lightbulb, Check, X, Code2, TestTube2, Clock, GitPullRequest, Timer, Zap, BookOpen, TrendingUp, Wrench } from "lucide-react";
 
 export const Route = createFileRoute("/missions/$missionId")({
   component: MissionControlCenter,
@@ -91,14 +91,51 @@ function MissionControlCenter() {
               </p>
             </div>
             
-            <div className="glass p-5 rounded-2xl flex flex-col gap-4 min-w-[240px] shrink-0 border border-white/10">
+            <div className="glass p-5 rounded-2xl flex flex-col gap-4 min-w-[280px] shrink-0 border border-white/10">
+              {/* Overall Score */}
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-muted-foreground">Overall Score</span>
-                <span className="px-3 py-1 rounded-full text-lg font-bold bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/20">
+                <span className="px-3 py-1 rounded-full text-lg font-bold" style={{ background: "var(--grad-iridescent)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                   {mission.score || 0}/100
                 </span>
               </div>
-              <div className="flex items-center justify-between border-t border-white/10 pt-4">
+
+              {/* Score bar */}
+              <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-700"
+                  style={{ width: `${mission.score || 0}%`, background: "var(--grad-iridescent)" }}
+                />
+              </div>
+
+              {/* Category sub-scores */}
+              {mission.categoryScores && (
+                <div className="space-y-2.5 border-t border-white/10 pt-3">
+                  {([
+                    { key: "Architecture", color: "bg-cyan-400" },
+                    { key: "Security", color: "bg-red-400" },
+                    { key: "Performance", color: "bg-yellow-400" },
+                    { key: "Documentation", color: "bg-blue-400" },
+                    { key: "Testing", color: "bg-emerald-400" },
+                    { key: "Scalability", color: "bg-violet-400" },
+                    { key: "Maintainability", color: "bg-fuchsia-400" },
+                  ] as const).map(({ key, color }) => {
+                    const val = (mission.categoryScores as any)[key] ?? 0;
+                    return (
+                      <div key={key} className="flex items-center gap-2">
+                        <span className="text-[11px] text-muted-foreground w-28 shrink-0">{key}</span>
+                        <div className="flex-1 h-1 rounded-full bg-white/10 overflow-hidden">
+                          <div className={`h-full rounded-full ${color}`} style={{ width: `${val * 10}%` }} />
+                        </div>
+                        <span className="text-[11px] text-white/60 w-6 text-right">{val}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Status + Actions */}
+              <div className="flex items-center justify-between border-t border-white/10 pt-3">
                 <span className="text-sm font-medium text-muted-foreground">Status</span>
                 <span className={`px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${
                   mission.status === 'review_required' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' : 
@@ -111,7 +148,7 @@ function MissionControlCenter() {
               </div>
               
               {isPending && (
-                <div className="grid grid-cols-2 gap-2 mt-2">
+                <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={handleReject}
                     className="flex items-center justify-center gap-2 py-2 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors text-sm font-medium"
@@ -243,30 +280,86 @@ function MissionControlCenter() {
             )}
           </div>
 
-          {mission.roadmap && mission.roadmap.length > 0 && (
-            <div className="glass rounded-3xl p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-8">
-                <Clock className="size-5 text-fuchsia-300" />
-                <h2 className="font-display text-2xl">Implementation Roadmap</h2>
-              </div>
-              <div className="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent">
-                {mission.roadmap.map((step, idx) => (
-                  <div key={idx} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-black/50 text-fuchsia-300 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 shadow-[0_0_15px_rgba(232,121,249,0.15)]">
-                      <span className="text-sm font-bold">{idx + 1}</span>
-                    </div>
-                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass p-5 rounded-2xl border border-white/5">
-                      <span className="text-xs font-bold tracking-widest uppercase text-fuchsia-400 mb-1 block">{step.week}</span>
-                      <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          <RoadmapSection roadmap={mission.roadmap} suggestions={mission.suggestions} />
         </div>
       </div>
     </main>
+  );
+}
+
+// ─── Roadmap Section ────────────────────────────────────────────────────────
+
+type RoadmapStep = { week: string; title: string; description: string };
+type Suggestion = { title: string; impact: string; category: string; estimatedTime?: string };
+
+const CATEGORY_COLORS: Record<string, string> = {
+  "System Design & Architecture": "border-cyan-500/30 bg-cyan-500/5",
+  "Full Stack Implementation": "border-fuchsia-500/30 bg-fuchsia-500/5",
+  "Vulnerability & Compliance": "border-red-500/30 bg-red-500/5",
+  "Testing & Validation": "border-yellow-500/30 bg-yellow-500/5",
+};
+
+const WEEK_LABEL_COLOR = ["text-cyan-400", "text-fuchsia-400", "text-yellow-400", "text-emerald-400", "text-red-400", "text-violet-400", "text-blue-400", "text-orange-400"];
+
+function RoadmapSection({ roadmap, suggestions }: { roadmap: RoadmapStep[]; suggestions: Suggestion[] }) {
+  // Use real roadmap if available, otherwise auto-generate from High then Medium impact suggestions
+  const steps: RoadmapStep[] = roadmap && roadmap.length > 0
+    ? roadmap
+    : [...suggestions]
+        .sort((a, b) => {
+          const order = { High: 0, Medium: 1, Low: 2 };
+          return (order[a.impact as keyof typeof order] ?? 3) - (order[b.impact as keyof typeof order] ?? 3);
+        })
+        .slice(0, 8)
+        .map((s, i) => ({
+          week: `Week ${i + 1}`,
+          title: s.title,
+          description: `Implement "${s.title}". Category: ${s.category}. Estimated time: ${s.estimatedTime || "Varies"}.`,
+        }));
+
+  if (!steps.length) return null;
+
+  return (
+    <div className="glass rounded-3xl p-6 md:p-8">
+      <div className="flex items-center gap-3 mb-8">
+        <Clock className="size-5 text-fuchsia-300" />
+        <div>
+          <h2 className="font-display text-2xl">Implementation Roadmap</h2>
+          {!(roadmap && roadmap.length > 0) && (
+            <p className="text-xs text-muted-foreground mt-0.5">Auto-generated from analysis — approve the report to confirm</p>
+          )}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {steps.map((step, idx) => (
+          <div
+            key={idx}
+            className={`relative rounded-2xl border p-5 flex flex-col gap-2 transition-colors hover:bg-white/5 ${
+              CATEGORY_COLORS[suggestions[idx]?.category ?? ""] || "border-white/10 bg-white/5"
+            }`}
+          >
+            {/* Week badge */}
+            <span className={`text-[10px] font-extrabold tracking-[0.2em] uppercase ${WEEK_LABEL_COLOR[idx % WEEK_LABEL_COLOR.length]}`}>
+              {step.week}
+            </span>
+
+            {/* Timeline dot */}
+            <div className="absolute -top-3 left-5 size-6 rounded-full border border-white/10 bg-background flex items-center justify-center">
+              <span className="text-[10px] font-bold text-fuchsia-400">{idx + 1}</span>
+            </div>
+
+            <h3 className="font-semibold text-white text-sm leading-snug mt-1">{step.title}</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed flex-1">{step.description}</p>
+
+            {suggestions[idx]?.estimatedTime && (
+              <span className="flex items-center gap-1 text-[10px] text-muted-foreground mt-1">
+                <Timer className="size-3" /> {suggestions[idx].estimatedTime}
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
