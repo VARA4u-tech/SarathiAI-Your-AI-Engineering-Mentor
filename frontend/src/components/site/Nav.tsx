@@ -1,7 +1,20 @@
 import CardNav from "../ui/CardNav";
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { motion, useScroll, useMotionValueEvent } from "motion/react";
 
 export function Nav() {
+  const [isAtTop, setIsAtTop] = useState(true);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest <= 50) {
+      setIsAtTop(true);
+    } else {
+      setIsAtTop(false);
+    }
+  });
+
   const items = [
     {
       label: "Platform",
@@ -11,7 +24,6 @@ export function Nav() {
         { label: "Benefits", href: "#benefits", ariaLabel: "Platform Benefits" },
       ],
     },
-
     {
       label: "Company",
       links: [
@@ -33,13 +45,24 @@ export function Nav() {
   );
 
   return (
-    <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[min(96%,1200px)] pointer-events-none">
+    <motion.header
+      initial={false}
+      animate={{
+        scale: isAtTop ? 1 : 0.85,
+      }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed left-1/2 -translate-x-1/2 z-50 w-[min(96%,1200px)] pointer-events-none origin-top transition-all duration-500 ease-out ${
+        isAtTop ? "top-8" : "top-2"
+      }`}
+    >
       <div className="pointer-events-auto">
         <CardNav
           logo={logoNode}
           items={items}
           ease="back.out(1.7)"
-          className="!static !w-full !max-w-none !transform-none !top-4"
+          className={`!static !w-full !max-w-none !transform-none !top-4 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/10 ${
+            isAtTop ? "bg-black/20" : "bg-black/60 backdrop-blur-2xl"
+          }`}
           rightAction={
             <div className="flex items-center gap-4 text-sm font-display pr-1">
               <Link
@@ -58,6 +81,6 @@ export function Nav() {
           }
         />
       </div>
-    </header>
+    </motion.header>
   );
 }
