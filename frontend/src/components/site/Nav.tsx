@@ -2,6 +2,7 @@ import CardNav from "../ui/CardNav";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
+import { Logo } from "@/components/Logo";
 
 export function Nav() {
   const [isAtTop, setIsAtTop] = useState(true);
@@ -35,8 +36,8 @@ export function Nav() {
   ];
 
   const logoNode = (
-    <Link to="/" className="flex items-center gap-2 font-display text-lg">
-      <span className="size-3 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
+    <Link to="/" className="flex items-center gap-3 font-display text-lg">
+      <Logo className="w-6 h-6" />
       <span className="hidden sm:inline-block">Sarathi.ai</span>
     </Link>
   );

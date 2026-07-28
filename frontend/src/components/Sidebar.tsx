@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Activity, FileCode2, FileText, Settings, X } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose: () => void }) {
   return (
@@ -8,8 +9,8 @@ export function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose:
     >
       <div>
         <div className="flex items-center justify-between mb-10">
-          <Link to="/" className="flex items-center gap-2 font-display text-xl px-2">
-            <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
+          <Link to="/" className="flex items-center gap-3 font-display text-xl px-2">
+            <Logo className="w-5 h-5" />
             <span className="hidden md:block">Sarathi.ai</span>
           </Link>
           <button
