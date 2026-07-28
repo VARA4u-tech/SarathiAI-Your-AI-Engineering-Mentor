@@ -100,8 +100,8 @@ function ProcessCard({ step, index, scrollYProgress }: ProcessCardProps) {
           className="absolute inset-0 bg-black z-20 pointer-events-none rounded-[2.5rem]"
         />
 
-        {/* Giant Watermark */}
-        <div className="absolute -right-4 -bottom-10 md:-right-10 md:-bottom-20 text-[12rem] md:text-[20rem] font-display text-white/[0.02] font-bold select-none leading-none z-0">
+        {/* Number Watermark */}
+        <div className="absolute right-8 top-8 md:right-12 md:top-10 text-[6rem] md:text-[10rem] font-display text-white/15 font-bold select-none leading-none z-0 tracking-tighter">
           {step.n}
         </div>
 
