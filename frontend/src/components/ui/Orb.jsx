@@ -214,7 +214,8 @@ export default function Orb({
 
     function resize() {
       if (!container) return;
-      const dpr = window.devicePixelRatio || 1;
+      // Cap DPR to 1 to drastically reduce GPU load for the blur effect
+      const dpr = Math.min(window.devicePixelRatio || 1, 1);
       const width = container.clientWidth;
       const height = container.clientHeight;
       renderer.setSize(width * dpr, height * dpr);
@@ -261,8 +262,20 @@ export default function Orb({
     container.addEventListener("mouseleave", handleMouseLeave);
 
     let rafId;
+    let isVisible = true;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        isVisible = entries[0].isIntersecting;
+      },
+      { threshold: 0 }
+    );
+    observer.observe(container);
+
     const update = (t) => {
       rafId = requestAnimationFrame(update);
+      if (!isVisible) return; // Pause rendering when off-screen
+
       const dt = (t - lastTime) * 0.001;
       lastTime = t;
       program.uniforms.iTime.value = t * 0.001;
@@ -288,6 +301,7 @@ export default function Orb({
       window.removeEventListener("resize", resize);
       container.removeEventListener("mousemove", handleMouseMove);
       container.removeEventListener("mouseleave", handleMouseLeave);
+      observer.disconnect();
       container.removeChild(gl.canvas);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
       console.log("Orb: cleaned up");

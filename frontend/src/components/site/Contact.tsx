@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 export function Footer() {
   return (
     <footer
-      className="relative h-auto md:h-[80vh] w-full"
+      className="relative h-auto md:h-[80vh] min-h-[720px] w-full"
       style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
       <div className="relative md:fixed bottom-0 w-full min-h-[720px] md:h-[80vh] bg-black border-t border-white/5 flex flex-col justify-between overflow-hidden">
