@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap");
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -5,9 +6,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* Recoleta and Berthold are used automatically when licensed font files are supplied. */
-  --font-display: "Recoleta", ui-serif, Georgia, serif;
-  --font-sans: "Berthold", ui-sans-serif, system-ui, sans-serif;
+  /* Syne for display headings, Plus Jakarta Sans for body/UI */
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
