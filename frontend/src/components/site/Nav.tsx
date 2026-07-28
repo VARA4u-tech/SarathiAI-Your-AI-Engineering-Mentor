@@ -20,7 +20,7 @@ export function Nav() {
     {
       label: "Platform",
       links: [
-        { label: "Features", href: "#features", ariaLabel: "Platform Features" },
+        { label: "Features", href: "/features", ariaLabel: "Platform Features" },
         { label: "How it Works", href: "#how-it-works", ariaLabel: "How it Works" },
         { label: "Benefits", href: "#benefits", ariaLabel: "Platform Benefits" },
       ],
@@ -28,9 +28,9 @@ export function Nav() {
     {
       label: "Company",
       links: [
-        { label: "About Us", href: "#", ariaLabel: "About Company" },
-        { label: "Careers", href: "#", ariaLabel: "Careers" },
-        { label: "Contact", href: "#contact", ariaLabel: "Contact Us" },
+        { label: "About Us", href: "/about", ariaLabel: "About Company" },
+        { label: "Careers", href: "/careers", ariaLabel: "Careers" },
+        { label: "Contact", href: "/contact", ariaLabel: "Contact Us" },
       ],
     },
   ];
