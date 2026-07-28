@@ -8,26 +8,26 @@ import CardSwap, { Card } from "../ui/CardSwap";
 const features = [
   {
     n: "01",
-    t: "Repository Review",
-    d: "Understands your entire codebase, architecture, and tech stack instantly.",
+    t: "Deep Code Review",
+    d: "Sarathi scans your entire codebase like a Senior Engineer—spotting missing layers, bad patterns, and architectural gaps.",
     icon: Brain,
   },
   {
     n: "02",
     t: "Security & Compliance",
-    d: "Finds vulnerabilities, missing auth, rate limiting issues, and poor practices.",
+    d: "Uncovers missing JWT auth, broken rate limiting, unvalidated inputs, and exposed env secrets before they go to production.",
     icon: Zap,
   },
   {
     n: "03",
-    t: "Architecture Flaws",
-    d: "Detects bad patterns like un-cached DB calls and missing validations.",
+    t: "Architecture Diagnosis",
+    d: "Detects anti-patterns like un-cached DB queries, God objects, missing error handling, and tight coupling.",
     icon: Bug,
   },
   {
     n: "04",
-    t: "Implementation Roadmap",
-    d: "Generates a week-by-week personalized plan to make your project production-ready.",
+    t: "Production Roadmap",
+    d: "Delivers a week-by-week, prioritized action plan to transform your student project into enterprise-grade software.",
     icon: Map,
   },
 ];
@@ -70,16 +70,16 @@ export function Services() {
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <div className="flex items-end justify-between mb-20 flex-wrap gap-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
-              — Features
+            <p className="text-xs uppercase tracking-[0.2em] text-fuchsia-400 mb-4 font-bold">
+              — What Sarathi Catches
             </p>
             <h2 className="font-display text-5xl md:text-7xl text-gradient max-w-2xl leading-[1]">
-              Everything you need to <span className="italic text-iridescent">build production-ready.</span>
+              Everything a Senior Engineer{" "}
+              <span className="italic text-iridescent">would catch.</span>
             </h2>
           </div>
-          <p className="max-w-sm text-muted-foreground">
-            CodePilot AI is your central hub for repository review, security audits, architecture
-            analysis, and step-by-step guidance.
+          <p className="max-w-sm text-muted-foreground text-lg leading-relaxed">
+            Sarathi.ai is your 24/7 engineering mentor — reviewing code, auditing security, and charting the exact path to production.
           </p>
         </div>
 

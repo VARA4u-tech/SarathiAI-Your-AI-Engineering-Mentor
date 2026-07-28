@@ -10,28 +10,28 @@ const projects = [
     c: "Step 01",
     img: hero,
     tags: ["Knowledge Graph", "AST Parsing", "Vector Search"],
-    desc: "CodePilot instantly ingests your entire repository, mapping out every function, class, and dependency to build a comprehensive understanding of your architecture.",
+    desc: "Sarathi.ai instantly ingests your entire GitHub repository, mapping every function, class, and dependency to build a deep understanding of your architecture.",
   },
   {
-    t: "Plan & Architect",
+    t: "Score & Audit",
     c: "Step 02",
     img: orb1,
-    tags: ["Feature Planner", "Dependency Tracing", "Impact Analysis"],
-    desc: "Before writing a single line of code, the AI proposes a detailed implementation plan, highlighting exactly which files need to change and potential side effects.",
+    tags: ["Security Scan", "Architecture Score", "Risk Analysis"],
+    desc: "Every project gets a 0–100 Architecture Score across 7 categories. Missing auth? No tests? No Docker? Sarathi finds it all and explains exactly why it matters.",
   },
   {
-    t: "Code & Debug",
+    t: "Fix & Implement",
     c: "Step 03",
     img: orb2,
-    tags: ["Unified Workspace", "Auto-Refactor", "Bug Squashing"],
-    desc: "Seamlessly execute the plan. CodePilot writes the code, handles the refactoring, and automatically squashes bugs before they ever reach production.",
+    tags: ["Prioritized Fixes", "Code Snippets", "Best Practices"],
+    desc: "Each flaw comes with a clear 'Why it matters' and 'How to fix it' guide—with estimated effort. Turn knowledge into action, one step at a time.",
   },
   {
-    t: "Deploy & Monitor",
+    t: "Roadmap & Ship",
     c: "Step 04",
     img: orb1,
-    tags: ["CI/CD Pipeline", "Zero-Downtime", "Health Checks"],
-    desc: "Ship with absolute confidence. CodePilot automatically provisions infrastructure, handles edge-case deployment failures, and monitors performance in real-time.",
+    tags: ["Week-by-week Plan", "Production Checklist", "Mentor Guidance"],
+    desc: "Sarathi generates a personalized, week-by-week implementation plan tailored to your tech stack. Ship with confidence, not guesswork.",
   },
 ];
 
@@ -65,12 +65,12 @@ export function Work() {
     <section id="how-it-works" ref={targetRef} className="relative h-[400vh] bg-background">
       <div className="sticky top-0 h-screen flex flex-col items-start justify-center overflow-hidden w-full">
         <div className="w-full px-8 md:px-[calc(50vw-600px)] flex-shrink-0 z-10 mb-8 md:mb-12">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
-            — How it works
+          <p className="text-xs uppercase tracking-[0.2em] text-fuchsia-400 mb-4 font-bold">
+            — How Sarathi Works
           </p>
           <h2 className="font-display text-4xl md:text-6xl text-gradient max-w-3xl leading-[1]">
-            Import your repository{" "}
-            <span className="italic text-iridescent">and start building</span> instantly.
+            From raw code to{" "}
+            <span className="italic text-iridescent">production-ready</span>{" "}in one flow.
           </h2>
         </div>
 
