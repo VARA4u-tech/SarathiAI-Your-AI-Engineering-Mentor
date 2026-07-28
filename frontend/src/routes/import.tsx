@@ -112,12 +112,12 @@ function ImportRepo() {
         <div>
           <div className="flex items-center gap-2 font-display text-xl mb-12">
             <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400" />
-            <Link to="/dashboard">CodePilot AI</Link>
+            <Link to="/dashboard">Sarathi.ai</Link>
           </div>
 
           <h1 className="font-display text-4xl md:text-5xl mb-4">Import Repository</h1>
           <p className="text-muted-foreground mb-10 text-sm max-w-sm">
-            Connect your codebase. CodePilot AI will ingest, analyze, and build a knowledge graph of
+            Connect your codebase. Sarathi.ai will ingest, analyze, and build a knowledge graph of
             your architecture.
           </p>
 

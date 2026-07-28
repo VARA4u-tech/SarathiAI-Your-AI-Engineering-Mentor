@@ -10,7 +10,7 @@ export function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose:
         <div className="flex items-center justify-between mb-10">
           <Link to="/" className="flex items-center gap-2 font-display text-xl px-2">
             <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
-            <span className="hidden md:block">CodePilot AI</span>
+            <span className="hidden md:block">Sarathi.ai</span>
           </Link>
           <button
             onClick={onClose}

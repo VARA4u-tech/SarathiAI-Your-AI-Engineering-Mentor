@@ -64,7 +64,7 @@ def call_agent(agent_type: str, prompt: str, project_context: str = None) -> str
     """Calls OpenRouter with the specific model for the requested agent."""
     model_id = MODELS.get(agent_type, "meta-llama/llama-3-8b-instruct:free")
     
-    system_prompt = """You are a Senior AI Engineering Mentor for CodePilot AI.
+    system_prompt = """You are a Senior AI Engineering Mentor for Sarathi.ai.
 Your ONLY job is to output a single valid JSON object — nothing else. No explanations, no markdown, no code fences.
 
 CRITICAL: Your ENTIRE response must be ONLY the JSON object below. If you write anything outside the JSON, the system will break.
@@ -125,7 +125,7 @@ Rules:
             response_format={"type": "json_object"},
             extra_headers={
                 "HTTP-Referer": "http://localhost:3000",
-                "X-Title": "CodePilot AI",
+                "X-Title": "Sarathi.ai",
             }
         )
         raw = response.choices[0].message.content

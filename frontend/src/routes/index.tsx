@@ -13,13 +13,13 @@ import { Toaster } from "sonner";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "CodePilot AI — Your AI Engineering Team" },
+      { title: "Sarathi.ai — Your AI Engineering Team" },
       {
         name: "description",
         content:
           "An AI-powered Engineering Operating System that understands entire repositories, explains architecture, finds code, generates documentation, plans features, debugs applications, and helps developers build software faster.",
       },
-      { property: "og:title", content: "CodePilot AI — Your AI Engineering Team" },
+      { property: "og:title", content: "Sarathi.ai — Your AI Engineering Team" },
       {
         property: "og:description",
         content:

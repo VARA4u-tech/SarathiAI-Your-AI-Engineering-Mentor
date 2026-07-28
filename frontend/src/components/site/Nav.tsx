@@ -35,12 +35,9 @@ export function Nav() {
   ];
 
   const logoNode = (
-    <Link
-      to="/"
-      className="flex items-center gap-2 font-display text-xl px-4 hover:opacity-80 transition text-foreground"
-    >
-      <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
-      CodePilot AI
+    <Link to="/" className="flex items-center gap-2 font-display text-lg">
+      <span className="size-3 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
+      <span className="hidden sm:inline-block">Sarathi.ai</span>
     </Link>
   );
 

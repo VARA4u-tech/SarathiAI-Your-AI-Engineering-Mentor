@@ -155,7 +155,7 @@ function Dashboard() {
               <Menu className="size-5" />
             </button>
             <p className="text-xs uppercase tracking-[0.24em] text-fuchsia-300 mb-2">
-              CodePilot AI / Engineering Mentor
+              Sarathi.ai / Engineering Mentor
             </p>
             <h1 className="font-display text-4xl md:text-5xl mt-2 mb-4">
               From student project to <span className="text-iridescent pb-2 pr-2">production-ready.</span>

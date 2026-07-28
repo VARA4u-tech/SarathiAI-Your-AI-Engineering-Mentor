@@ -39,10 +39,11 @@ export function Hero() {
           transition={{ duration: 1, delay: 0.1 }}
           className="font-display text-[clamp(3rem,9vw,9rem)] leading-[0.95] tracking-tight"
         >
-          <span className="text-gradient">Your AI</span>
+          <h1 className="text-4xl md:text-6xl font-display mt-8 mb-6 leading-tight">
+          Sarathi.ai
           <br />
-          <span className="text-iridescent italic">engineering</span>
-          <span className="text-gradient"> mentor.</span>
+          <span className="text-iridescent block mt-2">Engineering Mentor</span>
+        </h1>
         </motion.h1>
 
         <motion.p
