@@ -4,13 +4,13 @@ import { Activity, FileCode2, FileText, Settings, X } from "lucide-react";
 export function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose: () => void }) {
   return (
     <aside
-      className={`fixed md:relative inset-y-0 left-0 z-30 flex w-72 md:w-20 lg:w-64 border-r border-border flex-col justify-between p-4 glass transition-transform duration-200 ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+      className={`fixed md:relative inset-y-0 left-0 z-30 flex w-72 md:w-64 border-r border-border flex-col justify-between p-4 glass transition-transform duration-200 ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
     >
       <div>
         <div className="flex items-center justify-between mb-10">
           <Link to="/" className="flex items-center gap-2 font-display text-xl px-2">
             <span className="size-2 rounded-full bg-gradient-to-br from-fuchsia-400 to-cyan-400 shadow-[0_0_12px_currentColor]" />
-            <span className="hidden lg:block">CodePilot AI</span>
+            <span className="hidden md:block">CodePilot AI</span>
           </Link>
           <button
             onClick={onClose}
@@ -48,7 +48,7 @@ function NavItem({
       activeProps={{ className: "!bg-foreground/10 !text-foreground" }}
     >
       <Icon className="size-5" />
-      <span className="text-sm font-medium hidden lg:block">{label}</span>
+      <span className="text-sm font-medium hidden md:block">{label}</span>
     </Link>
   );
 }
