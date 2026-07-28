@@ -171,7 +171,7 @@ function MissionControlCenter() {
                       { key: "Maintainability", color: "bg-fuchsia-400" },
                     ] as const
                   ).map(({ key, color }) => {
-                    const val = (mission.categoryScores as any)[key] ?? 0;
+                    const val = (mission.categoryScores as Record<string, number>)[key] ?? 0;
                     return (
                       <div key={key} className="flex items-center gap-2">
                         <span className="text-[11px] text-muted-foreground w-28 shrink-0">
