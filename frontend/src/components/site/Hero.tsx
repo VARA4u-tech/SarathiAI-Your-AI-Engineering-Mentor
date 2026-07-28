@@ -27,33 +27,31 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs text-muted-foreground mb-8"
+          className="inline-flex items-center gap-3 glass rounded-full px-5 py-2 text-xs mb-8 border border-white/10 shadow-[0_0_30px_rgba(232,121,249,0.15)]"
         >
-          <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          CodePilot AI
+          <span className="size-2 rounded-full bg-fuchsia-400 animate-pulse shadow-[0_0_12px_rgba(232,121,249,0.9)]" />
+          <span className="tracking-[0.2em] uppercase font-bold text-white/90">Introducing Sarathi.ai</span>
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.1 }}
-          className="font-display text-[clamp(3rem,9vw,9rem)] leading-[0.95] tracking-tight"
+          className="font-display text-6xl md:text-7xl lg:text-[8rem] leading-[0.9] tracking-tight"
         >
-          <h1 className="text-4xl md:text-6xl font-display mt-8 mb-6 leading-tight">
-          Sarathi.ai
+          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70">Your AI</span>
           <br />
-          <span className="text-iridescent block mt-2">Engineering Mentor</span>
-        </h1>
+          <span className="text-iridescent italic pr-4">Engineering</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70"> Mentor.</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="mt-8 max-w-xl mx-auto text-base md:text-lg text-muted-foreground"
+          className="mt-8 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground/90 leading-relaxed font-light"
         >
-          Upload your GitHub repository and get a Senior Engineer's review in minutes. Discover missing features, 
-          security vulnerabilities, and get a week-by-week roadmap to build production-ready software.
+          Transform basic code into <strong className="text-white font-medium">production-ready</strong> software. Sarathi acts as your Senior Engineer—scanning architecture, fixing vulnerabilities, and charting a definitive roadmap to excellence.
         </motion.p>
 
         <motion.div
