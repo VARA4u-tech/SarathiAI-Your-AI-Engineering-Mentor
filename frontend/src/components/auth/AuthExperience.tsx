@@ -88,7 +88,7 @@ export function AuthExperience({ mode }: { mode: Mode }) {
           <p className="text-xs uppercase tracking-[0.25em] text-fuchsia-200">
             {copy[mode].eyebrow}
           </p>
-          <h1 className="font-display whitespace-pre-line text-4xl md:text-5xl leading-[0.9] mt-4">
+          <h1 className="font-display text-iridescent pb-2 whitespace-pre-line text-4xl md:text-5xl leading-[0.9] mt-4">
             {copy[mode].title}
           </h1>
           <p className="text-sm leading-6 text-white/55 mt-4 max-w-md">{copy[mode].intro}</p>
@@ -207,7 +207,8 @@ export function AuthExperience({ mode }: { mode: Mode }) {
         )}
         <button
           disabled={loading}
-          className="w-full rounded-2xl bg-gradient-to-r from-fuchsia-200 via-violet-200 to-cyan-100 px-5 py-3.5 text-sm font-semibold text-[#1a1023] shadow-[0_12px_35px_rgba(232,121,249,.2)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(232,121,249,.35)] disabled:opacity-70"
+          style={{ background: "var(--grad-iridescent)" }}
+          className="w-full rounded-2xl px-5 py-3.5 text-sm font-bold text-white shadow-[0_12px_35px_rgba(232,121,249,.2)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(232,121,249,.35)] disabled:opacity-70"
         >
           {loading
             ? "Preparing your workspace…"
@@ -271,7 +272,7 @@ function AuthShell({ mode, children }: { mode: Mode; children: React.ReactNode }
         <section className="relative hidden lg:flex overflow-hidden p-12 flex-col justify-between">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(236,72,153,.42),transparent_27%),radial-gradient(circle_at_78%_75%,rgba(103,232,249,.25),transparent_30%),linear-gradient(145deg,#25132a,#0d1823)]" />
           <div className="relative flex items-center gap-2 font-display text-2xl">
-            <span className="size-2.5 rounded-full bg-gradient-to-br from-fuchsia-300 to-cyan-200" />
+            <span className="size-2.5 rounded-full" style={{ background: "var(--grad-iridescent)" }} />
             CodePilot AI
           </div>
           <div className="relative">
@@ -279,7 +280,7 @@ function AuthShell({ mode, children }: { mode: Mode; children: React.ReactNode }
               The engineering atelier
             </p>
             <p className="font-display text-6xl leading-[.86] max-w-md mt-5">
-              Software, with a sense of <i>craft.</i>
+              Software, with a sense of <i className="text-iridescent pb-2 pr-2">craft.</i>
             </p>
           </div>
           <div className="relative flex gap-3 text-xs text-white/60">

@@ -158,7 +158,7 @@ function Dashboard() {
               CodePilot AI / Engineering Mentor
             </p>
             <h1 className="font-display text-4xl md:text-5xl mt-2 mb-4">
-              From student project to production-ready.
+              From student project to <span className="text-iridescent pb-2 pr-2">production-ready.</span>
             </h1>
             <p className="text-muted-foreground text-lg max-w-xl">
               Get an instant Senior Engineer review of your repository. Discover missing features, 
@@ -285,7 +285,8 @@ function Dashboard() {
 
                     <button
                       onClick={() => setStatus("implementing")}
-                      className="w-full rounded-xl bg-fuchsia-300 text-background py-3 text-sm font-semibold hover:bg-fuchsia-200 transition mt-2"
+                      style={{ background: "var(--grad-iridescent)" }}
+                      className="w-full rounded-xl text-white py-3 text-sm font-semibold hover:opacity-90 transition mt-2"
                     >
                       Approve & Generate Report
                     </button>
@@ -294,7 +295,8 @@ function Dashboard() {
                 {status === "implementing" && (
                   <button
                     onClick={() => setStatus("complete")}
-                    className="mt-6 w-full rounded-xl bg-cyan-300 text-background py-3 text-sm font-semibold hover:bg-cyan-200 transition"
+                    style={{ background: "var(--grad-iridescent)" }}
+                    className="mt-6 w-full rounded-xl text-white py-3 text-sm font-semibold hover:opacity-90 transition"
                   >
                     Mark report complete
                   </button>
