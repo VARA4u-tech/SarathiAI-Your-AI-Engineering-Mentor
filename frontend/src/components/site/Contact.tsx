@@ -63,10 +63,10 @@ export function Footer() {
               Say Hello
             </h4>
             <a
-              href="mailto:hello@codepilot.ai"
+              href="mailto:hello@sarathi.ai"
               className="text-4xl font-display text-white/70 hover:text-white transition-colors"
             >
-              hello@codepilot.ai
+              hello@sarathi.ai
             </a>
             <p className="text-white/40 max-w-[200px] mt-4">
               100 Innovation Drive
@@ -79,7 +79,7 @@ export function Footer() {
         {/* Bottom Giant Typography & Copyright */}
         <div className="relative w-full px-8 md:px-16 pb-8 flex flex-col md:flex-row items-end md:items-center justify-between gap-4 z-10">
           <div className="flex items-center gap-4 text-sm text-white/40">
-            <span>© {new Date().getFullYear()} CodePilot AI.</span>
+            <span>© {new Date().getFullYear()} Sarathi.ai.</span>
             <span className="hidden md:inline">•</span>
             <a href="#" className="hover:text-white transition-colors">
               Privacy
@@ -111,7 +111,7 @@ export function Footer() {
         {/* Massive Background Text */}
         <div className="absolute bottom-[-5%] left-0 w-full flex justify-center pointer-events-none select-none overflow-hidden opacity-80">
           <h1 className="text-[22vw] font-display font-bold leading-none text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-500/40 via-violet-500/20 to-transparent">
-            CODEPILOT
+            SARATHI
           </h1>
         </div>
       </div>

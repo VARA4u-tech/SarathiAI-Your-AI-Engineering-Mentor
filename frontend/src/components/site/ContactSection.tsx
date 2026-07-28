@@ -55,10 +55,10 @@ export function ContactSection() {
                 <div>
                   <h4 className="text-sm font-medium text-foreground mb-1">Email Us</h4>
                   <a
-                    href="mailto:hello@codepilot.ai"
+                    href="mailto:hello@sarathi.ai"
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    hello@codepilot.ai
+                    hello@sarathi.ai
                   </a>
                 </div>
               </div>
