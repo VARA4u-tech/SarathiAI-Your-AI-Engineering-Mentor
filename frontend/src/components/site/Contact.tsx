@@ -41,12 +41,6 @@ export function Footer() {
           {/* Top Section: Giant CTA */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 border-b border-white/10 pb-12 lg:pb-16">
             <div className="flex flex-col gap-6 max-w-3xl">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="uppercase tracking-widest text-xs font-semibold text-white/50">
-                  Open for new projects
-                </span>
-              </div>
               <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-medium leading-[1.1] tracking-tight">
                 Let's build <br className="hidden md:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">
