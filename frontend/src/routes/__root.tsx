@@ -121,11 +121,14 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { ScrollProgress } from "@/components/site/ScrollProgress";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ScrollProgress />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
