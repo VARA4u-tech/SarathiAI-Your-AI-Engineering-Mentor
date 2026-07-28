@@ -10,13 +10,6 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background/90 pointer-events-none z-10" />
         <div className="absolute inset-0 noise pointer-events-none z-10" />
 
-        {/* Sonar ring waves around the Orb */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-          <span className="orb-ring orb-ring-1" />
-          <span className="orb-ring orb-ring-2" />
-          <span className="orb-ring orb-ring-3" />
-          <span className="orb-ring orb-ring-4" />
-        </div>
 
         <div className="absolute top-[5vh] md:top-[8vh] left-0 w-full h-full z-0">
           <Suspense
