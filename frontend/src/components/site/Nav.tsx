@@ -49,7 +49,7 @@ export function Nav() {
         scale: isAtTop ? 1 : 0.85,
       }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed left-1/2 -translate-x-1/2 z-50 w-[min(96%,1200px)] pointer-events-none origin-top transition-all duration-500 ease-out ${
+      className={`fixed left-1/2 -translate-x-1/2 z-50 w-[min(96%,1400px)] pointer-events-none origin-top transition-all duration-500 ease-out ${
         isAtTop ? "top-8" : "top-2"
       }`}
     >
