@@ -54,7 +54,7 @@ export function ProjectContextPage({ title, description }: ProjectContextPagePro
             rel="noopener noreferrer"
             className="mt-6 inline-flex items-center justify-center px-8 py-3 bg-white text-black rounded-full font-medium hover:scale-105 transition-transform"
           >
-            View Developer Resume
+            View Developer Portfolio
           </a>
         </div>
       </div>
