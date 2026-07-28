@@ -1,12 +1,12 @@
 const items = [
-  "System Architecture",
-  "Rapid Prototyping",
-  "Automated Testing",
-  "Code Generation",
-  "Bug Squashing",
-  "Performance Tuning",
-  "Security Auditing",
-  "Cloud Deployment",
+  "Agentic Workflows",
+  "Full-Stack Engineering",
+  "RAG Pipelines",
+  "React & TypeScript",
+  "Scalable Architecture",
+  "LLM Integration",
+  "Python & FastAPI",
+  "Intelligent Automation",
 ];
 
 export function Marquee() {
