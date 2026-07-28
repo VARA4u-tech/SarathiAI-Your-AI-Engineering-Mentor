@@ -11,7 +11,11 @@ export interface Project {
 }
 
 export interface MissionSuggestion {
-  category: "System Design & Architecture" | "Full Stack Implementation" | "Vulnerability & Compliance" | "Testing & Validation";
+  category:
+    | "System Design & Architecture"
+    | "Full Stack Implementation"
+    | "Vulnerability & Compliance"
+    | "Testing & Validation";
   title: string;
   description: string;
   impact: "High" | "Medium" | "Low";
@@ -63,7 +67,11 @@ export async function importRepository(url: string) {
   return response.json();
 }
 
-export async function runMission(prompt: string, agentType: string = "architect", projectId?: string) {
+export async function runMission(
+  prompt: string,
+  agentType: string = "architect",
+  projectId?: string,
+) {
   const apiKey = localStorage.getItem("OPENROUTER_API_KEY");
 
   const headers: Record<string, string> = {
@@ -130,7 +138,9 @@ export async function createProject(githubUrl: string, name?: string) {
 }
 
 export async function getMissions(projectId?: string): Promise<Mission[]> {
-  const url = projectId ? `${API_BASE_URL}/api/missions?projectId=${projectId}` : `${API_BASE_URL}/api/missions`;
+  const url = projectId
+    ? `${API_BASE_URL}/api/missions?projectId=${projectId}`
+    : `${API_BASE_URL}/api/missions`;
   const response = await fetch(url);
   if (!response.ok) throw new Error("Failed to fetch missions");
   return response.json();
@@ -142,7 +152,10 @@ export async function getMissionById(missionId: string): Promise<Mission> {
   return response.json();
 }
 
-export async function updateMissionStatus(missionId: string, status: Mission["status"]): Promise<Mission> {
+export async function updateMissionStatus(
+  missionId: string,
+  status: Mission["status"],
+): Promise<Mission> {
   const response = await fetch(`${API_BASE_URL}/api/missions/${missionId}/status`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

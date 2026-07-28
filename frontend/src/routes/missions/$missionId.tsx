@@ -2,7 +2,24 @@ import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-r
 import { useEffect, useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { getMissionById, updateMissionStatus, deleteMission, Mission } from "@/lib/api";
-import { ArrowLeft, ShieldCheck, Layers, Lightbulb, Check, X, Code2, TestTube2, Clock, GitPullRequest, Timer, Zap, BookOpen, TrendingUp, Wrench, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  ShieldCheck,
+  Layers,
+  Lightbulb,
+  Check,
+  X,
+  Code2,
+  TestTube2,
+  Clock,
+  GitPullRequest,
+  Timer,
+  Zap,
+  BookOpen,
+  TrendingUp,
+  Wrench,
+  Trash2,
+} from "lucide-react";
 
 export const Route = createFileRoute("/missions/$missionId")({
   component: MissionControlCenter,
@@ -71,12 +88,17 @@ function MissionControlCenter() {
     return (
       <main className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center gap-4">
         <p className="text-muted-foreground">Mission not found</p>
-        <Link to="/dashboard" className="text-fuchsia-300 hover:underline">Return to Dashboard</Link>
+        <Link to="/dashboard" className="text-fuchsia-300 hover:underline">
+          Return to Dashboard
+        </Link>
       </main>
     );
   }
 
-  const isPending = mission.status === "review_required" || mission.status === "pending" || mission.status === "in_progress";
+  const isPending =
+    mission.status === "review_required" ||
+    mission.status === "pending" ||
+    mission.status === "in_progress";
 
   return (
     <main className="min-h-screen bg-background text-foreground flex">
@@ -110,12 +132,19 @@ function MissionControlCenter() {
                 {mission.description}
               </p>
             </div>
-            
+
             <div className="glass p-5 rounded-2xl flex flex-col gap-4 min-w-[280px] shrink-0 border border-white/10">
               {/* Overall Score */}
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-muted-foreground">Overall Score</span>
-                <span className="px-3 py-1 rounded-full text-lg font-bold" style={{ background: "var(--grad-iridescent)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                <span
+                  className="px-3 py-1 rounded-full text-lg font-bold"
+                  style={{
+                    background: "var(--grad-iridescent)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
                   {mission.score || 0}/100
                 </span>
               </div>
@@ -131,21 +160,28 @@ function MissionControlCenter() {
               {/* Category sub-scores */}
               {mission.categoryScores && (
                 <div className="space-y-2.5 border-t border-white/10 pt-3">
-                  {([
-                    { key: "Architecture", color: "bg-cyan-400" },
-                    { key: "Security", color: "bg-red-400" },
-                    { key: "Performance", color: "bg-yellow-400" },
-                    { key: "Documentation", color: "bg-blue-400" },
-                    { key: "Testing", color: "bg-emerald-400" },
-                    { key: "Scalability", color: "bg-violet-400" },
-                    { key: "Maintainability", color: "bg-fuchsia-400" },
-                  ] as const).map(({ key, color }) => {
+                  {(
+                    [
+                      { key: "Architecture", color: "bg-cyan-400" },
+                      { key: "Security", color: "bg-red-400" },
+                      { key: "Performance", color: "bg-yellow-400" },
+                      { key: "Documentation", color: "bg-blue-400" },
+                      { key: "Testing", color: "bg-emerald-400" },
+                      { key: "Scalability", color: "bg-violet-400" },
+                      { key: "Maintainability", color: "bg-fuchsia-400" },
+                    ] as const
+                  ).map(({ key, color }) => {
                     const val = (mission.categoryScores as any)[key] ?? 0;
                     return (
                       <div key={key} className="flex items-center gap-2">
-                        <span className="text-[11px] text-muted-foreground w-28 shrink-0">{key}</span>
+                        <span className="text-[11px] text-muted-foreground w-28 shrink-0">
+                          {key}
+                        </span>
                         <div className="flex-1 h-1 rounded-full bg-white/10 overflow-hidden">
-                          <div className={`h-full rounded-full ${color}`} style={{ width: `${val * 10}%` }} />
+                          <div
+                            className={`h-full rounded-full ${color}`}
+                            style={{ width: `${val * 10}%` }}
+                          />
                         </div>
                         <span className="text-[11px] text-white/60 w-6 text-right">{val}</span>
                       </div>
@@ -157,16 +193,21 @@ function MissionControlCenter() {
               {/* Status + Actions */}
               <div className="flex items-center justify-between border-t border-white/10 pt-3">
                 <span className="text-sm font-medium text-muted-foreground">Status</span>
-                <span className={`px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${
-                  mission.status === 'review_required' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' : 
-                  mission.status === 'approved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                  mission.status === 'rejected' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
-                  'bg-white/10 text-white/70 border border-white/20'
-                }`}>
-                  {mission.status.replace('_', ' ')}
+                <span
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${
+                    mission.status === "review_required"
+                      ? "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
+                      : mission.status === "approved"
+                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                        : mission.status === "rejected"
+                          ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                          : "bg-white/10 text-white/70 border border-white/20"
+                  }`}
+                >
+                  {mission.status.replace("_", " ")}
                 </span>
               </div>
-              
+
               {isPending && (
                 <div className="grid grid-cols-2 gap-2">
                   <button
@@ -190,7 +231,13 @@ function MissionControlCenter() {
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Tabs */}
           <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide border-b border-white/10">
-            {["All", "System Design & Architecture", "Full Stack Implementation", "Vulnerability & Compliance", "Testing & Validation"].map((tab) => (
+            {[
+              "All",
+              "System Design & Architecture",
+              "Full Stack Implementation",
+              "Vulnerability & Compliance",
+              "Testing & Validation",
+            ].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -210,7 +257,7 @@ function MissionControlCenter() {
               <Lightbulb className="size-5 text-fuchsia-300" />
               <h2 className="font-display text-2xl">Missing Features & Architecture Flaws</h2>
             </div>
-            
+
             {mission.suggestions?.length === 0 ? (
               <p className="text-muted-foreground text-sm">No suggestions found.</p>
             ) : (
@@ -218,84 +265,108 @@ function MissionControlCenter() {
                 {mission.suggestions
                   ?.filter((suggestion) => activeTab === "All" || suggestion.category === activeTab)
                   .map((suggestion, idx) => {
-                  let Icon = Lightbulb;
-                  let colorClass = "text-fuchsia-300";
-                  let bgClass = "bg-fuchsia-500/10";
-                  let borderClass = "border-fuchsia-500/20";
-                  
-                  if (suggestion.category === "Vulnerability & Compliance") {
-                    Icon = ShieldCheck;
-                    colorClass = "text-emerald-400";
-                    bgClass = "bg-emerald-500/10";
-                    borderClass = "border-emerald-500/20";
-                  } else if (suggestion.category === "Testing & Validation") {
-                    Icon = TestTube2;
-                    colorClass = "text-yellow-400";
-                    bgClass = "bg-yellow-500/10";
-                    borderClass = "border-yellow-500/20";
-                  } else if (suggestion.category === "System Design & Architecture") {
-                    Icon = Layers;
-                    colorClass = "text-cyan-400";
-                    bgClass = "bg-cyan-500/10";
-                    borderClass = "border-cyan-500/20";
-                  } else if (suggestion.category === "Full Stack Implementation") {
-                    Icon = Code2;
-                    colorClass = "text-fuchsia-400";
-                    bgClass = "bg-fuchsia-500/10";
-                    borderClass = "border-fuchsia-500/20";
-                  }
+                    let Icon = Lightbulb;
+                    let colorClass = "text-fuchsia-300";
+                    let bgClass = "bg-fuchsia-500/10";
+                    let borderClass = "border-fuchsia-500/20";
 
-                  let impactColor = "text-blue-400 bg-blue-500/10 border-blue-500/20";
-                  if (suggestion.impact === "High") impactColor = "text-red-400 bg-red-500/10 border-red-500/20";
-                  if (suggestion.impact === "Medium") impactColor = "text-yellow-400 bg-yellow-500/10 border-yellow-500/20";
-                  if (suggestion.impact === "Low") impactColor = "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
+                    if (suggestion.category === "Vulnerability & Compliance") {
+                      Icon = ShieldCheck;
+                      colorClass = "text-emerald-400";
+                      bgClass = "bg-emerald-500/10";
+                      borderClass = "border-emerald-500/20";
+                    } else if (suggestion.category === "Testing & Validation") {
+                      Icon = TestTube2;
+                      colorClass = "text-yellow-400";
+                      bgClass = "bg-yellow-500/10";
+                      borderClass = "border-yellow-500/20";
+                    } else if (suggestion.category === "System Design & Architecture") {
+                      Icon = Layers;
+                      colorClass = "text-cyan-400";
+                      bgClass = "bg-cyan-500/10";
+                      borderClass = "border-cyan-500/20";
+                    } else if (suggestion.category === "Full Stack Implementation") {
+                      Icon = Code2;
+                      colorClass = "text-fuchsia-400";
+                      bgClass = "bg-fuchsia-500/10";
+                      borderClass = "border-fuchsia-500/20";
+                    }
 
-                  return (
-                    <div key={idx} className="rounded-2xl border border-white/10 overflow-hidden bg-black/20 p-6 flex flex-col hover:bg-black/40 transition-colors">
-                      <div className="flex items-start justify-between gap-4 mb-4">
-                        <div className={`p-3 rounded-xl border ${bgClass} ${borderClass} ${colorClass}`}>
-                          <Icon className="size-6" />
+                    let impactColor = "text-blue-400 bg-blue-500/10 border-blue-500/20";
+                    if (suggestion.impact === "High")
+                      impactColor = "text-red-400 bg-red-500/10 border-red-500/20";
+                    if (suggestion.impact === "Medium")
+                      impactColor = "text-yellow-400 bg-yellow-500/10 border-yellow-500/20";
+                    if (suggestion.impact === "Low")
+                      impactColor = "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
+
+                    return (
+                      <div
+                        key={idx}
+                        className="rounded-2xl border border-white/10 overflow-hidden bg-black/20 p-6 flex flex-col hover:bg-black/40 transition-colors"
+                      >
+                        <div className="flex items-start justify-between gap-4 mb-4">
+                          <div
+                            className={`p-3 rounded-xl border ${bgClass} ${borderClass} ${colorClass}`}
+                          >
+                            <Icon className="size-6" />
+                          </div>
+                          <span
+                            className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${impactColor}`}
+                          >
+                            {suggestion.impact} IMPACT
+                          </span>
                         </div>
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${impactColor}`}>
-                          {suggestion.impact} IMPACT
-                        </span>
+
+                        <h3 className="font-semibold text-lg text-white mb-2">
+                          {suggestion.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {suggestion.description}
+                        </p>
+
+                        {suggestion.why && (
+                          <div className="mt-4 p-3 rounded-xl bg-red-500/5 border border-red-500/10">
+                            <span className="text-xs font-bold uppercase tracking-wider text-red-400 mb-1 block">
+                              Why is this important?
+                            </span>
+                            <p className="text-sm text-red-200/70">{suggestion.why}</p>
+                          </div>
+                        )}
+
+                        {suggestion.recommendation && (
+                          <div className="mt-3 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10 flex-1">
+                            <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1 block">
+                              Recommendation
+                            </span>
+                            <p className="text-sm text-emerald-200/70">
+                              {suggestion.recommendation}
+                            </p>
+                          </div>
+                        )}
+
+                        <div className="mt-6 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-2">
+                          <span
+                            className={`text-xs font-medium px-2 py-1 rounded bg-white/5 ${colorClass}`}
+                          >
+                            {suggestion.category}
+                          </span>
+                          <div className="flex gap-3 text-xs text-muted-foreground">
+                            {suggestion.difficulty && (
+                              <span className="flex items-center gap-1">
+                                <GitPullRequest className="size-3" /> {suggestion.difficulty}
+                              </span>
+                            )}
+                            {suggestion.estimatedTime && (
+                              <span className="flex items-center gap-1">
+                                <Timer className="size-3" /> {suggestion.estimatedTime}
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      
-                      <h3 className="font-semibold text-lg text-white mb-2">{suggestion.title}</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {suggestion.description}
-                      </p>
-                      
-                      {suggestion.why && (
-                        <div className="mt-4 p-3 rounded-xl bg-red-500/5 border border-red-500/10">
-                          <span className="text-xs font-bold uppercase tracking-wider text-red-400 mb-1 block">Why is this important?</span>
-                          <p className="text-sm text-red-200/70">{suggestion.why}</p>
-                        </div>
-                      )}
-
-                      {suggestion.recommendation && (
-                        <div className="mt-3 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10 flex-1">
-                          <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1 block">Recommendation</span>
-                          <p className="text-sm text-emerald-200/70">{suggestion.recommendation}</p>
-                        </div>
-                      )}
-                      
-                      <div className="mt-6 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-2">
-                         <span className={`text-xs font-medium px-2 py-1 rounded bg-white/5 ${colorClass}`}>
-                           {suggestion.category}
-                         </span>
-                         <div className="flex gap-3 text-xs text-muted-foreground">
-                           {suggestion.difficulty && (
-                             <span className="flex items-center gap-1"><GitPullRequest className="size-3" /> {suggestion.difficulty}</span>
-                           )}
-                           {suggestion.estimatedTime && (
-                             <span className="flex items-center gap-1"><Timer className="size-3" /> {suggestion.estimatedTime}</span>
-                           )}
-                         </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
             )}
           </div>
@@ -319,23 +390,42 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Testing & Validation": "border-yellow-500/30 bg-yellow-500/5",
 };
 
-const WEEK_LABEL_COLOR = ["text-cyan-400", "text-fuchsia-400", "text-yellow-400", "text-emerald-400", "text-red-400", "text-violet-400", "text-blue-400", "text-orange-400"];
+const WEEK_LABEL_COLOR = [
+  "text-cyan-400",
+  "text-fuchsia-400",
+  "text-yellow-400",
+  "text-emerald-400",
+  "text-red-400",
+  "text-violet-400",
+  "text-blue-400",
+  "text-orange-400",
+];
 
-function RoadmapSection({ roadmap, suggestions }: { roadmap: RoadmapStep[]; suggestions: Suggestion[] }) {
+function RoadmapSection({
+  roadmap,
+  suggestions,
+}: {
+  roadmap: RoadmapStep[];
+  suggestions: Suggestion[];
+}) {
   // Use real roadmap if available, otherwise auto-generate from High then Medium impact suggestions
-  const steps: RoadmapStep[] = roadmap && roadmap.length > 0
-    ? roadmap
-    : [...suggestions]
-        .sort((a, b) => {
-          const order = { High: 0, Medium: 1, Low: 2 };
-          return (order[a.impact as keyof typeof order] ?? 3) - (order[b.impact as keyof typeof order] ?? 3);
-        })
-        .slice(0, 8)
-        .map((s, i) => ({
-          week: `Week ${i + 1}`,
-          title: s.title,
-          description: `Implement "${s.title}". Category: ${s.category}. Estimated time: ${s.estimatedTime || "Varies"}.`,
-        }));
+  const steps: RoadmapStep[] =
+    roadmap && roadmap.length > 0
+      ? roadmap
+      : [...suggestions]
+          .sort((a, b) => {
+            const order = { High: 0, Medium: 1, Low: 2 };
+            return (
+              (order[a.impact as keyof typeof order] ?? 3) -
+              (order[b.impact as keyof typeof order] ?? 3)
+            );
+          })
+          .slice(0, 8)
+          .map((s, i) => ({
+            week: `Week ${i + 1}`,
+            title: s.title,
+            description: `Implement "${s.title}". Category: ${s.category}. Estimated time: ${s.estimatedTime || "Varies"}.`,
+          }));
 
   if (!steps.length) return null;
 
@@ -346,7 +436,9 @@ function RoadmapSection({ roadmap, suggestions }: { roadmap: RoadmapStep[]; sugg
         <div>
           <h2 className="font-display text-2xl">Implementation Roadmap</h2>
           {!(roadmap && roadmap.length > 0) && (
-            <p className="text-xs text-muted-foreground mt-0.5">Auto-generated from analysis — approve the report to confirm</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Auto-generated from analysis — approve the report to confirm
+            </p>
           )}
         </div>
       </div>
@@ -360,7 +452,9 @@ function RoadmapSection({ roadmap, suggestions }: { roadmap: RoadmapStep[]; sugg
             }`}
           >
             {/* Week badge */}
-            <span className={`text-[10px] font-extrabold tracking-[0.2em] uppercase ${WEEK_LABEL_COLOR[idx % WEEK_LABEL_COLOR.length]}`}>
+            <span
+              className={`text-[10px] font-extrabold tracking-[0.2em] uppercase ${WEEK_LABEL_COLOR[idx % WEEK_LABEL_COLOR.length]}`}
+            >
               {step.week}
             </span>
 
@@ -370,7 +464,9 @@ function RoadmapSection({ roadmap, suggestions }: { roadmap: RoadmapStep[]; sugg
             </div>
 
             <h3 className="font-semibold text-white text-sm leading-snug mt-1">{step.title}</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed flex-1">{step.description}</p>
+            <p className="text-xs text-muted-foreground leading-relaxed flex-1">
+              {step.description}
+            </p>
 
             {suggestions[idx]?.estimatedTime && (
               <span className="flex items-center gap-1 text-[10px] text-muted-foreground mt-1">

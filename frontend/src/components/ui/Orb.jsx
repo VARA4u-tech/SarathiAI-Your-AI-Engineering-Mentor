@@ -268,7 +268,7 @@ export default function Orb({
       (entries) => {
         isVisible = entries[0].isIntersecting;
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
     observer.observe(container);
 

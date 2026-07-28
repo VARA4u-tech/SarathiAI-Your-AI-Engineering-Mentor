@@ -79,7 +79,8 @@ export function Services() {
             </h2>
           </div>
           <p className="max-w-sm text-muted-foreground text-lg leading-relaxed">
-            Sarathi.ai is your 24/7 engineering mentor — reviewing code, auditing security, and charting the exact path to production.
+            Sarathi.ai is your 24/7 engineering mentor — reviewing code, auditing security, and
+            charting the exact path to production.
           </p>
         </div>
 

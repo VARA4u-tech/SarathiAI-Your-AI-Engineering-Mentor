@@ -20,7 +20,7 @@ export function ProjectContextPage({ title, description }: ProjectContextPagePro
           <Logo className="w-6 h-6 text-white" />
           <span>Sarathi.ai</span>
         </Link>
-        <Link 
+        <Link
           to="/"
           className="text-sm font-medium text-white/50 hover:text-white transition-colors flex items-center gap-2"
         >
@@ -34,20 +34,17 @@ export function ProjectContextPage({ title, description }: ProjectContextPagePro
           <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4 border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]">
             <Construction className="w-8 h-8 text-white/70" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-display font-medium text-white">
-            {title}
-          </h1>
-          <p className="text-lg text-white/60 leading-relaxed max-w-lg mx-auto">
-            {description}
-          </p>
+          <h1 className="text-4xl md:text-5xl font-display font-medium text-white">{title}</h1>
+          <p className="text-lg text-white/60 leading-relaxed max-w-lg mx-auto">{description}</p>
           <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/20 to-transparent my-4" />
           <p className="text-sm text-white/40 uppercase tracking-widest font-semibold">
             Hackathon Project Context
           </p>
           <p className="text-white/50 text-sm max-w-md">
-            This page is a placeholder. Sarathi.ai was built as a personal portfolio project by a PG student to showcase full-stack engineering and AI integration skills.
+            This page is a placeholder. Sarathi.ai was built as a personal portfolio project by a PG
+            student to showcase full-stack engineering and AI integration skills.
           </p>
-          
+
           <a
             href="https://vara-s-portfolio.vercel.app/"
             target="_blank"

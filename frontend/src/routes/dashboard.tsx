@@ -24,7 +24,14 @@ import {
   X,
 } from "lucide-react";
 import { isAuthenticated } from "@/lib/demo-auth";
-import { runMission, getProjects, getMissions, Project, Mission, importRepository } from "@/lib/api";
+import {
+  runMission,
+  getProjects,
+  getMissions,
+  Project,
+  Mission,
+  importRepository,
+} from "@/lib/api";
 import { Sidebar } from "@/components/Sidebar";
 import {
   Dialog,
@@ -102,7 +109,7 @@ function Dashboard() {
     try {
       // 1. Import Repository
       const project = await importRepository(mission);
-      
+
       // 2. Fetch projects to update local state so the rest of the app knows about it
       const updatedProjects = await getProjects();
       setProjects(updatedProjects);
@@ -110,7 +117,7 @@ function Dashboard() {
       // 3. Automatically trigger the review mission
       const defaultPrompt = "Perform a full senior engineering review of this codebase.";
       const newMission = await runMission(defaultPrompt, "architect", project._id);
-      
+
       if (newMission && newMission._id) {
         navigate({ to: "/missions/$missionId", params: { missionId: newMission._id } });
       } else {
@@ -120,7 +127,9 @@ function Dashboard() {
       console.error(error);
       setLlmResponse("Error: Could not process repository.");
       setStatus("idle");
-      alert("Failed to review repository. Make sure the URL is correct and the backend is running.");
+      alert(
+        "Failed to review repository. Make sure the URL is correct and the backend is running.",
+      );
     }
   };
 
@@ -130,12 +139,12 @@ function Dashboard() {
 
   const statusCopy = {
     idle: ["Ready", "Upload your repository and get a Senior Engineer's review in minutes."],
-    planning: ["Analyzing Architecture", "Your AI Mentor is reviewing the codebase for missing features, security, and performance."],
-    "awaiting-approval": ["Review Complete", "Your Project Review Report and Roadmap are ready."],
-    implementing: [
-      "Finalizing Roadmap",
-      "Mentor is generating the learning roadmap.",
+    planning: [
+      "Analyzing Architecture",
+      "Your AI Mentor is reviewing the codebase for missing features, security, and performance.",
     ],
+    "awaiting-approval": ["Review Complete", "Your Project Review Report and Roadmap are ready."],
+    implementing: ["Finalizing Roadmap", "Mentor is generating the learning roadmap."],
     complete: ["Mission complete", "The review report has been saved."],
   }[status] || ["Ready", "Upload your repository and get a Senior Engineer's review in minutes."];
 
@@ -158,10 +167,11 @@ function Dashboard() {
               Sarathi.ai / Engineering Mentor
             </p>
             <h1 className="font-display text-4xl md:text-5xl mt-2 mb-4">
-              From student project to <span className="text-iridescent pb-2 pr-2">production-ready.</span>
+              From student project to{" "}
+              <span className="text-iridescent pb-2 pr-2">production-ready.</span>
             </h1>
             <p className="text-muted-foreground text-lg max-w-xl">
-              Get an instant Senior Engineer review of your repository. Discover missing features, 
+              Get an instant Senior Engineer review of your repository. Discover missing features,
               security vulnerabilities, and get a week-by-week implementation roadmap.
             </p>
           </div>
@@ -198,7 +208,11 @@ function Dashboard() {
                     disabled={status === "planning" || !mission}
                     className="absolute right-2 top-2 bottom-2 bg-foreground text-background px-4 md:px-6 rounded-xl font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors disabled:opacity-50"
                   >
-                    {status === "planning" ? <Loader2 className="animate-spin size-4" /> : "Review My Project"}
+                    {status === "planning" ? (
+                      <Loader2 className="animate-spin size-4" />
+                    ) : (
+                      "Review My Project"
+                    )}
                     {status !== "planning" && <ArrowRight className="size-4" />}
                   </button>
                 </div>
@@ -227,7 +241,7 @@ function Dashboard() {
                 ) : (
                   <ol className="space-y-3">
                     {(missions.length > 0 && missions[0].suggestions?.length > 0
-                      ? missions[0].suggestions.slice(0, 4).map(s => s.title)
+                      ? missions[0].suggestions.slice(0, 4).map((s) => s.title)
                       : [
                           "Scanning repository context and boundaries",
                           "Analyzing security policies and auth flows",
@@ -246,7 +260,8 @@ function Dashboard() {
                 )}
                 {status === "idle" && (
                   <div className="mt-8 text-center text-sm text-muted-foreground p-6 rounded-xl border border-white/5 bg-white/5">
-                    Start a project review to see your repository score, missing features, and learning roadmap here.
+                    Start a project review to see your repository score, missing features, and
+                    learning roadmap here.
                   </div>
                 )}
                 {status === "awaiting-approval" && (
@@ -321,28 +336,38 @@ function Dashboard() {
                 <div className="space-y-4">
                   {missions.length === 0 ? (
                     <div className="p-6 text-center text-sm text-muted-foreground border border-white/5 rounded-xl bg-white/5">
-                      No active missions. Import a repository and create a mock mission via API to see them here!
+                      No active missions. Import a repository and create a mock mission via API to
+                      see them here!
                     </div>
                   ) : (
                     missions.map((m) => (
-                      <div key={m._id} className="rounded-xl bg-black/20 border border-white/10 p-5 flex flex-col gap-4 transition hover:bg-black/40">
+                      <div
+                        key={m._id}
+                        className="rounded-xl bg-black/20 border border-white/10 p-5 flex flex-col gap-4 transition hover:bg-black/40"
+                      >
                         <div>
                           <h3 className="font-semibold text-white leading-snug">{m.title}</h3>
                           <div className="flex flex-wrap items-center gap-2 mt-3">
                             <span className="text-xs text-muted-foreground whitespace-nowrap">
-                              {m.suggestions.length} architectural suggestion{m.suggestions.length !== 1 ? 's' : ''}
+                              {m.suggestions.length} architectural suggestion
+                              {m.suggestions.length !== 1 ? "s" : ""}
                             </span>
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider whitespace-nowrap ${
-                              m.status === 'review_required' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' : 
-                              m.status === 'approved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                              m.status === 'rejected' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
-                              'bg-white/10 text-white/70 border border-white/20'
-                            }`}>
-                              {m.status.replace('_', ' ')}
+                            <span
+                              className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider whitespace-nowrap ${
+                                m.status === "review_required"
+                                  ? "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
+                                  : m.status === "approved"
+                                    ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                                    : m.status === "rejected"
+                                      ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                                      : "bg-white/10 text-white/70 border border-white/20"
+                              }`}
+                            >
+                              {m.status.replace("_", " ")}
                             </span>
                           </div>
                         </div>
-                        <Link 
+                        <Link
                           to="/missions/$missionId"
                           params={{ missionId: m._id }}
                           className="w-full sm:w-max text-sm flex items-center justify-center gap-1 hover:text-fuchsia-300 transition-colors bg-white/5 px-4 py-2.5 rounded-lg hover:bg-white/10"
@@ -380,7 +405,15 @@ function Dashboard() {
               </p>
               <h2 className="font-display text-2xl mt-1 mb-5">Conceptual map</h2>
               <div className="flex flex-wrap gap-2">
-                {(currentProject ? [currentProject.language || "TypeScript", currentProject.framework || "Node.js", "API", "Database"] : ["Authentication", "Payments", "Orders"]).map((tag) => (
+                {(currentProject
+                  ? [
+                      currentProject.language || "TypeScript",
+                      currentProject.framework || "Node.js",
+                      "API",
+                      "Database",
+                    ]
+                  : ["Authentication", "Payments", "Orders"]
+                ).map((tag) => (
                   <span
                     className="rounded-full bg-white/5 border border-white/10 px-3 py-1.5 text-xs"
                     key={tag}
@@ -390,7 +423,8 @@ function Dashboard() {
                 ))}
               </div>
               <div className="mt-6 pt-5 border-t border-border text-sm text-muted-foreground flex items-center gap-2">
-                <GitBranch className="size-4 text-cyan-300" /> {currentProject ? `Project ID: ${currentProject._id}` : "No project active"}
+                <GitBranch className="size-4 text-cyan-300" />{" "}
+                {currentProject ? `Project ID: ${currentProject._id}` : "No project active"}
               </div>
             </div>
           </aside>

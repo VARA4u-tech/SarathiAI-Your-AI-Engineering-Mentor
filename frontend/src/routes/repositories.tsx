@@ -38,7 +38,7 @@ function RepositoriesPage() {
             } catch {
               map[p._id] = [];
             }
-          })
+          }),
         );
         setMissionsByProject(map);
       })

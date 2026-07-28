@@ -69,8 +69,8 @@ export function Work() {
             — How Sarathi Works
           </p>
           <h2 className="font-display text-4xl md:text-6xl text-gradient max-w-3xl leading-[1]">
-            From raw code to{" "}
-            <span className="italic text-iridescent">production-ready</span>{" "}in one flow.
+            From raw code to <span className="italic text-iridescent">production-ready</span> in one
+            flow.
           </h2>
         </div>
 

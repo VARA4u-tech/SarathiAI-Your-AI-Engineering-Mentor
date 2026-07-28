@@ -272,7 +272,10 @@ function AuthShell({ mode, children }: { mode: Mode; children: React.ReactNode }
         <section className="relative hidden lg:flex overflow-hidden p-12 flex-col justify-between">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(236,72,153,.42),transparent_27%),radial-gradient(circle_at_78%_75%,rgba(103,232,249,.25),transparent_30%),linear-gradient(145deg,#25132a,#0d1823)]" />
           <div className="relative flex items-center gap-2 font-display text-2xl">
-            <span className="size-2.5 rounded-full" style={{ background: "var(--grad-iridescent)" }} />
+            <span
+              className="size-2.5 rounded-full"
+              style={{ background: "var(--grad-iridescent)" }}
+            />
             CodePilot AI
           </div>
           <div className="relative">
