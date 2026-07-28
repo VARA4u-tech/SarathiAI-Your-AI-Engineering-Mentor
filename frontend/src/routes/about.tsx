@@ -141,7 +141,7 @@ function AboutResumePage() {
                 <BrainCircuit className="w-6 h-6 text-pink-400 shrink-0" />
                 <div>
                   <h4 className="font-medium text-white mb-1">AI & LLM Integration</h4>
-                  <p className="text-sm text-white/40">LangChain, OpenRouter, RAG Pipelines, Agentic Frameworks.</p>
+                  <p className="text-sm text-white/40">OpenAI, LLM, RAG Pipelines, Agentic Frameworks.</p>
                 </div>
               </div>
 
