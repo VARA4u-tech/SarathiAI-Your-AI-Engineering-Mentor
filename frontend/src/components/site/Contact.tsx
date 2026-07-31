@@ -20,10 +20,10 @@ export function Footer() {
   return (
     <footer
       ref={containerRef}
-      className="relative h-[950px] md:h-[700px] lg:h-[800px] w-full"
+      className="relative h-auto md:h-[700px] lg:h-[800px] w-full"
       style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
-      <div className="relative md:fixed bottom-0 w-full h-[950px] md:h-[700px] lg:h-[800px] bg-[#050505] text-white flex flex-col justify-between overflow-hidden">
+      <div className="relative md:fixed bottom-0 w-full h-auto md:h-[700px] lg:h-[800px] bg-[#050505] text-white flex flex-col justify-between overflow-hidden">
         {/* Animated Background Gradients & Noise */}
         <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-violet-600/10 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[60%] rounded-full bg-emerald-600/10 blur-[120px] pointer-events-none" />

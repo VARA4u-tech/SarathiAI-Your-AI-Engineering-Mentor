@@ -35,7 +35,7 @@ export function ContactSection() {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.2, margin: "0px 0px -100px 0px" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h2 className="font-display text-[clamp(3rem,6vw,5rem)] leading-[0.95] text-gradient mb-6">
@@ -83,7 +83,7 @@ export function ContactSection() {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.2, margin: "0px 0px -100px 0px" }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="glass rounded-[2rem] p-8 md:p-12 relative overflow-hidden"
           >

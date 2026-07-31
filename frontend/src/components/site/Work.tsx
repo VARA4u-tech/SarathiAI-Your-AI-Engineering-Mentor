@@ -39,6 +39,14 @@ export function Work() {
   const targetRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [scrollRange, setScrollRange] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const measure = () => {
@@ -62,8 +70,8 @@ export function Work() {
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
 
   return (
-    <section id="how-it-works" ref={targetRef} className="relative h-[400vh] bg-background">
-      <div className="sticky top-0 h-screen flex flex-col items-start justify-center overflow-hidden w-full">
+    <section id="how-it-works" ref={targetRef} className={`relative ${isMobile ? "h-auto py-24" : "h-[400vh]"} bg-background`}>
+      <div className={`${isMobile ? "relative h-auto block" : "sticky top-0 h-screen flex flex-col justify-center"} items-start overflow-hidden w-full`}>
         <div className="w-full px-8 md:px-[calc(50vw-600px)] flex-shrink-0 z-10 mb-8 md:mb-12">
           <p className="text-xs uppercase tracking-[0.2em] text-fuchsia-400 mb-4 font-bold">
             — How Sarathi Works
@@ -76,13 +84,13 @@ export function Work() {
 
         <motion.div
           ref={carouselRef}
-          style={{ x }}
-          className="flex gap-8 px-8 md:px-[calc(50vw-600px)] h-[550px] md:h-[500px] w-max will-change-transform"
+          style={isMobile ? undefined : { x }}
+          className={`flex gap-4 md:gap-8 px-6 md:px-[calc(50vw-600px)] ${isMobile ? "flex-row w-full h-[500px] overflow-x-auto snap-x snap-mandatory pb-8 pt-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden" : "h-[550px] md:h-[500px] w-max will-change-transform"}`}
         >
           {projects.map((p) => (
             <div
               key={p.t}
-              className="group relative w-[90vw] md:w-[900px] h-full flex-shrink-0 rounded-[2.5rem] overflow-hidden border border-white/10 glass flex flex-col md:flex-row"
+              className={`group relative ${isMobile ? "w-[85vw] snap-center shrink-0 h-full" : "w-[90vw] md:w-[900px] h-full flex-shrink-0"} rounded-[2.5rem] overflow-hidden border border-white/10 glass flex flex-col md:flex-row`}
             >
               {/* Left Side: Typography & Data */}
               <div className="w-full md:w-[55%] p-8 md:p-12 flex flex-col justify-center relative overflow-hidden bg-white/[0.02]">

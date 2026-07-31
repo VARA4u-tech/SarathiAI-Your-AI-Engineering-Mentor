@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { Zap, BrainCircuit, Wrench, Rocket } from "lucide-react";
 
@@ -39,6 +39,14 @@ const steps = [
 
 export function Process() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: cardsContainerRef,
@@ -49,7 +57,7 @@ export function Process() {
     <section id="benefits" className="relative bg-background">
       <div className="mx-auto w-[min(96%,1200px)] py-32 md:py-48">
         {/* Title Area */}
-        <div className="sticky top-[15vh] z-0 mb-[20vh] md:mb-[30vh]">
+        <div className={`${isMobile ? "relative mb-16" : "sticky top-[15vh] mb-[20vh] md:mb-[30vh]"} z-0`}>
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
             — Benefits
           </p>
@@ -61,7 +69,7 @@ export function Process() {
         {/* Sticky Stacking Cards Area */}
         <div ref={cardsContainerRef} className="relative z-10">
           {steps.map((step, index) => (
-            <ProcessCard key={step.n} step={step} index={index} scrollYProgress={scrollYProgress} />
+            <ProcessCard key={step.n} step={step} index={index} scrollYProgress={scrollYProgress} isMobile={isMobile} />
           ))}
         </div>
       </div>
@@ -73,9 +81,10 @@ type ProcessCardProps = {
   step: (typeof steps)[number];
   index: number;
   scrollYProgress: MotionValue<number>;
+  isMobile: boolean;
 };
 
-function ProcessCard({ step, index, scrollYProgress }: ProcessCardProps) {
+function ProcessCard({ step, index, scrollYProgress, isMobile }: ProcessCardProps) {
   const progressStart = index * (1 / (steps.length - 1));
   const targetScale = 1 - (steps.length - 1 - index) * 0.05;
   const scale = useTransform(scrollYProgress, [progressStart, 1], [1, targetScale]);
@@ -83,16 +92,28 @@ function ProcessCard({ step, index, scrollYProgress }: ProcessCardProps) {
   const Icon = step.icon;
 
   return (
-    <div className="sticky top-0 flex items-start justify-center w-full h-screen">
+    <div className={`sticky top-0 ${isMobile ? "h-[100svh]" : "h-screen"} flex items-start justify-center w-full`}>
       <motion.div
-        style={{
-          scale,
-          top: `calc(15vh + ${index * 40}px)`,
-        }}
+        style={
+          isMobile
+            ? {
+                scale,
+                top: `calc(10svh + ${index * 15}px)`,
+              }
+            : {
+                scale,
+                top: `calc(15vh + ${index * 40}px)`,
+              }
+        }
         className={`absolute w-full h-[400px] md:h-[500px] bg-gradient-to-br ${step.color} bg-background border border-white/10 rounded-[2.5rem] glass overflow-hidden shadow-2xl shadow-black/50 ring-1 ring-white/5`}
       >
         {/* Top Inner Highlight for Glass Effect */}
         <div className="absolute inset-0 rounded-[2.5rem] pointer-events-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]" />
+
+        {/* Solid background for mobile to prevent text bleed from transparent glass */}
+        {isMobile && (
+          <div className="absolute inset-0 bg-[#080808] z-0 pointer-events-none rounded-[2.5rem]" />
+        )}
 
         {/* Darkening overlay for 3D depth */}
         <motion.div

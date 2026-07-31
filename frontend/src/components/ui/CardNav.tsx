@@ -163,7 +163,7 @@ const CardNav = ({
     <div className={`card-nav-container relative w-full z-[99] ${className}`}>
       <nav
         ref={navRef}
-        className={`card-nav ${isExpanded ? "open" : ""} block h-[60px] p-0 rounded-2xl shadow-md relative overflow-hidden will-change-[height] glass`}
+        className={`card-nav ${isExpanded ? "open" : ""} block h-[60px] p-0 rounded-2xl shadow-md relative overflow-hidden will-change-[height] glass max-md:!bg-[#080808]`}
       >
         <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between px-2 md:px-4 z-[2]">
           {/* Menu Trigger on the Left */}
