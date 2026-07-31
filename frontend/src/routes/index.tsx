@@ -5,7 +5,7 @@ import { Marquee } from "@/components/site/Marquee";
 import { Services } from "@/components/site/Services";
 import { Work } from "@/components/site/Work";
 import { Process } from "@/components/site/Process";
-import { ContactSection } from "@/components/site/ContactSection";
+import { FaqSection } from "@/components/site/FaqSection";
 import { Footer } from "@/components/site/Contact";
 import { SmoothScroll } from "@/components/site/SmoothScroll";
 import { Toaster } from "sonner";
@@ -48,7 +48,7 @@ function Index() {
       <Services />
       <Work />
       <Process />
-      <ContactSection />
+      <FaqSection />
       <Footer />
       <Toaster theme="dark" position="bottom-center" />
     </main>
