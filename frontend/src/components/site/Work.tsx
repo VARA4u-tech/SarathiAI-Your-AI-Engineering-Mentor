@@ -70,8 +70,14 @@ export function Work() {
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
 
   return (
-    <section id="how-it-works" ref={targetRef} className={`relative ${isMobile ? "h-auto py-24" : "h-[400vh]"} bg-background`}>
-      <div className={`${isMobile ? "relative h-auto block" : "sticky top-0 h-screen flex flex-col justify-center"} items-start overflow-hidden w-full`}>
+    <section
+      id="how-it-works"
+      ref={targetRef}
+      className={`relative ${isMobile ? "h-auto py-24" : "h-[400vh]"} bg-background`}
+    >
+      <div
+        className={`${isMobile ? "relative h-auto block" : "sticky top-0 h-screen flex flex-col justify-center"} items-start overflow-hidden w-full`}
+      >
         <div className="w-full px-8 md:px-[calc(50vw-600px)] flex-shrink-0 z-10 mb-8 md:mb-12">
           <p className="text-xs uppercase tracking-[0.2em] text-fuchsia-400 mb-4 font-bold">
             — How Sarathi Works

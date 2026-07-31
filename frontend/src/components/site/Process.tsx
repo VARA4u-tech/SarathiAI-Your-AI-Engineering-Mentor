@@ -57,7 +57,9 @@ export function Process() {
     <section id="benefits" className="relative bg-background">
       <div className="mx-auto w-[min(96%,1200px)] py-32 md:py-48">
         {/* Title Area */}
-        <div className={`${isMobile ? "relative mb-16" : "sticky top-[15vh] mb-[20vh] md:mb-[30vh]"} z-0`}>
+        <div
+          className={`${isMobile ? "relative mb-16" : "sticky top-[15vh] mb-[20vh] md:mb-[30vh]"} z-0`}
+        >
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
             — Benefits
           </p>
@@ -69,7 +71,13 @@ export function Process() {
         {/* Sticky Stacking Cards Area */}
         <div ref={cardsContainerRef} className="relative z-10">
           {steps.map((step, index) => (
-            <ProcessCard key={step.n} step={step} index={index} scrollYProgress={scrollYProgress} isMobile={isMobile} />
+            <ProcessCard
+              key={step.n}
+              step={step}
+              index={index}
+              scrollYProgress={scrollYProgress}
+              isMobile={isMobile}
+            />
           ))}
         </div>
       </div>
@@ -92,7 +100,9 @@ function ProcessCard({ step, index, scrollYProgress, isMobile }: ProcessCardProp
   const Icon = step.icon;
 
   return (
-    <div className={`sticky top-0 ${isMobile ? "h-[100svh]" : "h-screen"} flex items-start justify-center w-full`}>
+    <div
+      className={`sticky top-0 ${isMobile ? "h-[100svh]" : "h-screen"} flex items-start justify-center w-full`}
+    >
       <motion.div
         style={
           isMobile
