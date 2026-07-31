@@ -1,26 +1,36 @@
 import { motion } from "motion/react";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 // @ts-expect-error - Orb is a JSX component without type declarations
 const Orb = lazy(() => import("@/components/ui/Orb"));
 
 export function Hero() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   return (
     <section className="relative min-h-screen overflow-hidden flex items-center pt-32 pb-20 isolate">
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background/90 pointer-events-none z-10" />
         <div className="absolute inset-0 noise pointer-events-none z-10" />
 
-        <div className="absolute top-[5vh] md:top-[8vh] left-0 w-full h-full z-0">
-          <Suspense
-            fallback={
-              <div className="absolute inset-0 w-full h-full border-4 border-yellow-500 z-50">
-                Loading Orb...
-              </div>
-            }
-          >
-            <Orb hoverIntensity={0.5} rotateOnHover={true} hue={0} forceHoverState={false} />
-          </Suspense>
-        </div>
+        {!isMobile && (
+          <div className="absolute top-[5vh] md:top-[8vh] left-0 w-full h-full z-0">
+            <Suspense
+              fallback={
+                <div className="absolute inset-0 w-full h-full border-4 border-yellow-500 z-50">
+                  Loading Orb...
+                </div>
+              }
+            >
+              <Orb hoverIntensity={0.5} rotateOnHover={true} hue={0} forceHoverState={false} />
+            </Suspense>
+          </div>
+        )}
       </div>
 
       <div className="relative z-10 mx-auto w-[min(96%,1200px)] text-center pointer-events-none">

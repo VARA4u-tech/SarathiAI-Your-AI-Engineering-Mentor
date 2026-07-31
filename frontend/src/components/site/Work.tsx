@@ -42,23 +42,20 @@ export function Work() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  useEffect(() => {
     const measure = () => {
       if (carouselRef.current) {
-        // Calculate exactly how far the container needs to slide to reach the end
         setScrollRange(carouselRef.current.scrollWidth - window.innerWidth);
       }
     };
 
     measure();
+    const ro = new ResizeObserver(measure);
+    if (carouselRef.current) ro.observe(carouselRef.current);
     window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -70,14 +67,8 @@ export function Work() {
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
 
   return (
-    <section
-      id="how-it-works"
-      ref={targetRef}
-      className={`relative ${isMobile ? "h-auto py-24" : "h-[400vh]"} bg-background`}
-    >
-      <div
-        className={`${isMobile ? "relative h-auto block" : "sticky top-0 h-screen flex flex-col justify-center"} items-start overflow-hidden w-full`}
-      >
+    <section id="how-it-works" ref={targetRef} className={`relative ${isMobile ? "h-auto py-24" : "h-[400vh]"} bg-background`}>
+      <div className={`${isMobile ? "relative h-auto block" : "sticky top-0 h-[100svh] flex flex-col justify-center"} items-start overflow-hidden w-full`}>
         <div className="w-full px-8 md:px-[calc(50vw-600px)] flex-shrink-0 z-10 mb-8 md:mb-12">
           <p className="text-xs uppercase tracking-[0.2em] text-fuchsia-400 mb-4 font-bold">
             — How Sarathi Works
@@ -91,7 +82,7 @@ export function Work() {
         <motion.div
           ref={carouselRef}
           style={isMobile ? undefined : { x }}
-          className={`flex gap-4 md:gap-8 px-6 md:px-[calc(50vw-600px)] ${isMobile ? "flex-row w-full h-[500px] overflow-x-auto snap-x snap-mandatory pb-8 pt-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden" : "h-[550px] md:h-[500px] w-max will-change-transform"}`}
+          className={`flex gap-4 md:gap-8 px-6 md:px-[calc(50vw-600px)] ${isMobile ? "flex-row w-full h-[550px] overflow-x-auto snap-x snap-mandatory pb-8 pt-4 custom-scrollbar" : "h-[550px] md:h-[500px] w-max will-change-transform"}`}
         >
           {projects.map((p) => (
             <div

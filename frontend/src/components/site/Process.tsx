@@ -107,7 +107,6 @@ function ProcessCard({ step, index, scrollYProgress, isMobile }: ProcessCardProp
         style={
           isMobile
             ? {
-                scale,
                 top: `calc(10svh + ${index * 15}px)`,
               }
             : {
