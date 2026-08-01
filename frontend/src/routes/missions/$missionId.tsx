@@ -139,11 +139,17 @@ function MissionControlCenter() {
               <p className="text-xs uppercase tracking-[0.24em] text-fuchsia-300 mb-2">
                 Project Review Report
               </p>
-              <h1 className="font-display text-3xl md:text-4xl line-clamp-3" title={typeof mission.projectId === 'object' ? mission.projectId.name : mission.title}>
-                {typeof mission.projectId === 'object' ? mission.projectId.name : mission.title}
+              <h1
+                className="font-display text-3xl md:text-4xl line-clamp-3"
+                title={
+                  typeof mission.projectId === "object" ? mission.projectId.name : mission.title
+                }
+              >
+                {typeof mission.projectId === "object" ? mission.projectId.name : mission.title}
               </h1>
               <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-                <span className="text-white font-medium">{mission.title}</span> — {mission.description}
+                <span className="text-white font-medium">{mission.title}</span> —{" "}
+                {mission.description}
               </p>
             </div>
 
@@ -424,7 +430,7 @@ function RoadmapSection({
   // Use real roadmap if available, otherwise auto-generate from High then Medium impact suggestions
   const steps: RoadmapStep[] =
     roadmap && roadmap.length > 0
-      ? roadmap.map(step => ({ ...step, week: step.week.replace(/Week/gi, 'Day') }))
+      ? roadmap.map((step) => ({ ...step, week: step.week.replace(/Week/gi, "Day") }))
       : [...suggestions]
           .sort((a, b) => {
             const order = { High: 0, Medium: 1, Low: 2 };
