@@ -37,15 +37,7 @@ function ImportRepo() {
   const [activeAgentIndex, setActiveAgentIndex] = useState(0);
 
   const agents = [
-    { name: "Search Agent", icon: Search, desc: "Cloning repository..." },
-    {
-      name: "Repository Intelligence",
-      icon: Database,
-      desc: "Building AST and dependency graph...",
-    },
-    { name: "Architect Agent", icon: Bot, desc: "Analyzing system architecture..." },
-    { name: "Documentation Agent", icon: FileCode2, desc: "Extracting inline docstrings..." },
-    { name: "Test Agent", icon: Activity, desc: "Mapping test coverage..." },
+    { name: "Upload Status", icon: UploadCloud, desc: "Uploading repository..." },
   ];
 
   useEffect(() => {
@@ -147,21 +139,7 @@ function ImportRepo() {
               </button>
             </div>
 
-            <div className="flex items-center gap-4 text-xs text-muted-foreground uppercase tracking-widest">
-              <div className="h-px bg-border flex-1" /> OR <div className="h-px bg-border flex-1" />
-            </div>
 
-            <button
-              type="button"
-              onClick={() => alert("ZIP upload is not supported yet. Please use a GitHub URL.")}
-              className="w-full glass rounded-2xl p-8 border border-border border-dashed hover:border-foreground/30 transition flex flex-col items-center justify-center gap-3 group"
-            >
-              <div className="size-12 rounded-full bg-foreground/5 flex items-center justify-center group-hover:bg-foreground/10 transition">
-                <UploadCloud className="size-6 text-muted-foreground group-hover:text-foreground transition" />
-              </div>
-              <span className="text-sm font-medium">Upload ZIP archive</span>
-              <span className="text-xs text-muted-foreground">Max file size 500MB</span>
-            </button>
           </form>
         </div>
 
@@ -174,9 +152,9 @@ function ImportRepo() {
               className="glass rounded-3xl p-8 border border-border"
             >
               <div className="mb-6 pb-6 border-b border-border">
-                <h3 className="font-display text-2xl">Initializing Autonomous OS...</h3>
+                <h3 className="font-display text-2xl">Importing Repository...</h3>
                 <p className="text-muted-foreground mt-2 text-sm">
-                  Deploying agent workforce to analyze repository structure.
+                  Connecting to repository and importing files into workspace.
                 </p>
               </div>
 

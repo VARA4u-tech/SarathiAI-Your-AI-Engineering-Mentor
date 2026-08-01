@@ -63,7 +63,7 @@ export function AuthExperience({ mode }: { mode: Mode }) {
       if (isRecovery) setSubmitted(true);
       else {
         signIn();
-        navigate({ to: "/dashboard" });
+        navigate({ to: "/import" });
       }
     }, 700);
   };
