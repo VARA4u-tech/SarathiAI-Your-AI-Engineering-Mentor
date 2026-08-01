@@ -1,10 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  Settings as SettingsIcon,
-  Bell,
-  Shield,
-} from "lucide-react";
+import { ArrowRight, Settings as SettingsIcon, Bell, Shield } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/settings")({
