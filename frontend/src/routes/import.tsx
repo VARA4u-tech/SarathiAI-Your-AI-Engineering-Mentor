@@ -36,9 +36,7 @@ function ImportRepo() {
   const [indexingState, setIndexingState] = useState<"idle" | "indexing" | "complete">("idle");
   const [activeAgentIndex, setActiveAgentIndex] = useState(0);
 
-  const agents = [
-    { name: "Upload Status", icon: UploadCloud, desc: "Uploading repository..." },
-  ];
+  const agents = [{ name: "Upload Status", icon: UploadCloud, desc: "Uploading repository..." }];
 
   useEffect(() => {
     if (indexingState === "indexing") {
@@ -138,8 +136,6 @@ function ImportRepo() {
                 {isValidating ? "Validating..." : "Connect"}
               </button>
             </div>
-
-
           </form>
         </div>
 
