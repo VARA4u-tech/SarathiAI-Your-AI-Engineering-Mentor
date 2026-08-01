@@ -104,13 +104,13 @@ function MissionControlCenter() {
     mission.status === "in_progress";
 
   return (
-    <main className="min-h-screen bg-background text-foreground flex">
-      <div className="absolute inset-0 noise pointer-events-none" />
+    <main className="min-h-screen bg-background text-foreground flex print:block">
+      <div className="absolute inset-0 noise pointer-events-none print:hidden" />
       <Sidebar mobileOpen={menuOpen} onClose={() => setMenuOpen(false)} />
 
-      <div className="relative z-10 flex-1 min-w-0 overflow-y-auto p-5 md:p-10">
+      <div className="relative z-10 flex-1 min-w-0 overflow-y-auto print:overflow-visible p-5 md:p-10 print:p-0">
         <header className="max-w-5xl mx-auto mb-8">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-8 print:hidden">
             <Link
               to="/dashboard"
               className="text-muted-foreground hover:text-foreground transition flex items-center gap-2 text-sm font-medium w-max"
@@ -222,7 +222,7 @@ function MissionControlCenter() {
               </div>
 
               {isPending && (
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2 print:hidden">
                   <button
                     onClick={handleReject}
                     className="flex items-center justify-center gap-2 py-2 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors text-sm font-medium"
@@ -243,7 +243,7 @@ function MissionControlCenter() {
 
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Tabs */}
-          <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide border-b border-white/10">
+          <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide border-b border-white/10 print:hidden">
             {[
               "All",
               "System Design & Architecture",
