@@ -153,6 +153,34 @@ function Dashboard() {
     }
   };
 
+  const handleRunMissionForCurrentProject = async () => {
+    if (!currentProject) return;
+    setStatus("planning");
+    setLlmResponse(null);
+    try {
+      const defaultPrompt = "Perform a full senior engineering review of this codebase.";
+      const newMission = await runMission(
+        defaultPrompt,
+        "architect",
+        currentProject._id,
+        "Senior Engineering Review",
+      );
+
+      if (newMission && newMission._id) {
+        navigate({ to: "/missions/$missionId", params: { missionId: newMission._id } });
+      } else {
+        throw new Error("Invalid response from server");
+      }
+    } catch (error) {
+      console.error(error);
+      setLlmResponse("Error: Could not process repository.");
+      setStatus("idle");
+      alert(
+        "Failed to connect to the AI Engine. Please ensure the Python backend is running on port 8000.",
+      );
+    }
+  };
+
   useEffect(() => {
     if (!isAuthenticated()) navigate({ to: "/login" });
   }, [navigate]);
@@ -303,8 +331,18 @@ function Dashboard() {
                 )}
                 {status === "idle" && (
                   <div className="mt-8 text-center text-sm text-muted-foreground p-6 rounded-xl border border-white/5 bg-white/5">
-                    Start a project review to see your repository score, missing features, and
-                    learning roadmap here.
+                    <p className="mb-4">
+                      Start a project review to see your repository score, missing features, and
+                      learning roadmap here.
+                    </p>
+                    {currentProject && (
+                      <button
+                        onClick={handleRunMissionForCurrentProject}
+                        className="bg-foreground text-background px-6 py-2.5 rounded-full font-medium hover:bg-foreground/90 transition-colors inline-flex items-center gap-2"
+                      >
+                        <Bot className="size-4" /> Run Senior Engineer Review
+                      </button>
+                    )}
                   </div>
                 )}
                 {status === "awaiting-approval" && (
