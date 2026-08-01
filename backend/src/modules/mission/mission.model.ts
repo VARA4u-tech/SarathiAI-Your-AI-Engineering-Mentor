@@ -10,7 +10,6 @@ export interface IMission extends Document {
     Architecture: number;
     Security: number;
     Performance: number;
-    Documentation: number;
     Testing: number;
     Scalability: number;
     Maintainability: number;
@@ -49,7 +48,6 @@ const MissionSchema: Schema = new Schema(
       Architecture: { type: Number, default: 0 },
       Security: { type: Number, default: 0 },
       Performance: { type: Number, default: 0 },
-      Documentation: { type: Number, default: 0 },
       Testing: { type: Number, default: 0 },
       Scalability: { type: Number, default: 0 },
       Maintainability: { type: Number, default: 0 },

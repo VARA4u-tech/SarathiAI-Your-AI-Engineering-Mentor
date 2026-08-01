@@ -24,8 +24,6 @@ export function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose:
         <nav className="space-y-2">
           <NavItem icon={Activity} label="Audit Hub" to="/dashboard" />
           <NavItem icon={FileCode2} label="Codebases" to="/repositories" />
-
-          <NavItem icon={FileText} label="Documentation" to="/documentation" />
         </nav>
       </div>
       <NavItem icon={Settings} label="Settings" to="/settings" />

@@ -46,22 +46,3 @@ export const createProject = async (req: Request, res: Response) => {
   }
 };
 
-export const updateReadmeDocs = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const { readmeDocs } = req.body;
-
-    const project = await Project.findById(id);
-    if (!project) {
-      return res.status(404).json({ error: "Project not found" });
-    }
-
-    project.readmeDocs = readmeDocs;
-    await project.save();
-
-    return res.json(project);
-  } catch (error: any) {
-    logger.error("Failed to update project docs:", error.message);
-    return res.status(500).json({ error: "Failed to update project docs" });
-  }
-};

@@ -167,7 +167,6 @@ function MissionControlCenter() {
                       { key: "Architecture", color: "bg-cyan-400" },
                       { key: "Security", color: "bg-red-400" },
                       { key: "Performance", color: "bg-yellow-400" },
-                      { key: "Documentation", color: "bg-blue-400" },
                       { key: "Testing", color: "bg-emerald-400" },
                       { key: "Scalability", color: "bg-violet-400" },
                       { key: "Maintainability", color: "bg-fuchsia-400" },

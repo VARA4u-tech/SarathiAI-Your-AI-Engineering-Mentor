@@ -4,7 +4,6 @@ export interface Project {
   _id: string;
   name: string;
   githubUrl: string;
-  readmeDocs?: string;
   language?: string;
   framework?: string;
   status?: string;
@@ -36,7 +35,6 @@ export interface Mission {
     Architecture: number;
     Security: number;
     Performance: number;
-    Documentation: number;
     Testing: number;
     Scalability: number;
     Maintainability: number;
@@ -95,21 +93,7 @@ export async function runMission(
   return response.json();
 }
 
-export async function saveReadmeDocs(projectId: string, readmeDocs: string) {
-  const response = await fetch(`${API_BASE_URL}/api/projects/${projectId}/readme`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ readmeDocs }),
-  });
 
-  if (!response.ok) {
-    throw new Error("Failed to save README docs");
-  }
-
-  return response.json();
-}
 
 export async function getProjects() {
   const response = await fetch(`${API_BASE_URL}/api/projects`);

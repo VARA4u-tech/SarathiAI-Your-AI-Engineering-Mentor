@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { getProjects, createProject, updateReadmeDocs } from "./modules/project/project.controller";
+import { getProjects, createProject } from "./modules/project/project.controller";
 import { importRepository } from "./modules/repository/repository.controller";
 import { runMission, getMissions, getMissionById, updateMissionStatus, createMockMission, deleteMission } from "./modules/mission/mission.controller";
 import { logger } from "./shared/utils/logger";
@@ -20,7 +20,6 @@ app.post("/api/import", importRepository);
 // Project Module
 app.get("/api/projects", getProjects);
 app.post("/api/projects", createProject);
-app.put("/api/projects/:id/readme", updateReadmeDocs);
 
 // AI Mission Module
 app.get("/api/missions", getMissions);
