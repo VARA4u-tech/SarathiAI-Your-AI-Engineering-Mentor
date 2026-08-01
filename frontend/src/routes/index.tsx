@@ -8,6 +8,7 @@ import { Process } from "@/components/site/Process";
 import { FaqSection } from "@/components/site/FaqSection";
 import { Footer } from "@/components/site/Contact";
 import { SmoothScroll } from "@/components/site/SmoothScroll";
+import { ScrollProgress } from "@/components/site/ScrollProgress";
 import { Toaster } from "sonner";
 
 export const Route = createFileRoute("/")({
@@ -42,6 +43,7 @@ function Index() {
   return (
     <main className="bg-background text-foreground">
       <SmoothScroll />
+      <ScrollProgress />
       <Nav />
       <Hero />
       <Marquee />
