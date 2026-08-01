@@ -5,6 +5,7 @@ export interface IProject extends Document {
   githubUrl: string;
   language: string;
   framework: string;
+  readmeDocs?: string;
   status: "indexing" | "ready" | "failed";
   createdAt: Date;
   updatedAt: Date;
@@ -16,6 +17,7 @@ const ProjectSchema: Schema = new Schema(
     githubUrl: { type: String, required: true, unique: true },
     language: { type: String, default: "TypeScript" },
     framework: { type: String, default: "Unknown" },
+    readmeDocs: { type: String },
     status: { 
       type: String, 
       enum: ["indexing", "ready", "failed"], 
