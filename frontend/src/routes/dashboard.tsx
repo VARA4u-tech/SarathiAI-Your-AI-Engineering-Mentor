@@ -91,11 +91,11 @@ function Dashboard() {
 
   useEffect(() => {
     getProjects()
-      .then((data) => {
+      .then((data: Project[]) => {
         setProjects(data);
         if (data.length > 0) {
           const stored = localStorage.getItem("activeProjectId");
-          if (!stored || !data.find(p => p._id === stored)) {
+          if (!stored || !data.find((p) => p._id === stored)) {
             setActiveProjectId(data[0]._id);
             localStorage.setItem("activeProjectId", data[0]._id);
           }
@@ -131,7 +131,7 @@ function Dashboard() {
 
       // 3. Automatically trigger the review mission
       const defaultPrompt = "Perform a full senior engineering review of this codebase.";
-      const newMission = await runMission(defaultPrompt, "architect", project._id);
+      const newMission = await runMission(defaultPrompt, "architect", project._id, "Senior Engineering Review");
 
       if (newMission && newMission._id) {
         navigate({ to: "/missions/$missionId", params: { missionId: newMission._id } });
@@ -381,7 +381,12 @@ function Dashboard() {
                         className="rounded-xl bg-black/20 border border-white/10 p-5 flex flex-col gap-4 transition hover:bg-black/40"
                       >
                         <div>
-                          <h3 className="font-semibold text-white leading-snug">{m.title}</h3>
+                          <h3 
+                            className="font-semibold text-white leading-snug line-clamp-2" 
+                            title={m.title}
+                          >
+                            {m.title}
+                          </h3>
                           <div className="flex flex-wrap items-center gap-2 mt-3">
                             <span className="text-xs text-muted-foreground whitespace-nowrap">
                               {m.suggestions.length} architectural suggestion

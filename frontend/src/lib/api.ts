@@ -69,6 +69,7 @@ export async function runMission(
   prompt: string,
   agentType: string = "architect",
   projectId?: string,
+  title?: string,
 ) {
   const apiKey = localStorage.getItem("OPENROUTER_API_KEY");
 
@@ -83,7 +84,7 @@ export async function runMission(
   const response = await fetch(`${API_BASE_URL}/api/missions`, {
     method: "POST",
     headers,
-    body: JSON.stringify({ prompt, agent_type: agentType, projectId }),
+    body: JSON.stringify({ prompt, agent_type: agentType, projectId, title }),
   });
 
   if (!response.ok) {

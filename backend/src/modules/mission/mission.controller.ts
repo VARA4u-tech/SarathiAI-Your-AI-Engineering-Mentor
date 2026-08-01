@@ -5,7 +5,7 @@ import { Mission } from "./mission.model";
 import Project, { IProject } from "../project/project.model";
 
 export const runMission = async (req: Request, res: Response) => {
-  const { prompt, agent_type, projectId } = req.body;
+  const { prompt, agent_type, projectId, title } = req.body;
 
   if (!prompt) {
     return res.status(400).json({ error: "Prompt is required" });
@@ -28,9 +28,6 @@ Project Name: ${project.name}
 GitHub Repository: ${project.githubUrl}
 Primary Language: ${project.language}
 Framework: ${project.framework}
----
-Project Documentation (README):
-${project.readmeDocs || "No README available."}
     `.trim();
 
     // Forward the request to the Python AI Engine
@@ -79,9 +76,11 @@ ${project.readmeDocs || "No README available."}
 
 
 
+    const missionTitle = title || (prompt.length > 50 ? prompt.substring(0, 47) + "..." : prompt);
+
     const newMission = new Mission({
       projectId: project._id,
-      title: prompt,
+      title: missionTitle,
       description: "AI Engineering Mentor Project Review.",
       status: "review_required",
       score,
