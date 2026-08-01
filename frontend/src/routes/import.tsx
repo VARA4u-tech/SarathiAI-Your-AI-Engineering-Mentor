@@ -58,7 +58,7 @@ function ImportRepo() {
       } else {
         setIndexingState("complete");
         // Save to Database
-          createProject(url)
+        createProject(url)
           .then((project) => {
             if (project && project._id) {
               localStorage.setItem("activeProjectId", project._id);
