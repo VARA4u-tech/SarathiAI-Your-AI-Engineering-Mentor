@@ -139,11 +139,11 @@ function MissionControlCenter() {
               <p className="text-xs uppercase tracking-[0.24em] text-fuchsia-300 mb-2">
                 Project Review Report
               </p>
-              <h1 className="font-display text-3xl md:text-4xl line-clamp-3" title={mission.title}>
-                {mission.title}
+              <h1 className="font-display text-3xl md:text-4xl line-clamp-3" title={typeof mission.projectId === 'object' ? mission.projectId.name : mission.title}>
+                {typeof mission.projectId === 'object' ? mission.projectId.name : mission.title}
               </h1>
               <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-                {mission.description}
+                <span className="text-white font-medium">{mission.title}</span> — {mission.description}
               </p>
             </div>
 
