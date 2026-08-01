@@ -86,7 +86,7 @@ function Dashboard() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [missions, setMissions] = useState<Mission[]>([]);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(
-    localStorage.getItem("activeProjectId"),
+    typeof window !== "undefined" ? localStorage.getItem("activeProjectId") : null,
   );
 
   useEffect(() => {
@@ -254,8 +254,7 @@ function Dashboard() {
 
         <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_320px] gap-8">
           <section className="space-y-8">
-            {currentProject ? null : (
-              <div className="glass rounded-3xl p-6 md:p-8 flex flex-col justify-between">
+            <div className="glass rounded-3xl p-6 md:p-8 flex flex-col justify-between">
                 <div>
                   <label className="text-sm font-medium text-fuchsia-300 mb-3 block">
                     Enter GitHub Repository URL
@@ -291,7 +290,6 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
-            )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="glass rounded-3xl p-6">
@@ -303,7 +301,23 @@ function Dashboard() {
                     <h2 className="font-display text-2xl mt-1">{statusCopy[0]}</h2>
                     <p className="text-sm text-muted-foreground mt-1">{statusCopy[1]}</p>
                   </div>
-                  <ShieldCheck className="size-6 text-cyan-300" />
+                  {missions.length > 0 && missions[0].score ? (
+                    <div className="flex flex-col items-end">
+                      <span className="text-xs text-muted-foreground mb-1 uppercase tracking-wider">Score</span>
+                      <span
+                        className="px-3 py-1 rounded-full text-lg font-bold border border-white/10 bg-white/5"
+                        style={{
+                          background: "var(--grad-iridescent)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                        }}
+                      >
+                        {missions[0].score}/100
+                      </span>
+                    </div>
+                  ) : (
+                    <ShieldCheck className="size-6 text-cyan-300" />
+                  )}
                 </div>
                 {llmResponse ? (
                   <div className="mt-4 p-4 rounded-xl bg-white/5 border border-white/10 text-sm whitespace-pre-wrap leading-relaxed max-h-[300px] overflow-y-auto">
@@ -329,20 +343,41 @@ function Dashboard() {
                     ))}
                   </ol>
                 )}
-                {status === "idle" && (
+                {status === "idle" ? (
                   <div className="mt-8 text-center text-sm text-muted-foreground p-6 rounded-xl border border-white/5 bg-white/5">
-                    <p className="mb-4">
-                      Start a project review to see your repository score, missing features, and
-                      learning roadmap here.
-                    </p>
-                    {currentProject && (
-                      <button
-                        onClick={handleRunMissionForCurrentProject}
-                        className="bg-foreground text-background px-6 py-2.5 rounded-full font-medium hover:bg-foreground/90 transition-colors inline-flex items-center gap-2"
-                      >
-                        <Bot className="size-4" /> Run Senior Engineer Review
-                      </button>
+                    {missions.length === 0 ? (
+                      <>
+                        <p className="mb-4">
+                          Start a project review to see your repository score, missing features, and
+                          learning roadmap here.
+                        </p>
+                        {currentProject && (
+                          <button
+                            onClick={handleRunMissionForCurrentProject}
+                            className="bg-foreground text-background px-6 py-2.5 rounded-full font-medium hover:bg-foreground/90 transition-colors inline-flex items-center gap-2"
+                          >
+                            <Bot className="size-4" /> Run Senior Engineer Review
+                          </button>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <p className="mb-4">Want an updated analysis of your codebase?</p>
+                        {currentProject && (
+                          <button
+                            onClick={handleRunMissionForCurrentProject}
+                            className="bg-foreground text-background px-6 py-2.5 rounded-full font-medium hover:bg-foreground/90 transition-colors inline-flex items-center gap-2"
+                          >
+                            <Bot className="size-4" /> Run New Review
+                          </button>
+                        )}
+                      </>
                     )}
+                  </div>
+                ) : (
+                  <div className="mt-8 p-6 rounded-xl border border-white/5 bg-white/5">
+                    <p className="text-sm font-medium mb-4">Mission Progress</p>
+                    <MissionProgress status={status} />
                   </div>
                 )}
                 {status === "awaiting-approval" && (
