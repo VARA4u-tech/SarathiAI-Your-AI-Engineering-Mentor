@@ -5,23 +5,28 @@ import { ChevronDown } from "lucide-react";
 const faqs = [
   {
     question: "How fast can you build and deploy an MVP?",
-    answer: "We typically design, build, and deploy production-ready AI MVPs within 2-4 weeks, depending on the complexity of your requirements. Our modular architecture allows us to move extremely fast.",
+    answer:
+      "We typically design, build, and deploy production-ready AI MVPs within 2-4 weeks, depending on the complexity of your requirements. Our modular architecture allows us to move extremely fast.",
   },
   {
     question: "Do you build custom AI models or use existing ones?",
-    answer: "We use a hybrid approach. We leverage state-of-the-art foundation models (like GPT-4, Claude 3, and Llama) for rapid development, and we can fine-tune custom models specifically on your proprietary data when specialized performance is needed.",
+    answer:
+      "We use a hybrid approach. We leverage state-of-the-art foundation models (like GPT-4, Claude 3, and Llama) for rapid development, and we can fine-tune custom models specifically on your proprietary data when specialized performance is needed.",
   },
   {
     question: "Who owns the code and IP?",
-    answer: "You do. We build the software as a service for you. Upon completion and final payment, 100% of the intellectual property, source code, and assets are fully transferred to you.",
+    answer:
+      "You do. We build the software as a service for you. Upon completion and final payment, 100% of the intellectual property, source code, and assets are fully transferred to you.",
   },
   {
     question: "What kind of companies do you work with?",
-    answer: "We partner with ambitious startups looking to launch fast, as well as established enterprises needing to integrate AI into their existing legacy systems without disrupting operations.",
+    answer:
+      "We partner with ambitious startups looking to launch fast, as well as established enterprises needing to integrate AI into their existing legacy systems without disrupting operations.",
   },
   {
     question: "Do you offer ongoing maintenance after launch?",
-    answer: "Yes, we offer flexible retention and maintenance plans. We can continuously monitor model performance, update dependencies, and add new features as your user base scales.",
+    answer:
+      "Yes, we offer flexible retention and maintenance plans. We can continuously monitor model performance, update dependencies, and add new features as your user base scales.",
   },
 ];
 
@@ -61,7 +66,9 @@ export function FaqSection() {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={`overflow-hidden rounded-2xl border transition-colors duration-300 ${
-                  isOpen ? "bg-white/[0.05] border-white/20" : "bg-white/[0.02] border-white/5 hover:border-white/10 hover:bg-white/[0.03]"
+                  isOpen
+                    ? "bg-white/[0.05] border-white/20"
+                    : "bg-white/[0.02] border-white/5 hover:border-white/10 hover:bg-white/[0.03]"
                 } backdrop-blur-md`}
               >
                 <button
@@ -71,9 +78,7 @@ export function FaqSection() {
                   <span className="font-medium text-lg text-white/90 pr-8">{faq.question}</span>
                   <div
                     className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-300 ${
-                      isOpen
-                        ? "bg-white text-black border-white"
-                        : "border-white/20 text-white/50"
+                      isOpen ? "bg-white text-black border-white" : "border-white/20 text-white/50"
                     }`}
                   >
                     <ChevronDown

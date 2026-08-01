@@ -94,8 +94,6 @@ export async function runMission(
   return response.json();
 }
 
-
-
 export async function getProjects() {
   const response = await fetch(`${API_BASE_URL}/api/projects`);
 

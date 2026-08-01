@@ -59,7 +59,10 @@ function ImportRepo() {
         setIndexingState("complete");
         // Save to Database
         createProject(url)
-          .then(() => {
+          .then((project) => {
+            if (project && project._id) {
+              localStorage.setItem("activeProjectId", project._id);
+            }
             setTimeout(() => {
               navigate({ to: "/dashboard" });
             }, 1000);
@@ -148,6 +151,7 @@ function ImportRepo() {
 
             <button
               type="button"
+              onClick={() => alert("ZIP upload is not supported yet. Please use a GitHub URL.")}
               className="w-full glass rounded-2xl p-8 border border-border border-dashed hover:border-foreground/30 transition flex flex-col items-center justify-center gap-3 group"
             >
               <div className="size-12 rounded-full bg-foreground/5 flex items-center justify-center group-hover:bg-foreground/10 transition">

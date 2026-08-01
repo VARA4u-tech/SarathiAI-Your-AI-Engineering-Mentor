@@ -86,7 +86,7 @@ function Dashboard() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [missions, setMissions] = useState<Mission[]>([]);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(
-    localStorage.getItem("activeProjectId")
+    localStorage.getItem("activeProjectId"),
   );
 
   useEffect(() => {
@@ -104,7 +104,7 @@ function Dashboard() {
       .catch((err) => console.error("Failed to load projects", err));
   }, []);
 
-  const currentProject = projects.find(p => p._id === activeProjectId) || null;
+  const currentProject = projects.find((p) => p._id === activeProjectId) || null;
 
   useEffect(() => {
     if (currentProject) {
@@ -131,7 +131,12 @@ function Dashboard() {
 
       // 3. Automatically trigger the review mission
       const defaultPrompt = "Perform a full senior engineering review of this codebase.";
-      const newMission = await runMission(defaultPrompt, "architect", project._id, "Senior Engineering Review");
+      const newMission = await runMission(
+        defaultPrompt,
+        "architect",
+        project._id,
+        "Senior Engineering Review",
+      );
 
       if (newMission && newMission._id) {
         navigate({ to: "/missions/$missionId", params: { missionId: newMission._id } });
@@ -184,7 +189,9 @@ function Dashboard() {
               <Menu className="size-5" />
             </button>
             <p className="text-xs uppercase tracking-[0.24em] text-fuchsia-300 mb-2">
-              {currentProject ? `Dashboard / ${currentProject.name}` : "Sarathi.ai / Engineering Mentor"}
+              {currentProject
+                ? `Dashboard / ${currentProject.name}`
+                : "Sarathi.ai / Engineering Mentor"}
             </p>
             {currentProject ? (
               <>
@@ -192,7 +199,8 @@ function Dashboard() {
                   Project <span className="text-iridescent pb-2 pr-2">Overview.</span>
                 </h1>
                 <p className="text-muted-foreground text-lg max-w-xl">
-                  View your active missions, architectural recommendations, and repository intelligence below.
+                  View your active missions, architectural recommendations, and repository
+                  intelligence below.
                 </p>
               </>
             ) : (
@@ -202,8 +210,8 @@ function Dashboard() {
                   <span className="text-iridescent pb-2 pr-2">production-ready.</span>
                 </h1>
                 <p className="text-muted-foreground text-lg max-w-xl">
-                  Get an instant Senior Engineer review of your repository. Discover missing features,
-                  security vulnerabilities, and get a week-by-week implementation roadmap.
+                  Get an instant Senior Engineer review of your repository. Discover missing
+                  features, security vulnerabilities, and get a week-by-week implementation roadmap.
                 </p>
               </>
             )}
@@ -224,37 +232,37 @@ function Dashboard() {
                   <label className="text-sm font-medium text-fuchsia-300 mb-3 block">
                     Enter GitHub Repository URL
                   </label>
-                <div className="relative group">
-                  <input
-                    type="text"
-                    value={mission}
-                    onChange={(e) => setMission(e.target.value)}
-                    placeholder="e.g. https://github.com/expressjs/express"
-                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60 placeholder:text-white/30 pr-40"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && mission.trim() && status !== "planning") {
-                        handleRunMission();
-                      }
-                    }}
-                  />
-                  <button
-                    onClick={handleRunMission}
-                    disabled={status === "planning" || !mission}
-                    className="absolute right-2 top-2 bottom-2 bg-foreground text-background px-4 md:px-6 rounded-xl font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors disabled:opacity-50"
-                  >
-                    {status === "planning" ? (
-                      <Loader2 className="animate-spin size-4" />
-                    ) : (
-                      "Review My Project"
-                    )}
-                    {status !== "planning" && <ArrowRight className="size-4" />}
-                  </button>
-                </div>
-                <div className="mt-6">
-                  <MissionProgress status={status} />
+                  <div className="relative group">
+                    <input
+                      type="text"
+                      value={mission}
+                      onChange={(e) => setMission(e.target.value)}
+                      placeholder="e.g. https://github.com/expressjs/express"
+                      className="w-full rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60 placeholder:text-white/30 pr-40"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && mission.trim() && status !== "planning") {
+                          handleRunMission();
+                        }
+                      }}
+                    />
+                    <button
+                      onClick={handleRunMission}
+                      disabled={status === "planning" || !mission}
+                      className="absolute right-2 top-2 bottom-2 bg-foreground text-background px-4 md:px-6 rounded-xl font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors disabled:opacity-50"
+                    >
+                      {status === "planning" ? (
+                        <Loader2 className="animate-spin size-4" />
+                      ) : (
+                        "Review My Project"
+                      )}
+                      {status !== "planning" && <ArrowRight className="size-4" />}
+                    </button>
+                  </div>
+                  <div className="mt-6">
+                    <MissionProgress status={status} />
+                  </div>
                 </div>
               </div>
-            </div>
             )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -381,8 +389,8 @@ function Dashboard() {
                         className="rounded-xl bg-black/20 border border-white/10 p-5 flex flex-col gap-4 transition hover:bg-black/40"
                       >
                         <div>
-                          <h3 
-                            className="font-semibold text-white leading-snug line-clamp-2" 
+                          <h3
+                            className="font-semibold text-white leading-snug line-clamp-2"
                             title={m.title}
                           >
                             {m.title}
@@ -464,7 +472,9 @@ function Dashboard() {
               </div>
               <div className="mt-6 pt-5 border-t border-border text-sm text-muted-foreground flex items-center gap-2">
                 <GitBranch className="size-4 text-cyan-300" />{" "}
-                {currentProject ? currentProject.githubUrl.replace("https://github.com/", "") : "No project active"}
+                {currentProject
+                  ? currentProject.githubUrl.replace("https://github.com/", "")
+                  : "No project active"}
               </div>
             </div>
           </aside>
