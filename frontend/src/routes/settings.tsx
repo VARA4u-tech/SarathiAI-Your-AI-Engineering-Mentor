@@ -4,9 +4,6 @@ import {
   Settings as SettingsIcon,
   Bell,
   Shield,
-  Key,
-  HardDrive,
-  CreditCard,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -48,30 +45,9 @@ function Settings() {
             onClick={setActiveTab}
           />
           <TabButton
-            icon={Key}
-            label="API Keys"
-            id="api"
-            active={activeTab}
-            onClick={setActiveTab}
-          />
-          <TabButton
             icon={Bell}
             label="Notifications"
             id="notifications"
-            active={activeTab}
-            onClick={setActiveTab}
-          />
-          <TabButton
-            icon={HardDrive}
-            label="Integrations"
-            id="integrations"
-            active={activeTab}
-            onClick={setActiveTab}
-          />
-          <TabButton
-            icon={CreditCard}
-            label="Billing"
-            id="billing"
             active={activeTab}
             onClick={setActiveTab}
           />
