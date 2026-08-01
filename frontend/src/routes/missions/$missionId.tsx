@@ -37,6 +37,8 @@ function MissionControlCenter() {
     getMissionById(missionId)
       .then((data) => {
         setMission(data);
+        const pid = typeof data.projectId === "object" ? data.projectId._id : data.projectId;
+        if (pid) localStorage.setItem("activeProjectId", String(pid));
         setLoading(false);
       })
       .catch((err) => {

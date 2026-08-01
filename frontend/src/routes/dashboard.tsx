@@ -85,22 +85,37 @@ function Dashboard() {
   const [llmResponse, setLlmResponse] = useState<string | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [missions, setMissions] = useState<Mission[]>([]);
+  const [activeProjectId, setActiveProjectId] = useState<string | null>(
+    localStorage.getItem("activeProjectId")
+  );
 
   useEffect(() => {
     getProjects()
-      .then((data) => setProjects(data))
+      .then((data) => {
+        setProjects(data);
+        if (data.length > 0) {
+          const stored = localStorage.getItem("activeProjectId");
+          if (!stored || !data.find(p => p._id === stored)) {
+            setActiveProjectId(data[0]._id);
+            localStorage.setItem("activeProjectId", data[0]._id);
+          }
+        }
+      })
       .catch((err) => console.error("Failed to load projects", err));
   }, []);
 
+  const currentProject = projects.find(p => p._id === activeProjectId) || null;
+
   useEffect(() => {
-    if (projects.length > 0) {
-      getMissions(projects[0]._id)
+    if (currentProject) {
+      getMissions(currentProject._id)
         .then((data) => setMissions(data))
         .catch(console.error);
+    } else {
+      setMissions([]);
     }
-  }, [projects]);
+  }, [currentProject]);
 
-  const currentProject = projects.length > 0 ? projects[0] : null;
   const currentProjectName = currentProject ? currentProject.name : "No Project Selected";
 
   const handleRunMission = async () => {
@@ -138,7 +153,12 @@ function Dashboard() {
   }, [navigate]);
 
   const statusCopy = {
-    idle: ["Ready", "Upload your repository and get a Senior Engineer's review in minutes."],
+    idle: [
+      "Ready",
+      currentProject
+        ? "Review the latest missions and recommendations for your project."
+        : "Upload your repository and get a Senior Engineer's review in minutes.",
+    ],
     planning: [
       "Analyzing Architecture",
       "Your AI Mentor is reviewing the codebase for missing features, security, and performance.",
@@ -164,16 +184,29 @@ function Dashboard() {
               <Menu className="size-5" />
             </button>
             <p className="text-xs uppercase tracking-[0.24em] text-fuchsia-300 mb-2">
-              Sarathi.ai / Engineering Mentor
+              {currentProject ? `Dashboard / ${currentProject.name}` : "Sarathi.ai / Engineering Mentor"}
             </p>
-            <h1 className="font-display text-4xl md:text-5xl mt-2 mb-4">
-              From student project to{" "}
-              <span className="text-iridescent pb-2 pr-2">production-ready.</span>
-            </h1>
-            <p className="text-muted-foreground text-lg max-w-xl">
-              Get an instant Senior Engineer review of your repository. Discover missing features,
-              security vulnerabilities, and get a week-by-week implementation roadmap.
-            </p>
+            {currentProject ? (
+              <>
+                <h1 className="font-display text-4xl md:text-5xl mt-2 mb-4">
+                  Project <span className="text-iridescent pb-2 pr-2">Overview.</span>
+                </h1>
+                <p className="text-muted-foreground text-lg max-w-xl">
+                  View your active missions, architectural recommendations, and repository intelligence below.
+                </p>
+              </>
+            ) : (
+              <>
+                <h1 className="font-display text-4xl md:text-5xl mt-2 mb-4">
+                  From student project to{" "}
+                  <span className="text-iridescent pb-2 pr-2">production-ready.</span>
+                </h1>
+                <p className="text-muted-foreground text-lg max-w-xl">
+                  Get an instant Senior Engineer review of your repository. Discover missing features,
+                  security vulnerabilities, and get a week-by-week implementation roadmap.
+                </p>
+              </>
+            )}
           </div>
           <Link
             to="/import"
@@ -185,11 +218,12 @@ function Dashboard() {
 
         <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_320px] gap-8">
           <section className="space-y-8">
-            <div className="glass rounded-3xl p-6 md:p-8 flex flex-col justify-between">
-              <div>
-                <label className="text-sm font-medium text-fuchsia-300 mb-3 block">
-                  Enter GitHub Repository URL
-                </label>
+            {currentProject ? null : (
+              <div className="glass rounded-3xl p-6 md:p-8 flex flex-col justify-between">
+                <div>
+                  <label className="text-sm font-medium text-fuchsia-300 mb-3 block">
+                    Enter GitHub Repository URL
+                  </label>
                 <div className="relative group">
                   <input
                     type="text"
@@ -221,6 +255,7 @@ function Dashboard() {
                 </div>
               </div>
             </div>
+            )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="glass rounded-3xl p-6">
