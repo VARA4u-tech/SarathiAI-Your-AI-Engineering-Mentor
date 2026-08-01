@@ -58,17 +58,19 @@ function ImportRepo() {
       } else {
         setIndexingState("complete");
         // Save to Database
-        createProject(url)
+          createProject(url)
           .then((project) => {
             if (project && project._id) {
               localStorage.setItem("activeProjectId", project._id);
             }
+            localStorage.setItem("importedRepo", url);
             setTimeout(() => {
               navigate({ to: "/dashboard" });
             }, 1000);
           })
           .catch((err) => {
             console.error("Failed to save project", err);
+            localStorage.setItem("importedRepo", url);
             setTimeout(() => {
               navigate({ to: "/dashboard" });
             }, 1000);

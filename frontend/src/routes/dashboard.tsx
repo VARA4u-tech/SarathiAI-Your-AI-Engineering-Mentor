@@ -102,6 +102,12 @@ function Dashboard() {
         }
       })
       .catch((err) => console.error("Failed to load projects", err));
+
+    const importedRepo = localStorage.getItem("importedRepo");
+    if (importedRepo) {
+      setMission(importedRepo);
+      localStorage.removeItem("importedRepo");
+    }
   }, []);
 
   const currentProject = projects.find((p) => p._id === activeProjectId) || null;
@@ -139,7 +145,7 @@ function Dashboard() {
       );
 
       if (newMission && newMission._id) {
-        navigate({ to: "/missions/$missionId", params: { missionId: newMission._id } });
+        navigate({ to: "/repositories" });
       } else {
         throw new Error("Invalid response from server");
       }
@@ -167,7 +173,7 @@ function Dashboard() {
       );
 
       if (newMission && newMission._id) {
-        navigate({ to: "/missions/$missionId", params: { missionId: newMission._id } });
+        navigate({ to: "/repositories" });
       } else {
         throw new Error("Invalid response from server");
       }
@@ -255,41 +261,41 @@ function Dashboard() {
         <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_320px] gap-8">
           <section className="space-y-8">
             <div className="glass rounded-3xl p-6 md:p-8 flex flex-col justify-between">
-                <div>
-                  <label className="text-sm font-medium text-fuchsia-300 mb-3 block">
-                    Enter GitHub Repository URL
-                  </label>
-                  <div className="relative group">
-                    <input
-                      type="text"
-                      value={mission}
-                      onChange={(e) => setMission(e.target.value)}
-                      placeholder="e.g. https://github.com/expressjs/express"
-                      className="w-full rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60 placeholder:text-white/30 pr-40"
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && mission.trim() && status !== "planning") {
-                          handleRunMission();
-                        }
-                      }}
-                    />
-                    <button
-                      onClick={handleRunMission}
-                      disabled={status === "planning" || !mission}
-                      className="absolute right-2 top-2 bottom-2 bg-foreground text-background px-4 md:px-6 rounded-xl font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors disabled:opacity-50"
-                    >
-                      {status === "planning" ? (
-                        <Loader2 className="animate-spin size-4" />
-                      ) : (
-                        "Review My Project"
-                      )}
-                      {status !== "planning" && <ArrowRight className="size-4" />}
-                    </button>
-                  </div>
-                  <div className="mt-6">
-                    <MissionProgress status={status} />
-                  </div>
+              <div>
+                <label className="text-sm font-medium text-fuchsia-300 mb-3 block">
+                  Enter GitHub Repository URL
+                </label>
+                <div className="relative group">
+                  <input
+                    type="text"
+                    value={mission}
+                    onChange={(e) => setMission(e.target.value)}
+                    placeholder="e.g. https://github.com/expressjs/express"
+                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60 placeholder:text-white/30 pr-40"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && mission.trim() && status !== "planning") {
+                        handleRunMission();
+                      }
+                    }}
+                  />
+                  <button
+                    onClick={handleRunMission}
+                    disabled={status === "planning" || !mission}
+                    className="absolute right-2 top-2 bottom-2 bg-foreground text-background px-4 md:px-6 rounded-xl font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors disabled:opacity-50"
+                  >
+                    {status === "planning" ? (
+                      <Loader2 className="animate-spin size-4" />
+                    ) : (
+                      "Review My Project"
+                    )}
+                    {status !== "planning" && <ArrowRight className="size-4" />}
+                  </button>
+                </div>
+                <div className="mt-6">
+                  <MissionProgress status={status} />
                 </div>
               </div>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="glass rounded-3xl p-6">
@@ -303,7 +309,9 @@ function Dashboard() {
                   </div>
                   {missions.length > 0 && missions[0].score ? (
                     <div className="flex flex-col items-end">
-                      <span className="text-xs text-muted-foreground mb-1 uppercase tracking-wider">Score</span>
+                      <span className="text-xs text-muted-foreground mb-1 uppercase tracking-wider">
+                        Score
+                      </span>
                       <span
                         className="px-3 py-1 rounded-full text-lg font-bold border border-white/10 bg-white/5"
                         style={{
