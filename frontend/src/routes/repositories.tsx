@@ -179,6 +179,10 @@ function RepositoriesPage() {
                     ) : (
                       <Link
                         to="/dashboard"
+                        onClick={() => {
+                          localStorage.setItem("activeProjectId", project._id);
+                          localStorage.setItem("importedRepo", project.githubUrl);
+                        }}
                         className="mt-4 w-full flex items-center justify-center gap-1 text-sm py-2.5 rounded-xl border border-dashed border-white/10 hover:border-fuchsia-500/30 transition-colors text-muted-foreground hover:text-fuchsia-300"
                       >
                         <Plus className="size-4" /> Run first review
