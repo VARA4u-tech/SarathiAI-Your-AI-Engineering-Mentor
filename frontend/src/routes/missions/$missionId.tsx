@@ -316,7 +316,7 @@ function MissionControlCenter() {
                     return (
                       <div
                         key={idx}
-                        className="rounded-2xl border border-white/10 overflow-hidden bg-black/20 p-6 flex flex-col hover:bg-black/40 transition-colors"
+                        className="rounded-2xl border border-white/10 overflow-hidden bg-black/20 p-6 flex flex-col hover:bg-black/40 transition-colors print:break-inside-avoid"
                       >
                         <div className="flex items-start justify-between gap-4 mb-4">
                           <div
@@ -424,7 +424,7 @@ function RoadmapSection({
   // Use real roadmap if available, otherwise auto-generate from High then Medium impact suggestions
   const steps: RoadmapStep[] =
     roadmap && roadmap.length > 0
-      ? roadmap
+      ? roadmap.map(step => ({ ...step, week: step.week.replace(/Week/gi, 'Day') }))
       : [...suggestions]
           .sort((a, b) => {
             const order = { High: 0, Medium: 1, Low: 2 };
@@ -460,7 +460,7 @@ function RoadmapSection({
         {steps.map((step, idx) => (
           <div
             key={idx}
-            className={`relative rounded-2xl border p-5 flex flex-col gap-2 transition-colors hover:bg-white/5 ${
+            className={`relative rounded-2xl border p-5 flex flex-col gap-2 transition-colors hover:bg-white/5 print:break-inside-avoid ${
               CATEGORY_COLORS[suggestions[idx]?.category ?? ""] || "border-white/10 bg-white/5"
             }`}
           >
