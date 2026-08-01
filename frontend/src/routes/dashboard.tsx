@@ -464,7 +464,7 @@ function Dashboard() {
               </div>
               <div className="mt-6 pt-5 border-t border-border text-sm text-muted-foreground flex items-center gap-2">
                 <GitBranch className="size-4 text-cyan-300" />{" "}
-                {currentProject ? `Project ID: ${currentProject._id}` : "No project active"}
+                {currentProject ? currentProject.githubUrl.replace("https://github.com/", "") : "No project active"}
               </div>
             </div>
           </aside>
