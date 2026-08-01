@@ -19,6 +19,7 @@ import {
   TrendingUp,
   Wrench,
   Trash2,
+  Download,
 } from "lucide-react";
 
 export const Route = createFileRoute("/missions/$missionId")({
@@ -116,13 +117,22 @@ function MissionControlCenter() {
             >
               <ArrowLeft className="size-4" /> Back to Dashboard
             </Link>
-            <button
-              onClick={handleDelete}
-              className="flex items-center gap-1.5 text-xs text-red-400/60 hover:text-red-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-500/10 border border-transparent hover:border-red-500/20"
-              title="Delete this review"
-            >
-              <Trash2 className="size-3.5" /> Delete review
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => window.print()}
+                className="flex items-center gap-1.5 text-xs text-white/80 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/10 border border-white/10 hover:border-white/20"
+                title="Download Report as PDF"
+              >
+                <Download className="size-3.5" /> Download PDF
+              </button>
+              <button
+                onClick={handleDelete}
+                className="flex items-center gap-1.5 text-xs text-red-400/60 hover:text-red-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-500/10 border border-transparent hover:border-red-500/20"
+                title="Delete this review"
+              >
+                <Trash2 className="size-3.5" /> Delete review
+              </button>
+            </div>
           </div>
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
             <div>
@@ -425,7 +435,7 @@ function RoadmapSection({
           })
           .slice(0, 8)
           .map((s, i) => ({
-            week: `Week ${i + 1}`,
+            week: `Day ${i + 1}`,
             title: s.title,
             description: `Implement "${s.title}". Category: ${s.category}. Estimated time: ${s.estimatedTime || "Varies"}.`,
           }));
