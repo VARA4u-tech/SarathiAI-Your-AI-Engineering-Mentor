@@ -63,7 +63,6 @@ export function AuthExperience({ mode }: { mode: Mode }) {
       if (isRecovery) setSubmitted(true);
       else {
         signIn();
-        navigate({ to: "/import" });
       }
     }, 700);
   };
@@ -230,7 +229,6 @@ export function AuthExperience({ mode }: { mode: Mode }) {
             <button
               onClick={() => {
                 signIn();
-                navigate({ to: "/dashboard" });
               }}
               type="button"
               className="w-full rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-sm transition hover:bg-white/10"

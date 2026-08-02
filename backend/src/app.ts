@@ -3,6 +3,8 @@ import cors from "cors";
 import { getProjects, createProject } from "./modules/project/project.controller";
 import { importRepository } from "./modules/repository/repository.controller";
 import { runMission, getMissions, getMissionById, updateMissionStatus, createMockMission, deleteMission } from "./modules/mission/mission.controller";
+import authRoutes from "./modules/auth/auth.routes";
+import { requireAuth } from "./shared/middlewares/auth.middleware";
 
 export const app = express();
 
@@ -11,20 +13,23 @@ app.use(express.json());
 
 // --- Routes ---
 
+// Auth Module
+app.use("/api/auth", authRoutes);
+
 // Repository Module
-app.post("/api/import", importRepository);
+app.post("/api/import", requireAuth, importRepository);
 
 // Project Module
-app.get("/api/projects", getProjects);
-app.post("/api/projects", createProject);
+app.get("/api/projects", requireAuth, getProjects);
+app.post("/api/projects", requireAuth, createProject);
 
 // AI Mission Module
-app.get("/api/missions", getMissions);
-app.post("/api/missions/mock", createMockMission);
-app.get("/api/missions/:id", getMissionById);
-app.put("/api/missions/:id/status", updateMissionStatus);
-app.delete("/api/missions/:id", deleteMission);
-app.post("/api/missions", runMission);
+app.get("/api/missions", requireAuth, getMissions);
+app.post("/api/missions/mock", requireAuth, createMockMission);
+app.get("/api/missions/:id", requireAuth, getMissionById);
+app.put("/api/missions/:id/status", requireAuth, updateMissionStatus);
+app.delete("/api/missions/:id", requireAuth, deleteMission);
+app.post("/api/missions", requireAuth, runMission);
 
 // Health check
 app.get("/api/health", (req, res) => {

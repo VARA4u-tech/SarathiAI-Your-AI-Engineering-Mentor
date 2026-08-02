@@ -1,4 +1,6 @@
-const API_BASE_URL = "http://localhost:3001";
+import { getToken } from "./demo-auth";
+
+const API_BASE_URL = "http://localhost:3000";
 
 export interface Project {
   _id: string;
@@ -49,12 +51,22 @@ export interface Mission {
   updatedAt: string;
 }
 
+function getAuthHeaders(extraHeaders: Record<string, string> = {}) {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...extraHeaders,
+  };
+  const token = getToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  return headers;
+}
+
 export async function importRepository(url: string) {
   const response = await fetch(`${API_BASE_URL}/api/import`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify({ url }),
   });
 
@@ -72,18 +84,14 @@ export async function runMission(
   title?: string,
 ) {
   const apiKey = localStorage.getItem("OPENROUTER_API_KEY");
-
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-
+  const extra: Record<string, string> = {};
   if (apiKey) {
-    headers["x-api-key"] = apiKey;
+    extra["x-api-key"] = apiKey;
   }
 
   const response = await fetch(`${API_BASE_URL}/api/missions`, {
     method: "POST",
-    headers,
+    headers: getAuthHeaders(extra),
     body: JSON.stringify({ prompt, agent_type: agentType, projectId, title }),
   });
 
@@ -95,7 +103,9 @@ export async function runMission(
 }
 
 export async function getProjects() {
-  const response = await fetch(`${API_BASE_URL}/api/projects`);
+  const response = await fetch(`${API_BASE_URL}/api/projects`, {
+    headers: getAuthHeaders(),
+  });
 
   if (!response.ok) {
     throw new Error("Failed to fetch projects");
@@ -107,9 +117,7 @@ export async function getProjects() {
 export async function createProject(githubUrl: string, name?: string) {
   const response = await fetch(`${API_BASE_URL}/api/projects`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify({ githubUrl, name }),
   });
 
@@ -124,13 +132,15 @@ export async function getMissions(projectId?: string): Promise<Mission[]> {
   const url = projectId
     ? `${API_BASE_URL}/api/missions?projectId=${projectId}`
     : `${API_BASE_URL}/api/missions`;
-  const response = await fetch(url);
+  const response = await fetch(url, { headers: getAuthHeaders() });
   if (!response.ok) throw new Error("Failed to fetch missions");
   return response.json();
 }
 
 export async function getMissionById(missionId: string): Promise<Mission> {
-  const response = await fetch(`${API_BASE_URL}/api/missions/${missionId}`);
+  const response = await fetch(`${API_BASE_URL}/api/missions/${missionId}`, {
+    headers: getAuthHeaders(),
+  });
   if (!response.ok) throw new Error("Failed to fetch mission details");
   return response.json();
 }
@@ -141,7 +151,7 @@ export async function updateMissionStatus(
 ): Promise<Mission> {
   const response = await fetch(`${API_BASE_URL}/api/missions/${missionId}/status`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: getAuthHeaders(),
     body: JSON.stringify({ status }),
   });
   if (!response.ok) throw new Error("Failed to update mission status");
@@ -151,6 +161,7 @@ export async function updateMissionStatus(
 export async function createMockMission(): Promise<Mission> {
   const response = await fetch(`${API_BASE_URL}/api/missions/mock`, {
     method: "POST",
+    headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to create mock mission");
   return response.json();
@@ -159,6 +170,7 @@ export async function createMockMission(): Promise<Mission> {
 export async function deleteMission(missionId: string): Promise<void> {
   const response = await fetch(`${API_BASE_URL}/api/missions/${missionId}`, {
     method: "DELETE",
+    headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to delete mission");
 }
