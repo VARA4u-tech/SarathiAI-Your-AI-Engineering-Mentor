@@ -4,7 +4,7 @@ export function isAuthenticated() {
   if (typeof window === "undefined") return false;
   const token = window.localStorage.getItem(AUTH_KEY);
   if (!token) return false;
-  
+
   // Basic check for JWT format and expiration
   try {
     const payloadBase64 = token.split(".")[1];

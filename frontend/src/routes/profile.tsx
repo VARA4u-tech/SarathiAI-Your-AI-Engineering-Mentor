@@ -75,9 +75,9 @@ function Profile() {
                 </span>
               </div>
             </div>
-            
+
             <div className="absolute top-8 right-8 hidden sm:block">
-               <button
+              <button
                 onClick={signOut}
                 className="flex items-center gap-2 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 px-4 py-2 text-sm font-medium hover:bg-rose-500/20 transition-colors"
               >
@@ -85,9 +85,9 @@ function Profile() {
               </button>
             </div>
           </div>
-          
+
           <div className="sm:hidden flex justify-center">
-             <button
+            <button
               onClick={signOut}
               className="flex items-center justify-center w-full gap-2 rounded-2xl bg-rose-500/10 text-rose-400 border border-rose-500/20 px-6 py-4 text-sm font-medium hover:bg-rose-500/20 transition-colors"
             >
@@ -99,4 +99,3 @@ function Profile() {
     </main>
   );
 }
-
