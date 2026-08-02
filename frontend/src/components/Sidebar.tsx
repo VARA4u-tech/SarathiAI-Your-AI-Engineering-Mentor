@@ -26,7 +26,6 @@ export function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose:
           <NavItem icon={FileCode2} label="Codebases" to="/repositories" />
         </nav>
       </div>
-      <NavItem icon={Settings} label="Settings" to="/settings" />
     </aside>
   );
 }

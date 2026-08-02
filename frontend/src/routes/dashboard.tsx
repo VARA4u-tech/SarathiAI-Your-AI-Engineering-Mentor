@@ -21,6 +21,7 @@ import {
   ShieldCheck,
   Sparkles,
   TestTube2,
+  UserRound,
   X,
 } from "lucide-react";
 import { isAuthenticated } from "@/lib/demo-auth";
@@ -250,12 +251,21 @@ function Dashboard() {
               </>
             )}
           </div>
-          <Link
-            to="/import"
-            className="rounded-full glass px-5 py-2.5 text-sm font-medium hover:bg-white/10 transition flex items-center gap-2 w-max"
-          >
-            <Plus className="size-4" /> Import repository
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/import"
+              className="rounded-full glass px-5 py-2.5 text-sm font-medium hover:bg-white/10 transition flex items-center gap-2 w-max"
+            >
+              <Plus className="size-4" /> Import repository
+            </Link>
+            <Link
+              to="/profile"
+              className="grid size-10 place-items-center rounded-full glass hover:bg-white/10 transition"
+              aria-label="Profile"
+            >
+              <UserRound className="size-4 text-muted-foreground hover:text-foreground transition-colors" />
+            </Link>
+          </div>
         </header>
 
         <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_320px] gap-8">

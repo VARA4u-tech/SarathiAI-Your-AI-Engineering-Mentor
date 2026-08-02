@@ -17,7 +17,7 @@ function AuthCallback() {
 
     if (token) {
       setToken(token);
-      navigate({ to: "/dashboard", replace: true });
+      navigate({ to: "/import", replace: true });
     } else {
       // If no token, redirect to login
       navigate({ to: "/login", replace: true });
