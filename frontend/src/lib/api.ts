@@ -98,6 +98,8 @@ export async function runMission(
   });
 
   if (!response.ok) {
+    const errorText = await response.text();
+    console.error("Backend error response:", errorText);
     throw new Error("Failed to run mission");
   }
 
