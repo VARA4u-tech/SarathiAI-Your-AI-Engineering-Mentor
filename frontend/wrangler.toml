@@ -4,20 +4,12 @@ type = "javascript"
 [env.production]
 vars = { ENVIRONMENT = "production" }
 
-[[d1_databases]]
-binding = "DB"
-database_name = "sarathi_db"
-database_id = "your-database-id"
-
 [build]
 command = "pnpm run build"
 cwd = "./"
 
-[build.upload]
-format = "service-worker"
-
 [site]
-bucket = "./dist/client"
+bucket = "./dist"
 
 # Force pnpm for Cloudflare Pages
 [env.production.build]
