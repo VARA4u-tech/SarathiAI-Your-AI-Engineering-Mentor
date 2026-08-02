@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, ReactNode } from "react";
 import Lenis from "lenis";
-export function SmoothScroll() {
+
+export function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (window.innerWidth < 768) return;
 
@@ -36,5 +37,5 @@ export function SmoothScroll() {
     };
   }, []);
 
-  return null;
+  return <>{children}</>;
 }
