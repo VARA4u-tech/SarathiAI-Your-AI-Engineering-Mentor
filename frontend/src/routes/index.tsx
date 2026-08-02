@@ -57,4 +57,3 @@ function Index() {
     </main>
   );
 }
-
