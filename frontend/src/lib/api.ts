@@ -9,6 +9,7 @@ export interface Project {
   language?: string;
   framework?: string;
   status?: string;
+  readmeDocs?: string;
 }
 
 export interface MissionSuggestion {
@@ -173,4 +174,15 @@ export async function deleteMission(missionId: string): Promise<void> {
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to delete mission");
+}
+
+export async function saveReadmeDocs(projectId: string, markdown: string): Promise<void> {
+  console.log("Saving docs for project", projectId);
+  // Add a placeholder fetch for when the backend is ready
+  // const response = await fetch(`${API_BASE_URL}/api/projects/${projectId}/readme`, {
+  //   method: "PUT",
+  //   headers: getAuthHeaders(),
+  //   body: JSON.stringify({ readmeDocs: markdown }),
+  // });
+  // if (!response.ok) throw new Error("Failed to save documentation");
 }
