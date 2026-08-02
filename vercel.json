@@ -1,7 +1,0 @@
-{
-  "buildCommand": "pnpm --filter tanstack_start_ts run build",
-  "outputDirectory": "frontend/dist/public",
-  "env": {
-    "NODE_ENV": "production"
-  }
-}
