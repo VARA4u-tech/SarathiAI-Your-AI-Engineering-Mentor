@@ -42,17 +42,19 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <main className="bg-background text-foreground">
-      <SmoothScroll />
-      <ScrollProgress />
-      <Nav />
-      <Hero />
-      <Marquee />
-      <Services />
-      <Work />
-      <Process />
-      <FaqSection />
-      <Footer />
-      <Toaster theme="dark" position="bottom-center" />
+      <SmoothScroll>
+        <ScrollProgress />
+        <Nav />
+        <Hero />
+        <Marquee />
+        <Services />
+        <Work />
+        <Process />
+        <FaqSection />
+        <Footer />
+        <Toaster theme="dark" position="bottom-center" />
+      </SmoothScroll>
     </main>
   );
 }
+
