@@ -18,3 +18,8 @@ format = "service-worker"
 
 [site]
 bucket = "./dist/client"
+
+# Force pnpm for Cloudflare Pages
+[env.production.build]
+command = "pnpm run build"
+
