@@ -1,19 +1,11 @@
 {
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/api/:path*",
       "destination": "https://sarathiai-your-ai-engineering-mentor.onrender.com/api/:path*"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "x-vercel-disable-toolbar",
-          "value": "1"
-        }
-      ]
     }
   ]
 }
