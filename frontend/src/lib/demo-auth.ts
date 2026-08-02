@@ -28,7 +28,8 @@ export function setToken(token: string) {
 }
 
 export function signIn() {
-  window.location.href = "http://localhost:3001/api/auth/google";
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+  window.location.href = `${API_BASE_URL}/api/auth/google`;
 }
 
 export function signOut() {
