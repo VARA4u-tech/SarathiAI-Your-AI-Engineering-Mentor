@@ -1,86 +1,44 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Router, RootRoute, Route, Router as TanstackRouter } from '@tanstack/react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { RouterContext } from './router'
-import __root from './routes/__root'
 import './styles.css'
+import { Nav } from '@/components/site/Nav'
+import { Hero } from '@/components/site/Hero'
+import { Marquee } from '@/components/site/Marquee'
+import { Services } from '@/components/site/Services'
+import { Work } from '@/components/site/Work'
+import { Process } from '@/components/site/Process'
+import { FaqSection } from '@/components/site/FaqSection'
+import { Footer } from '@/components/site/Contact'
+import { SmoothScroll } from '@/components/site/SmoothScroll'
+import { ScrollProgress } from '@/components/site/ScrollProgress'
+import { Toaster } from 'sonner'
 
 const queryClient = new QueryClient()
 
-const rootRoute = new RootRoute({
-  component: __root,
-})
-
-// Import all route components
-import IndexComponent from './routes/index'
-import LoginComponent from './routes/login'
-import SignupComponent from './routes/signup'
-import DashboardComponent from './routes/dashboard'
-import ProfileComponent from './routes/profile'
-import SettingsComponent from './routes/settings'
-
-const indexRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/',
-  component: IndexComponent,
-})
-
-const loginRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/login',
-  component: LoginComponent,
-})
-
-const signupRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/signup',
-  component: SignupComponent,
-})
-
-const dashboardRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/dashboard',
-  component: DashboardComponent,
-})
-
-const profileRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/profile',
-  component: ProfileComponent,
-})
-
-const settingsRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/settings',
-  component: SettingsComponent,
-})
-
-const routeTree = rootRoute.addChildren([
-  indexRoute,
-  loginRoute,
-  signupRoute,
-  dashboardRoute,
-  profileRoute,
-  settingsRoute,
-])
-
-const router = new TanstackRouter({ routeTree })
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router
-  }
+function App() {
+  return (
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-black">
+      <SmoothScroll>
+        <ScrollProgress />
+        <Nav />
+        <Hero />
+        <Marquee />
+        <Services />
+        <Work />
+        <Process />
+        <FaqSection />
+        <Footer />
+        <Toaster />
+      </SmoothScroll>
+    </div>
+  )
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterContext.Provider value={router}>
-        <router.Provider>
-          <router.RootRoute.component />
-        </router.Provider>
-      </RouterContext.Provider>
+      <App />
     </QueryClientProvider>
   </React.StrictMode>,
 )
