@@ -1,16 +1,35 @@
 import { motion } from "motion/react";
 import { lazy, Suspense, useEffect, useState } from "react";
+import { isAuthenticated } from "@/lib/demo-auth";
+import { toast } from "sonner";
+import { useNavigate } from "@tanstack/react-router";
+
 // @ts-expect-error - Orb is a JSX component without type declarations
 const Orb = lazy(() => import("@/components/ui/Orb"));
 
 export function Hero() {
   const [isMobile, setIsMobile] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  const handleReviewClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isAuthenticated()) {
+      e.preventDefault();
+      toast("Authentication Required", {
+        description: "Please log in first to review your project.",
+        action: {
+          label: "Log In",
+          onClick: () => navigate({ to: "/login" }),
+        },
+      });
+    }
+  };
 
   return (
     <section className="relative min-h-screen overflow-hidden flex items-center pt-32 pb-20 isolate">
@@ -83,6 +102,7 @@ export function Hero() {
         >
           <a
             href="/dashboard"
+            onClick={handleReviewClick}
             className="rounded-full bg-foreground text-background px-6 py-3 text-sm font-medium hover:opacity-90 transition"
           >
             Review My Project

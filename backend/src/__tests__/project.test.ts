@@ -6,6 +6,12 @@ import { logger } from "../shared/utils/logger";
 // Mock the mongoose model and logger
 jest.mock("../modules/project/project.model");
 jest.mock("../shared/utils/logger");
+jest.mock("../shared/middlewares/auth.middleware", () => ({
+  requireAuth: (req: any, res: any, next: any) => {
+    req.user = { id: "test-user-id" };
+    next();
+  }
+}));
 
 describe("Project APIs", () => {
   beforeEach(() => {
