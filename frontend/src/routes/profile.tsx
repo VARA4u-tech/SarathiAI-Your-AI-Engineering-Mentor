@@ -7,9 +7,16 @@ export const Route = createFileRoute("/profile")({
   component: Profile,
 });
 
+interface UserProfile {
+  id?: string;
+  name?: string;
+  email?: string;
+  picture?: string;
+}
+
 function Profile() {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
 
   useEffect(() => {
     const token = getToken();
