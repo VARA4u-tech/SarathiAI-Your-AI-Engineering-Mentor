@@ -88,7 +88,7 @@ export function AuthExperience({ mode }: { mode: Mode }) {
           <p className="text-xs uppercase tracking-[0.25em] text-fuchsia-200">
             {copy[mode].eyebrow}
           </p>
-          <h1 className="font-display text-iridescent pb-2 whitespace-pre-line text-4xl md:text-5xl leading-[0.9] mt-4">
+          <h1 className="font-display text-iridescent pb-2 whitespace-pre-line text-3xl sm:text-4xl md:text-5xl leading-[0.9] mt-4">
             {copy[mode].title}
           </h1>
           <p className="text-sm leading-6 text-white/55 mt-4 max-w-md">{copy[mode].intro}</p>
@@ -291,7 +291,7 @@ function AuthShell({ mode, children }: { mode: Mode; children: React.ReactNode }
             <span className="rounded-full border border-white/20 px-3 py-1">Human in control</span>
           </div>
         </section>
-        <section className="relative flex items-center justify-center p-6 sm:p-10">
+        <section className="relative flex items-center justify-center p-4 sm:p-10">
           <div className="absolute inset-0 noise pointer-events-none" />
           <Link
             to="/"
@@ -299,7 +299,7 @@ function AuthShell({ mode, children }: { mode: Mode; children: React.ReactNode }
           >
             <ArrowLeft className="size-4" /> Home
           </Link>
-          <div className="relative w-full max-w-md py-14 lg:py-4">{children}</div>
+          <div className="relative w-full max-w-md py-8 sm:py-14 lg:py-4">{children}</div>
         </section>
       </div>
     </main>

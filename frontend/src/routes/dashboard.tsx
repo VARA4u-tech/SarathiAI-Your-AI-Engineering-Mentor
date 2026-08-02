@@ -212,7 +212,7 @@ function Dashboard() {
       <div className="absolute inset-0 noise pointer-events-none" />
       <Sidebar mobileOpen={menuOpen} onClose={() => setMenuOpen(false)} />
 
-      <div className="relative z-10 flex-1 min-w-0 overflow-y-auto p-5 md:p-10">
+      <div className="relative z-10 flex-1 min-w-0 overflow-y-auto p-4 sm:p-5 md:p-10">
         <header className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8">
           <div>
             <button
@@ -229,7 +229,7 @@ function Dashboard() {
             </p>
             {currentProject ? (
               <>
-                <h1 className="font-display text-4xl md:text-5xl mt-2 mb-4">
+                <h1 className="font-display text-3xl sm:text-4xl md:text-5xl mt-2 mb-4">
                   Project <span className="text-iridescent pb-2 pr-2">Overview.</span>
                 </h1>
                 <p className="text-muted-foreground text-lg max-w-xl">
@@ -239,7 +239,7 @@ function Dashboard() {
               </>
             ) : (
               <>
-                <h1 className="font-display text-4xl md:text-5xl mt-2 mb-4">
+                <h1 className="font-display text-3xl sm:text-4xl md:text-5xl mt-2 mb-4">
                   From student project to{" "}
                   <span className="text-iridescent pb-2 pr-2">production-ready.</span>
                 </h1>
@@ -260,18 +260,18 @@ function Dashboard() {
 
         <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_320px] gap-8">
           <section className="space-y-8">
-            <div className="glass rounded-3xl p-6 md:p-8 flex flex-col justify-between">
+            <div className="glass rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col justify-between">
               <div>
                 <label className="text-sm font-medium text-fuchsia-300 mb-3 block">
                   Enter GitHub Repository URL
                 </label>
-                <div className="relative group">
+                <div className="relative flex flex-col sm:block group">
                   <input
                     type="text"
                     value={mission}
                     onChange={(e) => setMission(e.target.value)}
                     placeholder="e.g. https://github.com/expressjs/express"
-                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-lg outline-none focus:border-fuchsia-300/60 placeholder:text-white/30 pr-40"
+                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 sm:px-5 py-3 sm:py-4 text-base sm:text-lg outline-none focus:border-fuchsia-300/60 placeholder:text-white/30 sm:pr-40"
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && mission.trim() && status !== "planning") {
                         handleRunMission();
@@ -281,7 +281,7 @@ function Dashboard() {
                   <button
                     onClick={handleRunMission}
                     disabled={status === "planning" || !mission}
-                    className="absolute right-2 top-2 bottom-2 bg-foreground text-background px-4 md:px-6 rounded-xl font-medium flex items-center gap-2 hover:bg-foreground/90 transition-colors disabled:opacity-50"
+                    className="mt-3 sm:mt-0 sm:absolute sm:right-2 sm:top-2 sm:bottom-2 w-full sm:w-auto bg-foreground text-background py-3 sm:py-0 px-4 md:px-6 rounded-xl font-medium flex justify-center items-center gap-2 hover:bg-foreground/90 transition-colors disabled:opacity-50"
                   >
                     {status === "planning" ? (
                       <Loader2 className="animate-spin size-4" />
@@ -298,7 +298,7 @@ function Dashboard() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="glass rounded-3xl p-6">
+              <div className="glass rounded-3xl p-4 sm:p-6">
                 <div className="flex items-start justify-between gap-4 mb-5">
                   <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -447,7 +447,7 @@ function Dashboard() {
                 )}
               </div>
 
-              <div className="glass rounded-3xl p-6">
+              <div className="glass rounded-3xl p-4 sm:p-6">
                 <div className="flex items-center justify-between mb-5">
                   <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -512,7 +512,7 @@ function Dashboard() {
           </section>
 
           <aside className="space-y-6">
-            <div className="glass rounded-3xl p-6">
+            <div className="glass rounded-3xl p-4 sm:p-6">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -528,7 +528,7 @@ function Dashboard() {
                 ))}
               </div>
             </div>
-            <div className="glass rounded-3xl p-6">
+            <div className="glass rounded-3xl p-4 sm:p-6">
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Repository intelligence
               </p>
