@@ -11,7 +11,7 @@ export function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose:
         <div className="flex items-center justify-between mb-10">
           <Link to="/" className="flex items-center gap-3 font-display text-xl px-2">
             <Logo className="w-5 h-5" />
-            <span className="hidden md:block">Sarathi.ai</span>
+            <span className="block">Sarathi.ai</span>
           </Link>
           <button
             onClick={onClose}
@@ -47,7 +47,7 @@ function NavItem({
       activeProps={{ className: "!bg-foreground/10 !text-foreground" }}
     >
       <Icon className="size-5" />
-      <span className="text-sm font-medium hidden md:block">{label}</span>
+      <span className="text-sm font-medium block">{label}</span>
     </Link>
   );
 }

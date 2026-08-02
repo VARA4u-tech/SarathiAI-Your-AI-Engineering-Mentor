@@ -259,8 +259,8 @@ function Dashboard() {
         </header>
 
         <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_320px] gap-8">
-          <section className="space-y-8">
-            <div className="glass rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col justify-between">
+          <section className="space-y-8 min-w-0">
+            <div className="glass rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col justify-between min-w-0">
               <div>
                 <label className="text-sm font-medium text-fuchsia-300 mb-3 block">
                   Enter GitHub Repository URL
@@ -297,8 +297,8 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="glass rounded-3xl p-4 sm:p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-w-0">
+              <div className="glass rounded-3xl p-4 sm:p-6 min-w-0">
                 <div className="flex items-start justify-between gap-4 mb-5">
                   <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -447,7 +447,7 @@ function Dashboard() {
                 )}
               </div>
 
-              <div className="glass rounded-3xl p-4 sm:p-6">
+              <div className="glass rounded-3xl p-4 sm:p-6 min-w-0">
                 <div className="flex items-center justify-between mb-5">
                   <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -511,8 +511,8 @@ function Dashboard() {
             </div>
           </section>
 
-          <aside className="space-y-6">
-            <div className="glass rounded-3xl p-4 sm:p-6">
+          <aside className="space-y-6 min-w-0">
+            <div className="glass rounded-3xl p-4 sm:p-6 min-w-0">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -528,7 +528,7 @@ function Dashboard() {
                 ))}
               </div>
             </div>
-            <div className="glass rounded-3xl p-4 sm:p-6">
+            <div className="glass rounded-3xl p-4 sm:p-6 min-w-0">
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Repository intelligence
               </p>

@@ -110,24 +110,24 @@ function MissionControlCenter() {
 
       <div className="relative z-10 flex-1 min-w-0 overflow-y-auto print:overflow-visible p-5 md:p-10 print:p-0">
         <header className="max-w-5xl mx-auto mb-8">
-          <div className="flex items-center justify-between mb-8 print:hidden">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-8 print:hidden">
             <Link
               to="/dashboard"
-              className="text-muted-foreground hover:text-foreground transition flex items-center gap-2 text-sm font-medium w-max"
+              className="text-muted-foreground hover:text-foreground transition flex items-center gap-2 text-sm font-medium w-max shrink-0"
             >
               <ArrowLeft className="size-4" /> Back to Dashboard
             </Link>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={() => window.print()}
-                className="flex items-center gap-1.5 text-xs text-white/80 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/10 border border-white/10 hover:border-white/20"
+                className="flex items-center gap-1.5 text-xs text-white/80 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/10 border border-white/10 hover:border-white/20 shrink-0"
                 title="Download Report as PDF"
               >
                 <Download className="size-3.5" /> Download PDF
               </button>
               <button
                 onClick={handleDelete}
-                className="flex items-center gap-1.5 text-xs text-red-400/60 hover:text-red-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-500/10 border border-transparent hover:border-red-500/20"
+                className="flex items-center gap-1.5 text-xs text-red-400/60 hover:text-red-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-500/10 border border-transparent hover:border-red-500/20 shrink-0"
                 title="Delete this review"
               >
                 <Trash2 className="size-3.5" /> Delete review
