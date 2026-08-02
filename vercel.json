@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd frontend && pnpm install && pnpm run build",
+  "buildCommand": "pnpm --filter frontend run build",
   "outputDirectory": "frontend/.output/public",
   "env": {
     "NODE_ENV": "production"
