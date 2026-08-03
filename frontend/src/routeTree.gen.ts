@@ -28,6 +28,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProcessingRouteImport } from './routes/processing'
+import { Route as ProfileRouteImport } from './routes/profile'
 
 import { Route as RepositoriesRouteImport } from './routes/repositories'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -138,6 +139,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const ProcessingRoute = ProcessingRouteImport.update({
   id: '/processing',
   path: '/processing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RepositoriesRoute = RepositoriesRouteImport.update({
