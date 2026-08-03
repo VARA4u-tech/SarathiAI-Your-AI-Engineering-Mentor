@@ -5,24 +5,31 @@ import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/auth/callback")({
   component: AuthCallback,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      token: search.token as string | undefined,
+    };
+  },
 });
 
 function AuthCallback() {
+  const { token } = Route.useSearch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Parse the token from the URL search params
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
-
     if (token) {
       setToken(token);
-      navigate({ to: "/import", replace: true });
+      // Wait a tiny bit so the UI has time to settle, then redirect
+      setTimeout(() => {
+        navigate({ to: "/import", replace: true });
+      }, 100);
     } else {
       // If no token, redirect to login
-      navigate({ to: "/login", replace: true });
+      setTimeout(() => {
+        navigate({ to: "/login", replace: true });
+      }, 100);
     }
-  }, [navigate]);
+  }, [token, navigate]);
 
   return (
     <div className="min-h-screen bg-[#110d16] flex items-center justify-center">
