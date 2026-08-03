@@ -105,7 +105,7 @@ export function Hero() {
             onClick={handleReviewClick}
             className="rounded-full bg-foreground text-background px-6 py-3 text-sm font-medium hover:opacity-90 transition"
           >
-            Review My Project
+            {isAuthenticated() ? "Go to Dashboard" : "Review My Project"}
           </a>
           <a
             href="#features"

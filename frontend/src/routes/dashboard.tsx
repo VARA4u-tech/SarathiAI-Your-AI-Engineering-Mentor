@@ -24,7 +24,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { isAuthenticated } from "@/lib/demo-auth";
+import { isAuthenticated, signOut } from "@/lib/demo-auth";
 import {
   runMission,
   getProjects,
@@ -41,6 +41,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const Route = createFileRoute("/dashboard")({
@@ -114,13 +122,37 @@ function Dashboard() {
   const currentProject = projects.find((p) => p._id === activeProjectId) || null;
 
   useEffect(() => {
-    if (currentProject) {
-      getMissions(currentProject._id)
-        .then((data) => setMissions(data))
-        .catch(console.error);
-    } else {
-      setMissions([]);
-    }
+    let intervalId: NodeJS.Timeout;
+
+    const fetchMissions = async () => {
+      if (!currentProject) {
+        setMissions([]);
+        return;
+      }
+      try {
+        const data = await getMissions(currentProject._id);
+        setMissions(data);
+        
+        const hasInProgress = data.some((m: Mission) => m.status === 'in_progress');
+        if (hasInProgress) {
+          setStatus("planning");
+          if (!intervalId) {
+            intervalId = setInterval(fetchMissions, 5000);
+          }
+        } else {
+          setStatus((prev) => prev === "planning" ? "idle" : prev);
+          if (intervalId) clearInterval(intervalId);
+        }
+      } catch (e) {
+        console.error("Failed to load missions", e);
+      }
+    };
+    
+    fetchMissions();
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
   }, [currentProject]);
 
   const currentProjectName = currentProject ? currentProject.name : "No Project Selected";
@@ -146,7 +178,9 @@ function Dashboard() {
       );
 
       if (newMission && newMission._id) {
-        navigate({ to: "/repositories" });
+        // Just trigger a fetch which will start the polling since status is in_progress
+        const data = await getMissions(project._id);
+        setMissions(data);
       } else {
         throw new Error("Invalid response from server");
       }
@@ -174,7 +208,9 @@ function Dashboard() {
       );
 
       if (newMission && newMission._id) {
-        navigate({ to: "/repositories" });
+        // Just trigger a fetch which will start the polling since status is in_progress
+        const data = await getMissions(currentProject._id);
+        setMissions(data);
       } else {
         throw new Error("Invalid response from server");
       }
@@ -258,13 +294,28 @@ function Dashboard() {
             >
               <Plus className="size-4" /> Import repository
             </Link>
-            <Link
-              to="/profile"
-              className="grid size-10 place-items-center rounded-full glass hover:bg-white/10 transition"
-              aria-label="Profile"
-            >
-              <UserRound className="size-4 text-muted-foreground hover:text-foreground transition-colors" />
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className="grid size-10 place-items-center rounded-full glass hover:bg-white/10 transition"
+                  aria-label="Profile"
+                >
+                  <UserRound className="size-4 text-muted-foreground hover:text-foreground transition-colors" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 glass border-white/10 text-foreground">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-white/10" />
+                <DropdownMenuItem className="focus:bg-white/10 cursor-pointer" onClick={() => navigate({ to: '/settings' })}>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-white/10" />
+                <DropdownMenuItem className="focus:bg-destructive/20 text-destructive cursor-pointer" onClick={() => signOut()}>
+                  <span>Sign out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </header>
 

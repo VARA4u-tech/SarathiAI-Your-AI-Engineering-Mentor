@@ -82,94 +82,132 @@ REPOSITORY CONTEXT:
 ${project_context}
 
 Tailor all suggestions to this specific stack.`;
-
-    const modelId = process.env.AI_MODEL_ARCHITECT || "nvidia/nemotron-3-super-120b-a12b:free";
-
-    // Call OpenRouter directly, bypassing the separate Python AI Engine
-    const openRouterRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": process.env.FRONTEND_URL || "http://localhost:5173",
-        "X-Title": "Sarathi.ai",
-      },
-      body: JSON.stringify({
-        model: modelId,
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: `Review this project and return the JSON: ${prompt}` }
-        ]
-      }),
-    });
-
-    if (!openRouterRes.ok) {
-      throw new Error(`OpenRouter responded with status: ${openRouterRes.status}`);
-    }
-
-    const openRouterData = await openRouterRes.json();
-    const rawResponse = openRouterData.choices[0].message.content;
-    
-    // Extract JSON in case of markdown fences
-    let jsonString = rawResponse;
-    const jsonMatch = rawResponse.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/);
-    if (jsonMatch) {
-      jsonString = jsonMatch[1];
-    } else {
-      const braceMatch = rawResponse.match(/(\{[\s\S]*\})/);
-      if (braceMatch) {
-        jsonString = braceMatch[1];
-      }
-    }
-
-    let suggestions = [];
-    let score = 0;
-    let categoryScores = {
-      Architecture: 0, Security: 0, Performance: 0, Documentation: 0, Testing: 0, Scalability: 0, Maintainability: 0
-    };
-    let roadmap = [];
-    
-    try {
-      const parsedResponse = JSON.parse(jsonString);
-      suggestions = parsedResponse.suggestions || [];
-      score = parsedResponse.score || 0;
-      if (parsedResponse.categoryScores) {
-        categoryScores = { ...categoryScores, ...parsedResponse.categoryScores };
-      }
-      roadmap = parsedResponse.roadmap || [];
-    } catch (parseError) {
-      logger.error("Failed to parse AI response as JSON", jsonString);
-      suggestions = [
-        {
-          category: "System Design & Architecture",
-          title: "Analysis Failed or Raw Response",
-          description: jsonString || "No response generated.",
-          impact: "Medium",
-          why: "The AI engine failed to generate a structured JSON response. It likely needs more codebase context or reached a rate limit."
-        }
-      ];
-    }
-
-
-
     const missionTitle = title || (prompt.length > 50 ? prompt.substring(0, 47) + "..." : prompt);
 
+    // Create the mission immediately with in_progress status
     const newMission = new Mission({
       projectId: project._id,
       title: missionTitle,
       description: "AI Engineering Mentor Project Review.",
-      status: "review_required",
-      score,
-      categoryScores,
-      roadmap,
-      suggestions
+      status: "in_progress",
+      score: 0,
+      categoryScores: {
+        Architecture: 0, Security: 0, Performance: 0, Documentation: 0, Testing: 0, Scalability: 0, Maintainability: 0
+      },
+      roadmap: [],
+      suggestions: []
     });
 
     await newMission.save();
-    return res.json(newMission);
+    
+    // Return early to the client
+    res.json(newMission);
+
+    // Process the AI call in the background
+    (async () => {
+      try {
+        const modelId = process.env.AI_MODEL_ARCHITECT || "nvidia/nemotron-3-super-120b-a12b:free";
+
+        // Call OpenRouter directly, bypassing the separate Python AI Engine
+        const openRouterRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+            "Content-Type": "application/json",
+            "HTTP-Referer": process.env.FRONTEND_URL || "http://localhost:5173",
+            "X-Title": "Sarathi.ai",
+          },
+          body: JSON.stringify({
+            model: modelId,
+            messages: [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: `Review this project and return the JSON: ${prompt}` }
+            ]
+          }),
+        });
+
+        if (!openRouterRes.ok) {
+          throw new Error(`OpenRouter responded with status: ${openRouterRes.status}`);
+        }
+
+        const openRouterData = await openRouterRes.json();
+        const rawResponse = openRouterData.choices[0].message.content;
+        
+        // Extract JSON in case of markdown fences
+        let jsonString = rawResponse;
+        const jsonMatch = rawResponse.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/);
+        if (jsonMatch) {
+          jsonString = jsonMatch[1];
+        } else {
+          const braceMatch = rawResponse.match(/(\{[\s\S]*\})/);
+          if (braceMatch) {
+            jsonString = braceMatch[1];
+          }
+        }
+
+        let suggestions = [];
+        let score = 0;
+        let categoryScores = {
+          Architecture: 0, Security: 0, Performance: 0, Documentation: 0, Testing: 0, Scalability: 0, Maintainability: 0
+        };
+        let roadmap = [];
+        
+        try {
+          const parsedResponse = JSON.parse(jsonString);
+          suggestions = parsedResponse.suggestions || [];
+          score = parsedResponse.score || 0;
+          if (parsedResponse.categoryScores) {
+            categoryScores = { ...categoryScores, ...parsedResponse.categoryScores };
+          }
+          roadmap = parsedResponse.roadmap || [];
+        } catch (parseError) {
+          logger.error("Failed to parse AI response as JSON", jsonString);
+          suggestions = [
+            {
+              category: "System Design & Architecture",
+              title: "Analysis Failed or Raw Response",
+              description: jsonString || "No response generated.",
+              impact: "Medium",
+              why: "The AI engine failed to generate a structured JSON response. It likely needs more codebase context or reached a rate limit.",
+              recommendation: "Please try running the review again or check the AI provider logs.",
+              difficulty: "Medium",
+              estimatedTime: "N/A"
+            }
+          ];
+        }
+
+        // Update the mission in DB
+        newMission.status = "review_required";
+        newMission.score = score;
+        newMission.categoryScores = categoryScores;
+        newMission.roadmap = roadmap;
+        newMission.suggestions = suggestions;
+        await newMission.save();
+        
+      } catch (backgroundError: any) {
+        logger.error("Background AI generation failed:", backgroundError.message);
+        newMission.status = "review_required";
+        newMission.suggestions = [
+            {
+              category: "System Design & Architecture",
+              title: "Analysis Failed",
+              description: `Error: ${backgroundError.message}`,
+              impact: "Medium",
+              why: "An error occurred while communicating with the AI Engine or OpenRouter.",
+              recommendation: "Please check your API keys and try again.",
+              difficulty: "Medium",
+              estimatedTime: "N/A"
+            }
+        ];
+        await newMission.save();
+      }
+    })();
+    
   } catch (error: any) {
-    logger.error("Error communicating with AI Engine:", error.message);
-    return res.status(500).json({ error: "Failed to connect to AI Engine", details: error.message });
+    logger.error("Error setting up mission:", error.message);
+    if (!res.headersSent) {
+      return res.status(500).json({ error: "Failed to create mission", details: error.message });
+    }
   }
 };
 

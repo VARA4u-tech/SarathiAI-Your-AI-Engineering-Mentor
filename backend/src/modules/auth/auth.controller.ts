@@ -55,16 +55,8 @@ export const googleAuthCallback = async (req: Request, res: Response) => {
 
     const token = jwt.sign(user, JWT_SECRET, { expiresIn: "7d" });
 
-    // Set token as HttpOnly cookie — prevents exposure in logs, referrer headers, and XSS
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in ms
-    });
-
-    // Redirect to frontend without the token in the URL
-    res.redirect(`${FRONTEND_URL}/auth/callback`);
+    // Redirect to frontend with the token so it can be saved in localStorage
+    res.redirect(`${FRONTEND_URL}/auth/callback?token=${token}`);
   } catch (error) {
     console.error("Google Auth Error:", error);
     res.redirect(`${FRONTEND_URL}/login?error=auth_failed`);
