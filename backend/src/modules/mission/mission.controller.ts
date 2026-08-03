@@ -30,22 +30,98 @@ Primary Language: ${project.language}
 Framework: ${project.framework}
     `.trim();
 
-    // Forward the request to the Python AI Engine
-    const aiResponse = await fetch(`${config.aiEngineUrl}/ai/mission`, {
+    const systemPrompt = `You are a Senior AI Engineering Mentor for Sarathi.ai.
+Your ONLY job is to output a single valid JSON object — nothing else. No explanations, no markdown, no code fences.
+
+CRITICAL: Your ENTIRE response must be ONLY the JSON object below. If you write anything outside the JSON, the system will break.
+
+Required JSON format:
+{
+  "score": 72,
+  "categoryScores": {
+    "Architecture": 7,
+    "Security": 3,
+    "Performance": 5,
+    "Documentation": 2,
+    "Testing": 1,
+    "Scalability": 5,
+    "Maintainability": 7
+  },
+  "suggestions": [
+    {
+      "category": "Vulnerability & Compliance",
+      "title": "Add JWT Authentication",
+      "description": "No authentication system is present. Any user can call all API routes.",
+      "impact": "High",
+      "why": "Without authentication, anyone on the internet can access, modify, or delete all data.",
+      "recommendation": "Implement JWT with jsonwebtoken. Add an auth middleware that validates Bearer tokens on protected routes.",
+      "difficulty": "Medium",
+      "estimatedTime": "3 Hours"
+    }
+  ],
+  "roadmap": [
+    {
+      "week": "Week 1",
+      "title": "Authentication",
+      "description": "Implement JWT-based authentication. Add login, register, and token refresh endpoints."
+    }
+  ]
+}
+
+Rules:
+- category must be exactly one of: "System Design & Architecture", "Full Stack Implementation", "Vulnerability & Compliance", "Testing & Validation"
+- impact must be: "High", "Medium", or "Low"
+- difficulty must be: "Easy", "Medium", or "Hard"
+- score is 0-100
+- categoryScores are 1-10
+- Always include at least 5 suggestions and at least 6 roadmap weeks
+- If you don't have enough context, make educated guesses based on the framework and common best practices
+- DO NOT ask for more information. Just produce the JSON.
+
+REPOSITORY CONTEXT:
+${project_context}
+
+Tailor all suggestions to this specific stack.`;
+
+    const modelId = process.env.AI_MODEL_ARCHITECT || "nvidia/nemotron-3-super-120b-a12b:free";
+
+    // Call OpenRouter directly, bypassing the separate Python AI Engine
+    const openRouterRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        prompt, 
-        agent_type: agent_type || "architect",
-        project_context 
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": process.env.FRONTEND_URL || "http://localhost:5173",
+        "X-Title": "Sarathi.ai",
+      },
+      body: JSON.stringify({
+        model: modelId,
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: `Review this project and return the JSON: ${prompt}` }
+        ]
       }),
     });
 
-    if (!aiResponse.ok) {
-      throw new Error(`AI Engine responded with status: ${aiResponse.status}`);
+    if (!openRouterRes.ok) {
+      throw new Error(`OpenRouter responded with status: ${openRouterRes.status}`);
     }
 
-    const data = await aiResponse.json();
+    const openRouterData = await openRouterRes.json();
+    const rawResponse = openRouterData.choices[0].message.content;
+    
+    // Extract JSON in case of markdown fences
+    let jsonString = rawResponse;
+    const jsonMatch = rawResponse.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/);
+    if (jsonMatch) {
+      jsonString = jsonMatch[1];
+    } else {
+      const braceMatch = rawResponse.match(/(\{[\s\S]*\})/);
+      if (braceMatch) {
+        jsonString = braceMatch[1];
+      }
+    }
+
     let suggestions = [];
     let score = 0;
     let categoryScores = {
@@ -54,7 +130,7 @@ Framework: ${project.framework}
     let roadmap = [];
     
     try {
-      const parsedResponse = JSON.parse(data.response);
+      const parsedResponse = JSON.parse(jsonString);
       suggestions = parsedResponse.suggestions || [];
       score = parsedResponse.score || 0;
       if (parsedResponse.categoryScores) {
@@ -62,12 +138,12 @@ Framework: ${project.framework}
       }
       roadmap = parsedResponse.roadmap || [];
     } catch (parseError) {
-      logger.error("Failed to parse AI response as JSON", data.response);
+      logger.error("Failed to parse AI response as JSON", jsonString);
       suggestions = [
         {
           category: "System Design & Architecture",
           title: "Analysis Failed or Raw Response",
-          description: data.response || "No response generated.",
+          description: jsonString || "No response generated.",
           impact: "Medium",
           why: "The AI engine failed to generate a structured JSON response. It likely needs more codebase context or reached a rate limit."
         }

@@ -57,7 +57,9 @@ function ImportRepo() {
           })
           .catch((err) => {
             console.error("Failed to save project", err);
-            setErrorMsg("Failed to connect to the server and save project. Please check if the backend is running.");
+            setErrorMsg(
+              "Failed to connect to the server and save project. Please check if the backend is running.",
+            );
             setIndexingState("idle");
           });
       }
