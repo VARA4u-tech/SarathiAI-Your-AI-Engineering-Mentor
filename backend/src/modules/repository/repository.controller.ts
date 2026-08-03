@@ -21,8 +21,16 @@ export const importRepository = async (req: Request, res: Response) => {
     const apiUrl = `https://api.github.com/repos/${ownerName}/${repoName}`;
     const readmeUrl = `https://api.github.com/repos/${ownerName}/${repoName}/readme`;
 
+    // Authenticated requests get 5000 req/hour vs 60 unauthenticated
+    const githubHeaders: HeadersInit = {
+      Accept: "application/vnd.github+json",
+      ...(process.env.GITHUB_TOKEN
+        ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` }
+        : {}),
+    };
+
     // Fetch Repo Info
-    const repoRes = await fetch(apiUrl);
+    const repoRes = await fetch(apiUrl, { headers: githubHeaders });
     let lang = "TypeScript";
     let desc = "";
     if (repoRes.ok) {
@@ -34,7 +42,7 @@ export const importRepository = async (req: Request, res: Response) => {
     }
 
     // Fetch README
-    const readmeRes = await fetch(readmeUrl);
+    const readmeRes = await fetch(readmeUrl, { headers: githubHeaders });
     let readmeDocs = "";
     if (readmeRes.ok) {
       const readmeData = await readmeRes.json();

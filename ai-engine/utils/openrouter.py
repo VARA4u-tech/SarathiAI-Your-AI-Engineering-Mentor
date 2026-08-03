@@ -1,31 +1,33 @@
 import os
 import re
 import json
+from typing import Optional
 # pyrefly: ignore [missing-import]
-from openai import OpenAI
+from openai import AsyncOpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
-# OpenRouter has a unified API identical to OpenAI
-client = OpenAI(
-  base_url="https://openrouter.ai/api/v1",
-  api_key=OPENROUTER_API_KEY,
-)
-
-# Defined Free Models for our Agents
+# Model IDs from env vars, with sensible free-tier defaults
 MODELS = {
     # 120B model for heavy lifting and complex architectural reasoning
-    "architect": "nvidia/nemotron-3-super-120b-a12b:free", 
-    
+    "architect": os.getenv("AI_MODEL_ARCHITECT", "nvidia/nemotron-3-super-120b-a12b:free"),
+
     # 31B model for fast parsing and search retrieval
-    "search": "google/gemma-4-31b-it:free",                
-    
+    "search": os.getenv("AI_MODEL_SEARCH", "google/gemma-4-31b-it:free"),
+
     # 20B model optimized for code generation
-    "coder": "openai/gpt-oss-20b:free",      
+    "coder": os.getenv("AI_MODEL_CODER", "openai/gpt-oss-20b:free"),
 }
+
+# OpenRouter has a unified API identical to OpenAI
+client = AsyncOpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=OPENROUTER_API_KEY,
+)
+
 
 def extract_json(text: str) -> str:
     """Extract JSON from a response that may contain markdown fences or extra text."""
@@ -35,7 +37,7 @@ def extract_json(text: str) -> str:
         return text
     except Exception:
         pass
-    
+
     # Strip ```json ... ``` or ``` ... ``` markdown fences
     fenced = re.search(r"```(?:json)?\s*(\{[\s\S]*?\})\s*```", text)
     if fenced:
@@ -45,7 +47,7 @@ def extract_json(text: str) -> str:
             return candidate
         except Exception:
             pass
-    
+
     # Find the first { ... } block in the text
     brace_match = re.search(r"(\{[\s\S]*\})", text)
     if brace_match:
@@ -55,15 +57,15 @@ def extract_json(text: str) -> str:
             return candidate
         except Exception:
             pass
-    
+
     # Couldn't extract — return original for upstream error handling
     return text
 
 
-def call_agent(agent_type: str, prompt: str, project_context: str = None) -> str:
+async def call_agent(agent_type: str, prompt: str, project_context: Optional[str] = None) -> str:
     """Calls OpenRouter with the specific model for the requested agent."""
     model_id = MODELS.get(agent_type, "meta-llama/llama-3-8b-instruct:free")
-    
+
     system_prompt = """You are a Senior AI Engineering Mentor for Sarathi.ai.
 Your ONLY job is to output a single valid JSON object — nothing else. No explanations, no markdown, no code fences.
 
@@ -116,7 +118,7 @@ Rules:
         system_prompt += f"\n\nREPOSITORY CONTEXT:\n{project_context}\n\nTailor all suggestions to this specific stack."
 
     try:
-        response = client.chat.completions.create(
+        response = await client.chat.completions.create(
             model=model_id,
             messages=[
                 {"role": "system", "content": system_prompt},

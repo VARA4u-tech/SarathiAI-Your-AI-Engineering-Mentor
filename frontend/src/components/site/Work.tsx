@@ -42,6 +42,13 @@ export function Work() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
     const measure = () => {
       if (carouselRef.current) {
         setScrollRange(carouselRef.current.scrollWidth - window.innerWidth);

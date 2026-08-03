@@ -6,11 +6,7 @@ import {
   UploadCloud,
   FolderGit2,
   CheckCircle2,
-  Search,
-  Bot,
-  Database,
-  Activity,
-  FileCode2,
+  AlertCircle,
   Loader2,
   Check,
 } from "lucide-react";
@@ -32,6 +28,7 @@ function ImportRepo() {
     files: number | string;
     time: string;
   } | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const [indexingState, setIndexingState] = useState<"idle" | "indexing" | "complete">("idle");
   const [activeAgentIndex, setActiveAgentIndex] = useState(0);
@@ -60,10 +57,8 @@ function ImportRepo() {
           })
           .catch((err) => {
             console.error("Failed to save project", err);
-            localStorage.setItem("importedRepo", url);
-            setTimeout(() => {
-              navigate({ to: "/dashboard" });
-            }, 1000);
+            setErrorMsg("Failed to connect to the server and save project. Please check if the backend is running.");
+            setIndexingState("idle");
           });
       }
     }
@@ -136,6 +131,12 @@ function ImportRepo() {
                 {isValidating ? "Validating..." : "Connect"}
               </button>
             </div>
+            {errorMsg && (
+              <div className="mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-start gap-2">
+                <AlertCircle className="size-4 shrink-0 mt-0.5" />
+                <span>{errorMsg}</span>
+              </div>
+            )}
           </form>
         </div>
 
