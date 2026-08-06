@@ -15,9 +15,19 @@ export const app = express();
 // Adds secure HTTP headers (X-Content-Type-Options, Strict-Transport-Security, etc.)
 app.use(helmet());
 
-// Restrict CORS to the configured frontend origin only
+// Allow one or more frontend origins (comma-separated in FRONTEND_URL env var)
+const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g. curl, Postman, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS: origin '${origin}' not allowed`));
+  },
   credentials: true, // Required for cookie-based auth
 }));
 
