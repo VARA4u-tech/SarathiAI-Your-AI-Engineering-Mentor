@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { getProjects, getMissions, Project, Mission } from "@/lib/api";
+import { getProjects, getMissions, deleteProject, Project, Mission } from "@/lib/api";
 import {
   Menu,
   GitBranch,
@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   AlertCircle,
   Clock,
+  Trash2,
 } from "lucide-react";
 import { Sidebar } from "@/components/Sidebar";
 
@@ -45,6 +46,18 @@ function RepositoriesPage() {
       .catch((err) => console.error("Failed to load projects", err))
       .finally(() => setLoading(false));
   }, []);
+
+  const handleDelete = async (e: React.MouseEvent, projectId: string) => {
+    e.preventDefault();
+    if (!window.confirm("Are you sure you want to delete this repository?")) return;
+    try {
+      await deleteProject(projectId);
+      setProjects((prev) => prev.filter((p) => p._id !== projectId));
+    } catch (err) {
+      console.error("Failed to delete project:", err);
+      alert("Failed to delete project");
+    }
+  };
 
   return (
     <main className="min-h-screen bg-background text-foreground flex">
@@ -117,6 +130,13 @@ function RepositoriesPage() {
                           Not reviewed
                         </span>
                       )}
+                      <button
+                        onClick={(e) => handleDelete(e, project._id)}
+                        className="ml-2 text-muted-foreground hover:text-red-400 p-1.5 rounded-lg hover:bg-white/5 transition"
+                        title="Delete Repository"
+                      >
+                        <Trash2 className="size-4" />
+                      </button>
                     </div>
 
                     {/* Name */}
