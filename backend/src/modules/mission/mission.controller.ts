@@ -28,6 +28,9 @@ Project Name: ${project.name}
 GitHub Repository: ${project.githubUrl}
 Primary Language: ${project.language}
 Framework: ${project.framework}
+
+--- README.md Content ---
+${project.readmeDocs ? project.readmeDocs.substring(0, 8000) : "No README provided."}
     `.trim();
 
     const systemPrompt = `You are a Senior AI Engineering Mentor for Sarathi.ai.
