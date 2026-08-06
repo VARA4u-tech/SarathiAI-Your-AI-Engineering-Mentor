@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import { getProjects, createProject } from "./modules/project/project.controller";
+import { getProjects, createProject, deleteProject } from "./modules/project/project.controller";
 import { importRepository } from "./modules/repository/repository.controller";
 import { runMission, getMissions, getMissionById, updateMissionStatus, createMockMission, deleteMission } from "./modules/mission/mission.controller";
 import authRoutes from "./modules/auth/auth.routes";
@@ -59,6 +59,7 @@ app.post("/api/import", requireAuth, importRepository);
 // Project Module
 app.get("/api/projects", requireAuth, getProjects);
 app.post("/api/projects", requireAuth, createProject);
+app.delete("/api/projects/:id", requireAuth, deleteProject);
 
 // AI Mission Module
 app.get("/api/missions", requireAuth, getMissions);

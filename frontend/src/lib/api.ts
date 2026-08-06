@@ -131,6 +131,16 @@ export async function createProject(githubUrl: string, name?: string) {
   return response.json();
 }
 
+export async function deleteProject(id: string) {
+  const response = await fetch(`${API_BASE_URL}/api/projects/${id}`, {
+    method: "DELETE",
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) throw new Error("Failed to delete project");
+  return response.json();
+}
+
+
 export async function getMissions(projectId?: string): Promise<Mission[]> {
   const url = projectId
     ? `${API_BASE_URL}/api/missions?projectId=${projectId}`

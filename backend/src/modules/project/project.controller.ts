@@ -46,3 +46,25 @@ export const createProject = async (req: Request, res: Response) => {
   }
 };
 
+export const deleteProject = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ error: "Project ID is required" });
+    }
+
+    const project = await Project.findByIdAndDelete(id);
+    if (!project) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+
+    // Note: We might also want to delete associated missions here later, 
+    // but MongoDB doesn't enforce cascading deletes natively without pre-hooks.
+    
+    return res.json({ message: "Project deleted successfully", id });
+  } catch (error: any) {
+    logger.error("Failed to delete project:", error.message);
+    return res.status(500).json({ error: "Failed to delete project" });
+  }
+};
+

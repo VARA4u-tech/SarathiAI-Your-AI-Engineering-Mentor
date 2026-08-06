@@ -132,22 +132,22 @@ function Dashboard() {
       try {
         const data = await getMissions(currentProject._id);
         setMissions(data);
-        
-        const hasInProgress = data.some((m: Mission) => m.status === 'in_progress');
+
+        const hasInProgress = data.some((m: Mission) => m.status === "in_progress");
         if (hasInProgress) {
           setStatus("planning");
           if (!intervalId) {
             intervalId = setInterval(fetchMissions, 5000);
           }
         } else {
-          setStatus((prev) => prev === "planning" ? "idle" : prev);
+          setStatus((prev) => (prev === "planning" ? "idle" : prev));
           if (intervalId) clearInterval(intervalId);
         }
       } catch (e) {
         console.error("Failed to load missions", e);
       }
     };
-    
+
     fetchMissions();
 
     return () => {
@@ -303,15 +303,24 @@ function Dashboard() {
                   <UserRound className="size-4 text-muted-foreground hover:text-foreground transition-colors" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 glass border-white/10 text-foreground">
+              <DropdownMenuContent
+                align="end"
+                className="w-56 glass border-white/10 text-foreground"
+              >
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-white/10" />
-                <DropdownMenuItem className="focus:bg-white/10 cursor-pointer" onClick={() => navigate({ to: '/settings' })}>
+                <DropdownMenuItem
+                  className="focus:bg-white/10 cursor-pointer"
+                  onClick={() => navigate({ to: "/settings" })}
+                >
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Settings</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-white/10" />
-                <DropdownMenuItem className="focus:bg-destructive/20 text-destructive cursor-pointer" onClick={() => signOut()}>
+                <DropdownMenuItem
+                  className="focus:bg-destructive/20 text-destructive cursor-pointer"
+                  onClick={() => signOut()}
+                >
                   <span>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
