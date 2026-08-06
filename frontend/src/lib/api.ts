@@ -140,7 +140,6 @@ export async function deleteProject(id: string) {
   return response.json();
 }
 
-
 export async function getMissions(projectId?: string): Promise<Mission[]> {
   const url = projectId
     ? `${API_BASE_URL}/api/missions?projectId=${projectId}`
