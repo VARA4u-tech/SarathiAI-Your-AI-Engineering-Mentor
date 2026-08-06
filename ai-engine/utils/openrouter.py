@@ -12,14 +12,14 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 # Model IDs from env vars, with sensible free-tier defaults
 MODELS = {
-    # Gemma 31B for complex architectural reasoning
-    "architect": os.getenv("AI_MODEL_ARCHITECT", "google/gemma-4-31b-it:free"),
+    # GPT-OSS 20B for complex architectural reasoning
+    "architect": os.getenv("AI_MODEL_ARCHITECT", "openai/gpt-oss-20b:free"),
 
-    # Gemma 31B for fast parsing and search retrieval
-    "search": os.getenv("AI_MODEL_SEARCH", "google/gemma-4-31b-it:free"),
+    # GPT-OSS 20B for fast parsing and search retrieval
+    "search": os.getenv("AI_MODEL_SEARCH", "openai/gpt-oss-20b:free"),
 
-    # Gemma 31B optimized for code generation
-    "coder": os.getenv("AI_MODEL_CODER", "google/gemma-4-31b-it:free"),
+    # GPT-OSS 20B optimized for code generation
+    "coder": os.getenv("AI_MODEL_CODER", "openai/gpt-oss-20b:free"),
 }
 
 # OpenRouter has a unified API identical to OpenAI

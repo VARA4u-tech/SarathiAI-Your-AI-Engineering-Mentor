@@ -106,7 +106,7 @@ Tailor all suggestions to this specific stack.`;
     // Process the AI call in the background
     (async () => {
       try {
-        const modelId = process.env.AI_MODEL_ARCHITECT || "google/gemma-4-31b-it:free";
+        const modelId = process.env.AI_MODEL_ARCHITECT || "openai/gpt-oss-20b:free";
 
         // Call OpenRouter directly, bypassing the separate Python AI Engine
         const openRouterRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
