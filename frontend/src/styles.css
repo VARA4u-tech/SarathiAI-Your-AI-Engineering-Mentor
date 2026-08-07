@@ -164,12 +164,16 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    padding-right: 0.1em;
+    padding-bottom: 0.1em;
   }
   .text-iridescent {
     background: var(--grad-iridescent);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    padding-right: 0.1em;
+    padding-bottom: 0.1em;
   }
   .glass {
     background: oklch(1 0 0 / 0.02);

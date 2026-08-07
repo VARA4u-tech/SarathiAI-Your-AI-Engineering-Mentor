@@ -3,6 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { Logo } from "@/components/Logo";
+import { isAuthenticated, signOut } from "@/lib/demo-auth";
+import { useEffect } from "react";
 
 export function Nav() {
   const [isAtTop, setIsAtTop] = useState(true);
@@ -15,6 +17,12 @@ export function Nav() {
       setIsAtTop(false);
     }
   });
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(isAuthenticated());
+  }, []);
 
   const items = [
     {
@@ -63,18 +71,37 @@ export function Nav() {
           }`}
           rightAction={
             <div className="flex items-center gap-4 text-sm font-display pr-1">
-              <Link
-                to="/login"
-                className="text-foreground/80 hover:text-foreground transition-colors hidden sm:block"
-              >
-                Log in
-              </Link>
-              <Link
-                to="/signup"
-                className="inline-flex border-0 rounded-full bg-foreground text-background px-4 py-1.5 md:px-5 items-center cursor-pointer transition-all duration-300 hover:opacity-90 hover:scale-105"
-              >
-                Sign Up
-              </Link>
+              {isLoggedIn ? (
+                <>
+                  <Link
+                    to="/dashboard"
+                    className="text-foreground/80 hover:text-foreground transition-colors hidden sm:block"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={signOut}
+                    className="inline-flex border border-white/10 rounded-full bg-white/5 hover:bg-white/10 text-foreground px-4 py-1.5 md:px-5 items-center cursor-pointer transition-all duration-300"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="text-foreground/80 hover:text-foreground transition-colors hidden sm:block"
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="inline-flex border-0 rounded-full bg-foreground text-background px-4 py-1.5 md:px-5 items-center cursor-pointer transition-all duration-300 hover:opacity-90 hover:scale-105"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
             </div>
           }
         />
