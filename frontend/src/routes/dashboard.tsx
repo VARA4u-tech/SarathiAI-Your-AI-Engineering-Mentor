@@ -161,7 +161,9 @@ function Dashboard() {
     // Guard: don't allow a new review if one is already running
     const alreadyRunning = missions.some((m: Mission) => m.status === "in_progress");
     if (alreadyRunning) {
-      alert("A review is already in progress. Please wait for it to complete before starting a new one.");
+      alert(
+        "A review is already in progress. Please wait for it to complete before starting a new one.",
+      );
       return;
     }
 
@@ -362,7 +364,11 @@ function Dashboard() {
                   />
                   <button
                     onClick={handleRunMission}
-                    disabled={status === "planning" || !mission || missions.some((m: Mission) => m.status === "in_progress")}
+                    disabled={
+                      status === "planning" ||
+                      !mission ||
+                      missions.some((m: Mission) => m.status === "in_progress")
+                    }
                     className="mt-3 sm:mt-0 sm:absolute sm:right-2 sm:top-2 sm:bottom-2 w-full sm:w-auto bg-foreground text-background py-3 sm:py-0 px-4 md:px-6 rounded-xl font-medium flex justify-center items-center gap-2 hover:bg-foreground/90 transition-colors disabled:opacity-50"
                   >
                     {status === "planning" ? (
