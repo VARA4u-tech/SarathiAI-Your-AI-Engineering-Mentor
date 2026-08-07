@@ -41,9 +41,7 @@ export function Hero() {
           <div className="absolute top-[5vh] md:top-[8vh] left-0 w-full h-full z-0">
             <Suspense
               fallback={
-                <div className="absolute inset-0 w-full h-full border-4 border-yellow-500 z-50">
-                  Loading Orb...
-                </div>
+                <div className="absolute inset-0 w-full h-full"></div>
               }
             >
               <Orb hoverIntensity={0.5} rotateOnHover={true} hue={0} forceHoverState={false} />
