@@ -193,7 +193,8 @@ function Dashboard() {
       } else {
         throw new Error("Invalid response from server");
       }
-    } catch (error: any) {
+    } catch (err) {
+      const error = err as { status?: number; message?: string };
       console.error(error);
       // Handle 409 Conflict (already in progress) gracefully
       if (error?.status === 409 || error?.message?.includes("409")) {
