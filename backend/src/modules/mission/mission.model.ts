@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IMission extends Document {
   projectId: mongoose.Types.ObjectId;
+  shortId?: string;
   title: string;
   description: string;
   status: "pending" | "in_progress" | "review_required" | "approved" | "rejected" | "completed";
@@ -37,6 +38,7 @@ export interface IMission extends Document {
 const MissionSchema: Schema = new Schema(
   {
     projectId: { type: Schema.Types.ObjectId, ref: "Project", required: true },
+    shortId: { type: String, unique: true, sparse: true },
     title: { type: String, required: true },
     description: { type: String, default: "" },
     status: {

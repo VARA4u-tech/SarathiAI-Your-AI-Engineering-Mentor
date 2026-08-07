@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
 import { config } from "../../config";
 import { logger } from "../../shared/utils/logger";
 import { Mission, IMission } from "./mission.model";
@@ -49,10 +50,12 @@ ${project.readmeDocs ? project.readmeDocs.substring(0, 8000) : "No README provid
     `.trim();
 
     const missionTitle = title || (prompt.length > 50 ? prompt.substring(0, 47) + "..." : prompt);
+    const shortId = "rev-" + Math.random().toString(36).substring(2, 8);
 
     // Create the mission immediately with in_progress status
     const newMission = new Mission({
       projectId: project._id,
+      shortId,
       title: missionTitle,
       description: "AI Engineering Mentor Project Review.",
       status: "in_progress",
@@ -323,7 +326,13 @@ export const getMissions = async (req: Request, res: Response) => {
 export const getMissionById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const mission = await Mission.findById(id).populate("projectId", "name githubUrl");
+    let mission;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      mission = await Mission.findById(id).populate("projectId", "name githubUrl");
+    } else {
+      mission = await Mission.findOne({ shortId: id }).populate("projectId", "name githubUrl");
+    }
+    
     if (!mission) {
       return res.status(404).json({ error: "Mission not found" });
     }

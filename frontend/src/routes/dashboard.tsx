@@ -587,7 +587,7 @@ function Dashboard() {
                         </div>
                         <Link
                           to="/missions/$missionId"
-                          params={{ missionId: m._id }}
+                          params={{ missionId: m.shortId || m._id }}
                           className="w-full sm:w-max text-sm flex items-center justify-center gap-1 hover:text-fuchsia-300 transition-colors bg-white/5 px-4 py-2.5 rounded-lg hover:bg-white/10"
                         >
                           View details <ChevronRight className="size-4" />

@@ -29,6 +29,7 @@ export interface MissionSuggestion {
 
 export interface Mission {
   _id: string;
+  shortId?: string;
   projectId: string | Project;
   title: string;
   description: string;

@@ -191,7 +191,7 @@ function RepositoriesPage() {
                     {latestMission ? (
                       <Link
                         to="/missions/$missionId"
-                        params={{ missionId: latestMission._id }}
+                        params={{ missionId: latestMission.shortId || latestMission._id }}
                         className="mt-4 w-full flex items-center justify-center gap-1 text-sm py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-muted-foreground hover:text-white"
                       >
                         View latest report <ChevronRight className="size-4" />
