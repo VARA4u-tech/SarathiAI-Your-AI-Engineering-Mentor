@@ -79,18 +79,51 @@ ${project.readmeDocs ? project.readmeDocs.substring(0, 8000) : "No README provid
           "X-Title": "Sarathi.ai",
         };
 
-        const callOpenRouter = async (model: string, messages: object[]): Promise<string> => {
-          const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-            method: "POST",
-            headers: OPENROUTER_HEADERS,
-            body: JSON.stringify({ model, messages }),
-          });
-          if (!res.ok) {
-            throw new Error(`OpenRouter [${model}] responded with status: ${res.status}`);
+        // callOpenRouter tries each model in sequence, falling back on 429
+        const callOpenRouter = async (models: string[], messages: object[]): Promise<string> => {
+          let lastError: Error = new Error("No models provided");
+          for (const model of models) {
+            try {
+              const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: OPENROUTER_HEADERS,
+                body: JSON.stringify({ model, messages }),
+              });
+              if (res.status === 429) {
+                logger.warn(`[OpenRouter] Rate limited on ${model}, trying fallback...`);
+                lastError = new Error(`OpenRouter [${model}] responded with status: 429`);
+                continue; // try next model
+              }
+              if (!res.ok) {
+                throw new Error(`OpenRouter [${model}] responded with status: ${res.status}`);
+              }
+              const data = await res.json();
+              logger.info(`[OpenRouter] Used model: ${model}`);
+              return data.choices[0].message.content;
+            } catch (err: any) {
+              if (err.message?.includes("429")) {
+                lastError = err;
+                continue; // try next model
+              }
+              throw err; // non-429 errors bubble up immediately
+            }
           }
-          const data = await res.json();
-          return data.choices[0].message.content;
+          throw lastError; // all models exhausted
         };
+
+        const stage1Models = [
+          process.env.AI_MODEL_STAGE1 || "nvidia/nemotron-nano-9b-v2:free",
+          "openai/gpt-oss-20b:free",  // fallback
+        ];
+        const stage2Models = [
+          process.env.AI_MODEL_STAGE2 || "google/gemma-4-31b-it:free",
+          "nvidia/nemotron-nano-9b-v2:free", // fallback
+          "openai/gpt-oss-20b:free",          // last resort
+        ];
+        const stage3Models = [
+          process.env.AI_MODEL_STAGE3 || "openai/gpt-oss-20b:free",
+          "nvidia/nemotron-nano-9b-v2:free", // fallback
+        ];
 
         const extractJson = (raw: string): string => {
           const fenceMatch = raw.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/);
@@ -99,10 +132,6 @@ ${project.readmeDocs ? project.readmeDocs.substring(0, 8000) : "No README provid
           if (braceMatch) return braceMatch[1];
           return raw;
         };
-
-        const stage1Model = process.env.AI_MODEL_STAGE1 || "nvidia/nemotron-nano-9b-v2:free";
-        const stage2Model = process.env.AI_MODEL_STAGE2 || "google/gemma-4-31b-it:free";
-        const stage3Model = process.env.AI_MODEL_STAGE3 || "openai/gpt-oss-20b:free";
 
         let score = 0;
         let categoryScores = {
@@ -113,7 +142,7 @@ ${project.readmeDocs ? project.readmeDocs.substring(0, 8000) : "No README provid
         let roadmap: IRoadmapItem[] = [];
 
         // ─── STAGE 1: Analysis & Scoring ──────────────────────────────────────
-        logger.info(`[Stage 1] Analyzing codebase with model: ${stage1Model}`);
+        logger.info(`[Stage 1] Analyzing codebase with model: ${stage1Models[0]}...`);
         try {
           const stage1Prompt = `You are a senior software engineer. Analyze the following project and return ONLY a JSON object with the score and category scores.
 
@@ -139,7 +168,7 @@ Rules:
 PROJECT CONTEXT:
 ${project_context}`;
 
-          const raw1 = await callOpenRouter(stage1Model, [
+          const raw1 = await callOpenRouter(stage1Models, [
             { role: "system", content: "You output only valid JSON. No markdown, no explanation." },
             { role: "user", content: stage1Prompt },
           ]);
@@ -158,7 +187,7 @@ ${project_context}`;
         }
 
         // ─── STAGE 2: Suggestions Generation ──────────────────────────────────
-        logger.info(`[Stage 2] Generating suggestions with model: ${stage2Model}`);
+        logger.info(`[Stage 2] Generating suggestions with model: ${stage2Models[0]}...`);
         try {
           const stage2Prompt = `You are a senior software engineer. Based on the project below (overall score: ${score}/100), generate actionable improvement suggestions.
 
@@ -188,7 +217,7 @@ Rules:
 PROJECT CONTEXT:
 ${project_context}`;
 
-          const raw2 = await callOpenRouter(stage2Model, [
+          const raw2 = await callOpenRouter(stage2Models, [
             { role: "system", content: "You output only valid JSON. No markdown, no explanation." },
             { role: "user", content: stage2Prompt },
           ]);
@@ -203,7 +232,7 @@ ${project_context}`;
         }
 
         // ─── STAGE 3: Roadmap Generation ──────────────────────────────────────
-        logger.info(`[Stage 3] Building roadmap with model: ${stage3Model}`);
+        logger.info(`[Stage 3] Building roadmap with model: ${stage3Models[0]}...`);
         try {
           const suggestionsSummary = suggestions
             .slice(0, 5)
@@ -231,7 +260,7 @@ Rules:
 - Each week should be actionable and build on the previous
 - No markdown, no explanation, only JSON`;
 
-          const raw3 = await callOpenRouter(stage3Model, [
+          const raw3 = await callOpenRouter(stage3Models, [
             { role: "system", content: "You output only valid JSON. No markdown, no explanation." },
             { role: "user", content: stage3Prompt },
           ]);
