@@ -39,11 +39,7 @@ export function Hero() {
 
         {!isMobile && (
           <div className="absolute top-[5vh] md:top-[8vh] left-0 w-full h-full z-0">
-            <Suspense
-              fallback={
-                <div className="absolute inset-0 w-full h-full"></div>
-              }
-            >
+            <Suspense fallback={<div className="absolute inset-0 w-full h-full"></div>}>
               <Orb hoverIntensity={0.5} rotateOnHover={true} hue={0} forceHoverState={false} />
             </Suspense>
           </div>
