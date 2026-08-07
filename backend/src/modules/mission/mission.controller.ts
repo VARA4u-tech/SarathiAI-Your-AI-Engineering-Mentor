@@ -116,7 +116,7 @@ ${project.readmeDocs ? project.readmeDocs.substring(0, 8000) : "No README provid
           "openai/gpt-oss-20b:free",  // fallback
         ];
         const stage2Models = [
-          process.env.AI_MODEL_STAGE2 || "google/gemma-4-31b-it:free",
+          process.env.AI_MODEL_STAGE2 || "google/gemma-4-26b-a4b-it:free",
           "nvidia/nemotron-nano-9b-v2:free", // fallback
           "openai/gpt-oss-20b:free",          // last resort
         ];
