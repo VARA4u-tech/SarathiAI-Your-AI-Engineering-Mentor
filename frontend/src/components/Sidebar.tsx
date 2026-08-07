@@ -5,7 +5,7 @@ import { Logo } from "@/components/Logo";
 export function Sidebar({ mobileOpen, onClose }: { mobileOpen: boolean; onClose: () => void }) {
   return (
     <aside
-      className={`fixed md:relative inset-y-0 left-0 z-40 flex w-72 md:w-64 border-r border-border flex-col justify-between p-4 glass !bg-background md:!bg-[oklch(1_0_0/0.04)] transition-transform duration-200 print:hidden ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+      className={`fixed md:relative inset-y-0 left-0 z-40 flex w-72 md:w-64 border-r border-border flex-col justify-between p-4 glass !bg-background md:!bg-background transition-transform duration-200 print:hidden ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
     >
       <div>
         <div className="flex items-center justify-between mb-10">

@@ -172,9 +172,9 @@ body {
     color: transparent;
   }
   .glass {
-    background: oklch(1 0 0 / 0.04);
-    backdrop-filter: blur(20px);
-    border: 1px solid oklch(1 0 0 / 0.08);
+    background: oklch(1 0 0 / 0.02);
+    backdrop-filter: blur(12px);
+    border: 1px solid oklch(1 0 0 / 0.04);
   }
   .glow-violet {
     box-shadow: var(--glow-violet);
